@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
         Notepad.ui
 )
 
+add_subdirectory("3rdparty")
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(NotePadPP
         MANUAL_FINALIZATION
