@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-    QAPplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QWidget w;
     w.show();
