@@ -13,15 +13,16 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-        FileManager.cpp
-        FileManager.h
-        Notepad.cpp
-        Notepad.h
-        Notepad.ui
+        src/main.cpp
+        src/FileManager.cpp
+        src/FileManager.h
+        src/Notepad.cpp
+        src/Notepad.h
+        src/Notepad.ui
 )
 
 add_subdirectory("3rdparty")
+add_subdirectory("example")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(NotePadPP
