@@ -1,7 +1,14 @@
 set (PROJECT_SOURCES
+    # rc
+    res.qrc
+
     mainwindow.h
     mainwindow.cpp
-    main.cpp)
+    main.cpp
+    
+
+    )
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Example
