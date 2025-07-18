@@ -8,5 +8,10 @@
     },
     "files.autoGuessEncoding": true,
     "cmake.outputLogEncoding": "utf-8",
-    "cmake.enableTraceLogging": true
+    "cmake.enableTraceLogging": true,
+    "files.associations": {
+        "filesystem": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
+    }
 }

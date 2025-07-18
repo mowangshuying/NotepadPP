@@ -21,14 +21,17 @@
 
 MainWindow::MainWindow()
 {
+    // 设置中心窗口为textEdit;
     textEdit = new QsciScintilla;
     setCentralWidget(textEdit);
 
+    // 创建动作、菜单、工具栏、状态栏
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
 
+    // 读取设置, 窗口大小和位置
     readSettings();
 
     connect(textEdit, SIGNAL(textChanged()),
@@ -116,7 +119,7 @@ void MainWindow::createActions()
     saveAsAct->setStatusTip(tr("Save the document under a new name"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-    exitAct = new QAction(tr("E&xit"), this);
+    exitAct = new QAction(tr("&Exit"), this);
     exitAct->setShortcut(tr("Ctrl+Q"));
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
@@ -138,6 +141,16 @@ void MainWindow::createActions()
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
     connect(pasteAct, SIGNAL(triggered()), textEdit, SLOT(paste()));
+
+    undoAct = new QAction(QIcon(":/images/undo.png"), tr("&Undo"), this);
+    undoAct->setShortcut(tr("Ctrl+Z"));
+    undoAct->setStatusTip(tr("Undo the last operation"));
+    connect(undoAct, SIGNAL(triggered()), textEdit, SLOT(undo()));
+
+    redoAct = new QAction(QIcon(":/images/redo.png"), tr("&Redo"), this);
+    redoAct->setShortcut(tr("Ctrl+Y"));
+    redoAct->setStatusTip(tr("Redo the last operation"));
+    connect(redoAct, SIGNAL(triggered()), textEdit, SLOT(redo()));
 
     aboutAct = new QAction(tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
@@ -169,6 +182,8 @@ void MainWindow::createMenus()
     editMenu->addAction(cutAct);
     editMenu->addAction(copyAct);
     editMenu->addAction(pasteAct);
+    editMenu->addAction(undoAct);
+    editMenu->addAction(redoAct);
 
     menuBar()->addSeparator();
 
@@ -260,12 +275,12 @@ bool MainWindow::saveFile(const QString &fileName)
     }
 
     QTextStream out(&file);
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor); // 设置应用程序光标， 鼠标等待
     out << textEdit->text();
-    QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();           // 重置应用程序光标
 
     setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
+    statusBar()->showMessage(tr("File saved"), 2000); // 显示状态信息，200秒后消失.
     return true;
 }
 

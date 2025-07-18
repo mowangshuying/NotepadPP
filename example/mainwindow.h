@@ -48,6 +48,7 @@ private:
     QMenu *helpMenu;
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
+
     QAction *newAct;
     QAction *openAct;
     QAction *saveAct;
@@ -55,7 +56,11 @@ private:
     QAction *exitAct;
     QAction *cutAct;
     QAction *copyAct;
-    QAction *pasteAct;
+    QAction *pasteAct;    
+    QAction *undoAct;
+    QAction *redoAct;
+    
+
     QAction *aboutAct;
     QAction *aboutQtAct;
 };
