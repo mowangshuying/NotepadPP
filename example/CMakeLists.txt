@@ -1,4 +1,6 @@
 set (PROJECT_SOURCES
+    mainwindow.h
+    mainwindow.cpp
     main.cpp)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -19,3 +21,4 @@ else()
 endif()
 
 target_link_libraries(Example PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(Example PRIVATE qscintilla)
