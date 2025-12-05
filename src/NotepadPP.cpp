@@ -1,0 +1,580 @@
+#include "NotepadPP.h"
+#include <QStatusBar>
+
+NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent)
+{
+	__initUi();
+}
+
+void NotepadPP::__initUi()
+{
+	__initMenu();
+
+	auto contentWidget = new QWidget(this);
+	setCentralWidget(contentWidget);
+	
+	m_horizontalLayout = new QHBoxLayout;
+	m_horizontalLayout->setContentsMargins(0, 0, 0, 0);
+	contentWidget->setLayout(m_horizontalLayout);
+
+	m_editTabWidget = new QTabWidget(this);
+	m_editTabWidget->setIconSize(QSize(22, 22));
+	m_editTabWidget->setTabsClosable(true);
+	m_editTabWidget->setMovable(true);
+	m_editTabWidget->setTabBarAutoHide(false);
+	m_horizontalLayout->addWidget(m_editTabWidget);
+
+	// init status bar
+    m_statusBar = new QStatusBar(this);
+    setStatusBar(m_statusBar);
+
+
+	resize(1000, 800);
+}
+
+void NotepadPP::__initMenu()
+{
+	m_menuBar = new QMenuBar(this);
+	setMenuBar(m_menuBar);
+
+	//  ---init File Menu;
+	m_menuFile = new QMenu("File", m_menuBar);
+	m_menuFile->setLayoutDirection(Qt::LeftToRight);
+
+
+	m_actionNewFile = new QAction("New");
+	m_actionOpenFile = new QAction("Open ...");
+	m_actionSave = new QAction("Save");
+	m_actionSaveAs = new QAction("Save As ...");
+	m_actionClose = new QAction("Close");
+	m_actionCloseAll = new QAction("Close All");
+
+	m_actionClearHistory = new QAction("Clear History");
+
+	m_menuReceneFile = new QMenu("Recene File");
+
+	m_menuFile->addAction(m_actionNewFile);
+	m_menuFile->addAction(m_actionOpenFile);
+	m_menuFile->addAction(m_actionSave);
+	m_menuFile->addAction(m_actionSaveAs);
+	m_menuFile->addAction(m_actionClose);
+	m_menuFile->addAction(m_actionCloseAll);
+
+	m_menuFile->addSeparator();
+
+	m_menuFile->addAction(m_actionClearHistory);
+	m_menuFile->addAction(m_menuReceneFile->menuAction());
+	m_menuBar->addAction(m_menuFile->menuAction());
+
+	// --- init Edit Menu
+	m_menuEdit = new QMenu("Edit", m_menuBar);
+	m_actionUndo = new QAction("Undo");
+	m_actionRedo = new QAction("Redo");
+
+	// split
+
+	m_actionCut = new QAction("Cut");
+	m_actionCopy = new QAction("Copy");
+	m_actionPaste = new QAction("Paste");
+
+	// split
+
+	m_actionSelectAll = new QAction("Select All");
+
+	m_menuFormatConversion = new QMenu("Format Conversion");
+	m_actionConverWindowsCRLF = new QAction("Windows(CRLF)");
+	m_actionConvertUnixLF = new QAction("Unix(LF)");
+	m_actionConvertMacCR = new QAction("Mac(CR)");
+
+	m_menuFormatConversion->addAction(m_actionConverWindowsCRLF);
+	m_menuFormatConversion->addAction(m_actionConvertUnixLF);
+	m_menuFormatConversion->addAction(m_actionConvertMacCR);
+
+	m_actionOpenInText = new QAction("Open In Text");
+	m_actionOpenInBin = new QAction("Open In Bin");
+
+	/// --- black char operator
+	m_menuBlankCharOperate = new QMenu("Blank Char Operate");
+	m_actionRemoveHeadBlank = new QAction("Remove Head Blank");
+	m_actionRemoveEndBlank = new QAction("Remove End Blank");
+	m_actionRemoveHeadEndBlank = new QAction("Remove Head End Blank");
+	m_menuBlankCharOperate->addAction(m_actionRemoveHeadBlank);
+	m_menuBlankCharOperate->addAction(m_actionRemoveEndBlank);
+	m_menuBlankCharOperate->addAction(m_actionRemoveHeadEndBlank);
+
+	/// --- convert case to
+	m_menuConvertCaseTo = new QMenu("Convert Case To");
+	m_actionUpperCase = new QAction("Upper Case");
+	m_actionLowerCase = new QAction("Lower Case");
+	m_actionProperCase = new QAction("Proper Case");
+	m_actionProperCaseBlend = new QAction("Proper Case(Blend)");
+	m_actionSentenceCase = new QAction("Scentence Case");
+	m_actionSentenceCaseBlend = new QAction("Scentence Case(Blend)");
+	m_actionInvertCase = new QAction("Invert Case");
+	m_actionRandomCase = new QAction("Random Case");
+
+	m_menuConvertCaseTo->addAction(m_actionUpperCase);
+	m_menuConvertCaseTo->addAction(m_actionLowerCase);
+	m_menuConvertCaseTo->addAction(m_actionProperCase);
+	m_menuConvertCaseTo->addAction(m_actionProperCaseBlend);
+	m_menuConvertCaseTo->addAction(m_actionSentenceCase);
+	m_menuConvertCaseTo->addAction(m_actionSentenceCaseBlend);
+	m_menuConvertCaseTo->addAction(m_actionRandomCase);
+
+	// line operator
+	m_menuLineOperations = new QMenu("Line Operator");
+	m_actionDuplicateCurrentLine = new QAction("Duplicate Current Line");
+	m_actionRemoveDuplicateLines = new QAction("Remove Duplicate Lines");
+	m_actionSplitLines = new QAction("Split Lines");
+	m_actionJoinLines = new QAction("Join Lines");
+	m_actionMoveUpCurrentLine = new QAction("Move Up Current Line");
+	m_actionMoveDownCurrentLine = new QAction("Move Down Current Line");
+	m_actionRemoveEmptyLines = new QAction("Remove Empty Lines");
+	m_actionRemoveEmptyLinesCbc = new QAction("Remove Empty Lines(Containing blank charactors)");
+	m_actionInsertBlankLineAboveCurrent = new QAction("Insert Blank Line Above Current");
+	m_actionInsertBlankLineBelowCurrent = new QAction("Insert Blank Line Below Current");
+	m_actionReverseLineOrder = new QAction("Reverse Line Order");
+
+	m_menuLineOperations->addAction(m_actionDuplicateCurrentLine);
+	m_menuLineOperations->addAction(m_actionRemoveDuplicateLines);
+	m_menuLineOperations->addAction(m_actionSplitLines);
+	m_menuLineOperations->addAction(m_actionJoinLines);
+	m_menuLineOperations->addAction(m_actionMoveUpCurrentLine);
+	m_menuLineOperations->addAction(m_actionMoveDownCurrentLine);
+	m_menuLineOperations->addAction(m_actionRemoveEmptyLines);
+	m_menuLineOperations->addAction(m_actionRemoveEmptyLinesCbc);
+	m_menuLineOperations->addAction(m_actionInsertBlankLineAboveCurrent);
+	m_menuLineOperations->addAction(m_actionInsertBlankLineBelowCurrent);
+	m_menuLineOperations->addAction(m_actionReverseLineOrder);
+	//m_menuLineOperations->addAction(m_actionColumnBlockEditing);
+	//m_menuLineOperations->addAction(m_actionColumnEditMode);
+
+	m_actionColumnBlockEditing = new QAction("Column Block Editing");
+	m_actionColumnEditMode = new QAction("Column Edit Mode");
+
+	m_menuEdit->addAction(m_actionUndo);
+	m_menuEdit->addAction(m_actionRedo);
+	m_menuEdit->addSeparator();
+	m_menuEdit->addAction(m_actionCut);
+	m_menuEdit->addAction(m_actionCopy);
+	m_menuEdit->addAction(m_actionPaste);
+	m_menuEdit->addSeparator();
+	m_menuEdit->addAction(m_actionSelectAll);
+	m_menuEdit->addAction(m_menuFormatConversion->menuAction());
+
+	m_menuEdit->addSeparator();
+
+	m_menuEdit->addAction(m_actionOpenFile);
+	m_menuEdit->addAction(m_actionOpenInBin);
+	m_menuEdit->addAction(m_menuBlankCharOperate->menuAction());
+	m_menuEdit->addAction(m_menuConvertCaseTo->menuAction());
+	m_menuEdit->addAction(m_menuLineOperations->menuAction());
+
+	m_menuEdit->addSeparator();
+	m_menuEdit->addAction(m_actionColumnBlockEditing);
+	m_menuEdit->addAction(m_actionColumnEditMode);
+
+	m_menuBar->addAction(m_menuEdit->menuAction());
+
+	// searchMenu
+	m_menuSearch = new QMenu("Search");
+	m_actionFind = new QAction("Find");
+	m_actionFindNext = new QAction("Find Next");
+	m_actionFindPrev = new QAction("Find Prev");
+	m_actionFindInDir = new QAction("Find In Directory");
+	m_actionReplace = new QAction("Replace");
+	m_actionGoline = new QAction("Go To Line");
+
+	//m_menuBookMark = new QMenu("BookMark");
+	//m_ac = new QAction("Add BookMark");
+
+	// View Menu
+	m_menuView = new QMenu("View");
+
+	m_menuDisplaySymbols = new QMenu("Display Symbols");
+	m_actionShowSpaces = new QAction("Show Spaces");
+	m_actionShowEndOfLine = new QAction("Show End Of Line");
+	m_actionShowAll = new QAction("Show All");
+	m_menuDisplaySymbols->addAction(m_actionShowSpaces);
+	m_menuDisplaySymbols->addAction(m_actionShowEndOfLine);
+	m_menuDisplaySymbols->addAction(m_actionShowAll);
+
+
+	m_actionSearchResult = new QAction("Search Result");
+
+	m_menuIconSize = new QMenu("Icon Size");
+	m_action24 = new QAction("24x24");
+	m_action36 = new QAction("36x36");
+	m_action48 = new QAction("48x48");
+	m_menuIconSize->addAction(m_action24);
+	m_menuIconSize->addAction(m_action36);
+	m_menuIconSize->addAction(m_action48);
+
+	m_actionWrap = new QAction("Wrap");
+	m_actionFileListView = new QAction("FileListView");
+	m_actionShowToolBar = new QAction("Show ToolBar");
+	m_actionShowWebAddr = new QAction("Show WebAddr");
+
+	m_menuView->addAction(m_menuDisplaySymbols->menuAction());
+	m_menuView->addAction(m_actionSearchResult);
+	m_menuView->addAction(m_menuIconSize->menuAction());
+	m_menuView->addAction(m_actionWrap);
+	m_menuView->addAction(m_actionFileListView);
+	m_menuView->addAction(m_actionShowToolBar);
+	m_menuView->addAction(m_actionShowWebAddr);
+
+	m_menuBar->addAction(m_menuView->menuAction());
+
+	// language
+	m_menuLanguage = new QMenu("Language");
+
+	m_menuA = new QMenu("A");
+	m_actionASP = new QAction("ASP");
+	m_actionActionScript = new QAction("ActionScript");
+	m_actionAssembly = new QAction("Assembly");
+	m_actionAutoIt = new QAction("AutoIt");
+	m_actionAviSynth = new QAction("AviSynth");
+	m_actionASN1 = new QAction("ASN.1");
+
+	m_menuA->addAction(m_actionASP);
+	m_menuA->addAction(m_actionActionScript);
+	m_menuA->addAction(m_actionAssembly);
+	m_menuA->addAction(m_actionAutoIt);
+	m_menuA->addAction(m_actionAviSynth);
+	m_menuA->addAction(m_actionASN1);
+
+
+	m_menuB = new QMenu("B");
+	m_actionBaanC = new QAction("Baan C");
+	m_actionbash = new QAction("bash");
+	m_actionBatch = new QAction("Batch");
+	m_actionBlitzBasic = new QAction("BlitzBasic");
+	m_menuB->addAction(m_actionBaanC);
+	m_menuB->addAction(m_actionbash);
+	m_menuB->addAction(m_actionBatch);
+	m_menuB->addAction(m_actionBlitzBasic);
+
+
+	m_menuC = new QMenu("C");
+	m_actionC = new QAction("C");
+	m_actionCPP = new QAction("C++");
+	m_actionCShape = new QAction("C#");
+	m_actionObjectiveC = new QAction("Objective-C");
+	m_actionCss = new QAction("CSS");
+	m_actionCMake = new QAction("CMake");
+	m_actionCoffeeScript = new QAction("CoffeeScript");
+	m_actionCsound = new QAction("Csound");
+	m_menuC->addAction(m_actionC);
+	m_menuC->addAction(m_actionCPP);
+	m_menuC->addAction(m_actionCShape);
+	m_menuC->addAction(m_actionObjectiveC);
+	m_menuC->addAction(m_actionCss);
+	m_menuC->addAction(m_actionCMake);
+	m_menuC->addAction(m_actionCoffeeScript);
+	m_menuC->addAction(m_actionCsound);
+
+
+	m_menuD = new QMenu("D");
+	m_actionD = new QAction("D");
+	m_actionDiff = new QAction("Diff");
+	m_menuD->addAction(m_actionD);
+	m_menuD->addAction(m_actionDiff);
+
+	//m_menuLanguage->addMenu(m_menuC);
+
+	m_menuE = new QMenu("E");
+	m_actionESCRIPT = new QAction("ESCRIPT");
+	m_actionErlang = new QAction("Erlang");
+	m_actionEdifact = new QAction("Edifact");
+	m_menuE->addAction(m_actionESCRIPT);
+	m_menuE->addAction(m_actionErlang);
+	m_menuE->addAction(m_actionEdifact);
+
+
+	m_menuF = new QMenu("F");
+	m_actionFortran = new QAction("Fortran");
+	m_actionFortran77 = new QAction("Fortran77");
+	m_actionForth = new QAction("Forth");
+	m_actionFreeBasic = new QAction("FreeBasic");
+	m_menuF->addAction(m_actionFortran);
+	m_menuF->addAction(m_actionFortran77);
+	m_menuF->addAction(m_actionForth);
+	m_menuF->addAction(m_actionFreeBasic);
+
+
+	m_menuG = new QMenu("G");
+	m_actionGo = new QAction("Go");
+	m_menuG->addAction(m_actionGo);
+
+	m_menuH = new QMenu("H");
+	m_actionHTML = new QAction("HTML");
+	m_menuH->addAction(m_actionHTML);
+
+
+	m_menuI = new QMenu("I");
+	m_actionIDL = new QAction("IDL");
+	m_actionIni = new QAction("ini");
+	m_actionIntelHEX = new QAction("Intel HEX");
+	m_menuI->addAction(m_actionIDL);
+	m_menuI->addAction(m_actionIni);
+	m_menuI->addAction(m_actionIntelHEX);
+
+
+
+	m_menuJ = new QMenu("J");
+	m_actionJava = new QAction("Java");
+	m_actionJavaScript = new QAction("JavaScript");
+	m_actionJsp = new QAction("Jsp");
+	m_actionJson = new QAction("json");
+	m_menuJ->addAction(m_actionJava);
+	m_menuJ->addAction(m_actionJavaScript);
+	m_menuJ->addAction(m_actionJsp);
+	m_menuJ->addAction(m_actionJson);
+
+	//m_menuK = new QMenu("K");
+	m_menuL = new QMenu("L");
+	m_actionLua = new QAction("Lua");
+	m_actionLisp = new QAction("Lisp");
+	m_actionLaTex = new QAction("LaTex");
+	m_menuL->addAction(m_actionLua);
+	m_menuL->addAction(m_actionLisp);
+	m_menuL->addAction(m_actionLaTex);
+
+
+	m_menuM = new QMenu("M");
+	m_actionMakefile = new QAction("Makefile");
+	m_actionMMIXAL = new QAction("MMIXAL");
+	m_actionMarkDown = new QAction("MarkDown");
+	m_actionMatlab = new QAction("Matlab");
+	m_menuM->addAction(m_actionMakefile);
+	m_menuM->addAction(m_actionMMIXAL);
+	m_menuM->addAction(m_actionMarkDown);
+	m_menuM->addAction(m_actionMatlab);
+
+
+
+	m_menuN = new QMenu("N");
+	m_actionNfo = new QAction("Nfo");
+	m_actionNSIS = new QAction("Nsis");
+	m_actionNncrontab = new QAction("Nncrontab");
+	m_actionNim = new QAction("Nim");
+	m_menuN->addAction(m_actionNfo);
+	m_menuN->addAction(m_actionNSIS);
+	m_menuN->addAction(m_actionNncrontab);
+	m_menuN->addAction(m_actionNim);
+
+	m_menuO = new QMenu("O");
+	m_actionOScript = new QAction("OScript");
+	m_actionOctave = new QAction("Octave");
+	m_menuO->addAction(m_actionOScript);
+	m_menuO->addAction(m_actionOctave);
+
+	m_menuP = new QMenu("P");
+	m_actionPascal = new QAction("Pascal");
+	m_actionPerl = new QAction("Perl");
+	m_actionPhp = new QAction("PHP");
+	m_actionPo = new QAction("PO");
+	m_actionPostScript = new QAction("PostScript");
+	m_actionPov = new QAction("Pov");
+	m_actionPowerShell = new QAction("PowerShell");
+	m_actionPropertiesFile = new QAction("Properties File");
+	m_actionPureBasic = new QAction("PureBasic");
+	m_actionPython = new QAction("Python");
+	m_menuP->addAction(m_actionPascal);
+	m_menuP->addAction(m_actionPerl);
+	m_menuP->addAction(m_actionPhp);
+	m_menuP->addAction(m_actionPo);
+	m_menuP->addAction(m_actionPostScript);
+	m_menuP->addAction(m_actionPov);
+	m_menuP->addAction(m_actionPowerShell);
+	m_menuP->addAction(m_actionPropertiesFile);
+	m_menuP->addAction(m_actionPureBasic);
+	m_menuP->addAction(m_actionPython);
+
+
+	//m_menuQ = new QMenu("Q");
+	m_menuR = new QMenu("R");
+	m_actionR = new QAction("R");
+	m_actionRC = new QAction("RC");
+	m_actionRuby = new QAction("Ruby");
+	m_actionRust = new QAction("Rust");
+	m_actionRegistry = new QAction("Registry");
+	m_actionREBOL = new QAction("Rebol");
+	m_menuR->addAction(m_actionR);
+	m_menuR->addAction(m_actionRC);
+	m_menuR->addAction(m_actionRuby);
+	m_menuR->addAction(m_actionRust);
+	m_menuR->addAction(m_actionRegistry);
+	m_menuR->addAction(m_actionREBOL);
+
+	m_menuS = new QMenu("S");
+	m_actionSql = new QAction("SQL");
+	m_actionShell = new QAction("Shell");
+	m_actionScheme = new QAction("Scheme");
+	m_actionSmalltalk = new QAction("Smalltalk");
+	m_actionSRecord = new QAction("S Record");
+	m_actionSwift = new QAction("Swift");
+	m_actionSpice = new QAction("Spice");
+	m_menuS->addAction(m_actionSql);
+	m_menuS->addAction(m_actionShell);
+	m_menuS->addAction(m_actionScheme);
+	m_menuS->addAction(m_actionSmalltalk);
+	m_menuS->addAction(m_actionSRecord);
+	m_menuS->addAction(m_actionSwift);
+	m_menuS->addAction(m_actionSpice);
+
+
+	m_menuT = new QMenu("T");
+	m_actionTex = new QAction("Tex");
+	m_actionTcl = new QAction("Tcl");
+	m_actionTypeScript = new QAction("TypeScript");
+	m_actionTxt2tags = new QAction("Txt2Tag");
+	m_actionTxt = new QAction("Txt");
+
+	m_menuT->addAction(m_actionTex);
+	m_menuT->addAction(m_actionTcl);
+	m_menuT->addAction(m_actionTypeScript);
+	m_menuT->addAction(m_actionTxt2tags);
+	m_menuT->addAction(m_actionTxt);
+
+
+	//m_menuU = new QMenu("U");
+	m_menuV = new QMenu("V");
+	m_actionVb = new QAction("Vb");
+	m_actionVerilog = new QAction("Verilog");
+	m_actionVirsualBasic = new QAction("Virsual Basic");
+	m_actionVHDL = new QAction("VHDL");
+	m_actionVisualProlog = new QAction("Visual Prolog");
+	m_menuV->addAction(m_actionVb);
+	m_menuV->addAction(m_actionVerilog);
+	m_menuV->addAction(m_actionVirsualBasic);
+	m_menuV->addAction(m_actionVHDL);
+	m_menuV->addAction(m_actionVisualProlog);
+
+
+	//m_menuW = new QMenu("W");
+	m_menuX = new QMenu("X");
+	m_actionXML = new QAction("XML");
+	m_menuX->addAction(m_actionXML);
+
+
+	m_menuY = new QMenu("Y");
+	m_actionYAML = new QAction("YAML");
+	m_menuY->addAction(m_actionYAML);
+
+	//m_menuZ = new QMenu("Z");
+
+	m_menuLanguage->addMenu(m_menuA);
+	m_menuLanguage->addMenu(m_menuB);
+	m_menuLanguage->addMenu(m_menuC);
+	m_menuLanguage->addMenu(m_menuD);
+	m_menuLanguage->addMenu(m_menuE);
+	m_menuLanguage->addMenu(m_menuF);
+	m_menuLanguage->addMenu(m_menuG);
+	m_menuLanguage->addMenu(m_menuH);
+	m_menuLanguage->addMenu(m_menuI);
+	m_menuLanguage->addMenu(m_menuJ);
+	//m_menuLanguage->addMenu(m_menuK);
+	m_menuLanguage->addMenu(m_menuL);
+	m_menuLanguage->addMenu(m_menuM);
+	m_menuLanguage->addMenu(m_menuN);
+	m_menuLanguage->addMenu(m_menuO);
+	m_menuLanguage->addMenu(m_menuP);
+	//m_menuLanguage->addMenu(m_menuQ);
+	m_menuLanguage->addMenu(m_menuR);
+	m_menuLanguage->addMenu(m_menuS);
+	m_menuLanguage->addMenu(m_menuT);
+	//m_menuLanguage->addMenu(m_menuU);
+	m_menuLanguage->addMenu(m_menuV);
+	//m_menuLanguage->addMenu(m_menuW);
+	m_menuLanguage->addMenu(m_menuX);
+	m_menuLanguage->addMenu(m_menuY);
+	//m_menuLanguage->addMenu(m_menuZ);
+	m_menuBar->addAction(m_menuLanguage->menuAction());
+
+
+
+
+	// EnCoding
+	m_menuEncoding = new QMenu("Encoding");
+	// gbk utf8 utf8bom 
+	m_actionEncodeInGBK = new QAction("GBK");
+	m_actionEncodeInUft8 = new QAction("UTF-8");
+	m_actionEncodeInUTF8BOM = new QAction("UTF-8 BOM");
+	m_actionEncodeInUCSBEBOM = new QAction("UCS-BE BOM");
+	m_actionEncodeInUCS2LEBOM = new QAction("UCS-2 LE BOM");
+
+	m_actionConvertToGBK = new QAction("Convert To GBK");
+	m_actionConvertToUTF8 = new QAction("Convert To UTF-8");
+	m_actionConvertToUTF8BOM = new QAction("Convert To UTF-8 BOM");
+	m_actionConvertToUCS2BEBOM = new QAction("Convert To UCS-BE BOM");
+	m_actionConvertToUCS2LEBOM = new QAction("Convert To UCS-2 LE BOM");
+
+	m_menuEncoding->addAction(m_actionEncodeInGBK);
+	m_menuEncoding->addAction(m_actionEncodeInUft8);
+	m_menuEncoding->addAction(m_actionEncodeInUTF8BOM);
+	m_menuEncoding->addAction(m_actionEncodeInUCSBEBOM);
+	m_menuEncoding->addAction(m_actionEncodeInUCS2LEBOM);
+	m_menuEncoding->addSeparator();
+	m_menuEncoding->addAction(m_actionConvertToGBK);
+	m_menuEncoding->addAction(m_actionConvertToUTF8);
+	m_menuEncoding->addAction(m_actionConvertToUTF8BOM);
+	m_menuEncoding->addAction(m_actionConvertToUCS2BEBOM);
+	m_menuEncoding->addAction(m_actionConvertToUCS2LEBOM);
+	m_menuBar->addAction(m_menuEncoding->menuAction());
+
+	// set menu
+	m_menuSet = new QMenu("Set");
+	m_actionOptions = new QAction("Options");
+
+	m_menuLanguage = new QMenu("Language");
+	m_actionChinese = new QAction("Chinese");
+	m_actionEnglish = new QAction("English");
+	m_menuLanguage->addAction(m_actionChinese);
+	m_menuLanguage->addAction(m_actionEnglish);
+
+	m_actionDefineLanguage = new QAction("Define Language");
+	m_actionLanguageFileSuffix = new QAction("Language File Suffix");
+	m_actionShortcutKeyManager = new QAction("Shortcut Key Manager");
+
+	m_menuSet->addAction(m_actionOptions);
+	m_menuSet->addAction(m_menuLanguage->menuAction());
+	m_menuSet->addAction(m_actionDefineLanguage);
+	m_menuSet->addAction(m_actionLanguageFileSuffix);
+	m_menuSet->addAction(m_actionShortcutKeyManager);
+	m_menuBar->addAction(m_menuSet->menuAction());
+
+	// toolsMenu
+	m_menuTools = new QMenu("Tools");
+	m_actionMd5Sha = new QAction("Md5/Sha");
+	m_actionBatchFind = new QAction("Batch Find");
+	m_menuTools->addAction(m_actionMd5Sha);
+	m_menuTools->addAction(m_actionBatchFind);
+
+	m_menuBar->addAction(m_menuTools->menuAction());
+
+	// pluginMenu
+	m_menuPlugin = new QMenu("Plugin");
+	m_actionPluginManager = new QAction("Plugin Manager");
+	m_menuPlugin->addAction(m_actionPluginManager);
+	m_menuBar->addAction(m_menuPlugin->menuAction());
+
+	// feedbackMenu
+	//m_menuFeed
+
+	// helpMenu
+	m_menuHelp = new QMenu("Help");
+	m_actionDonate = new QAction("Donate");
+	m_actionBugFix = new QAction("Fix Bug");
+	m_actionInfo = new QAction("About NotepadPP");
+
+	m_menuHelp->addAction(m_actionDonate);
+	m_menuHelp->addAction(m_actionBugFix);
+	m_menuHelp->addAction(m_actionInfo);
+	m_menuBar->addAction(m_menuHelp->menuAction());
+}
+
+void NotepadPP::__onNewFile()
+{
+
+}

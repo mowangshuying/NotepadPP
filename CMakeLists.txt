@@ -50,7 +50,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(NotePadPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(NotePadPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
 target_link_libraries(NotePadPP PRIVATE qscintilla)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
