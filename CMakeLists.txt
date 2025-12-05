@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+﻿cmake_minimum_required(VERSION 3.16)
 
 project(NotePadPP VERSION 0.1 LANGUAGES CXX)
 
@@ -13,12 +13,15 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        src/main.cpp
-        src/FileManager.cpp
-        src/FileManager.h
-        src/Notepad.cpp
-        src/Notepad.h
-        src/Notepad.ui
+    src/App.cpp
+    src/EnCode.cpp
+    src/EnCode.h
+    src/FileManager.cpp
+    src/FileManager.h
+    src/NotepadPP.cpp 
+    src/NotePadPP.h
+    src/ScintillaEditView.cpp
+    src/ScintillaEditView.h
 )
 
 add_subdirectory("3rdparty")
@@ -48,6 +51,7 @@ else()
 endif()
 
 target_link_libraries(NotePadPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(NotePadPP PRIVATE qscintilla)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
