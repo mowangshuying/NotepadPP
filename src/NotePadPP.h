@@ -1,11 +1,14 @@
-#pragma once
+﻿#pragma once
 
 #include <QMainWindow>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QMenuBar>
 #include <QWidget>
+#include <QLabel>
+#include <QComboBox>
 
+class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
 	Q_OBJECT
@@ -15,10 +18,31 @@ public:
 	void __initUi();
 
     void __initMenu();
+
+    void __initStatusBar();
+
+    void __connect();
+
+    bool isNewFileNameExist(const QString& filename);
+
+    void newTxtFile(QString filename, int nIndex, QString contentPath = "");
+
+	//打开监控文件修改的信号
+	void enableEditTextChangeSign(ScintillaEditView* pEdit);
+
+	//关闭监控文件修改的信号。这样是为了高效，一旦文字修改后，后续不需要在监控该信号。直到保存后，再放开
+	void disEnableEditTextChangeSign(ScintillaEditView* pEdit);
+
+    void setZoomLabelValue(int nZoomValue);
+
+    void closeTab(int index);
 public slots:
-    void __onNewFile();
+    void __onTriggerNewFile();
+    void __onTextChanged();
+    void __onZoomValueChange();
+    void __onTabCloseRequested(int index);
 protected:
-    // ÎÄ¼þ
+    // 
     QAction* m_actionNewFile;
     QAction* m_actionOpenFile;
     QAction* m_actionSave;
@@ -27,7 +51,7 @@ protected:
     QAction* m_actionExit;
     QAction* m_actionCloseAll;
     
-    // ±à¼­
+    //
     QAction* m_actionUndo;
     QAction* m_actionRedo;
     QAction* m_actionCut;
@@ -294,5 +318,13 @@ protected:
 
     // StatusBar;
     QStatusBar* m_statusBar;
+    QLabel* m_codeStatusLabel;
+    QComboBox* m_lineEndComboBox;
+    QLabel* m_lineNumLabel;
+    QLabel* m_langDescLabel;
+    QLabel* m_zoomLabel;
+
+protected:
+    int m_nZoomValue;
 };
 

@@ -1,9 +1,14 @@
-#include "NotepadPP.h"
+﻿#include "NotepadPP.h"
 #include <QStatusBar>
+#include <QDebug>
+#include "FileManager.h"
+#include "ScintillaEditView.h"
+#include "__global.h"
 
-NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent)
+NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
 	__initUi();
+	__connect();
 }
 
 void NotepadPP::__initUi()
@@ -25,9 +30,9 @@ void NotepadPP::__initUi()
 	m_horizontalLayout->addWidget(m_editTabWidget);
 
 	// init status bar
-    m_statusBar = new QStatusBar(this);
-    setStatusBar(m_statusBar);
-
+    //m_statusBar = new QStatusBar(this);
+    //setStatusBar(m_statusBar);
+	__initStatusBar();
 
 	resize(1000, 800);
 }
@@ -574,7 +579,206 @@ void NotepadPP::__initMenu()
 	m_menuBar->addAction(m_menuHelp->menuAction());
 }
 
-void NotepadPP::__onNewFile()
+void NotepadPP::__initStatusBar()
 {
+	m_statusBar = new QStatusBar(this);
+	//setStatusBar(m_statusBar);
 
+	m_codeStatusLabel = new QLabel("Utf8");
+	m_lineEndComboBox = new QComboBox;
+
+	QStringList lineEnds;
+    lineEnds << "Windows(CRLF)" << "Unix(LF)" << "Mac(CR)";
+	m_lineEndComboBox->addItems(lineEnds);
+	m_lineNumLabel = new QLabel("Line: 1, Col: 1");
+	m_langDescLabel = new QLabel("Txt");
+	m_zoomLabel = new QLabel("Zoom: 100%");
+
+	m_codeStatusLabel->setMinimumWidth(120);
+	m_lineEndComboBox->setMinimumWidth(100);
+	m_lineNumLabel->setMinimumWidth(120);
+	m_langDescLabel->setMinimumWidth(100);
+	m_zoomLabel->setMinimumWidth(100);
+
+	m_statusBar->insertPermanentWidget(0, m_zoomLabel);
+	m_statusBar->insertPermanentWidget(1, m_langDescLabel);
+	m_statusBar->insertPermanentWidget(2, m_lineNumLabel);
+	m_statusBar->insertPermanentWidget(3, m_lineEndComboBox);
+	m_statusBar->insertPermanentWidget(4, m_codeStatusLabel);
+
+	setStatusBar(m_statusBar);
+
+}
+
+void NotepadPP::__connect()
+{
+	QTabBar* pTabBar = m_editTabWidget->tabBar();
+    connect(pTabBar, &QTabBar::tabCloseRequested, this, &NotepadPP::__onTabCloseRequested);
+	connect(m_actionNewFile, SIGNAL(triggered()), this, SLOT(__onTriggerNewFile()));
+
+}
+
+bool NotepadPP::isNewFileNameExist(const QString& filename)
+{
+	for (int i = 0; i < m_editTabWidget->count(); i++)
+	{
+		auto pw = m_editTabWidget->widget(i);
+		if (pw != nullptr)
+		{
+			int nNewFileIndex = pw->property("NewFileIndex").toInt();
+			if (nNewFileIndex != -1)
+			{
+				QString filepath = pw->property("FilePath").toString();
+				if (filepath == filename)
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*= ""*/)
+{
+	auto pEdit = FileManager::getMgr()->newEmptyDocument();
+	pEdit->setNoteWidget(this);
+
+	CodeId cid = CodeId::Utf8;
+	// 目前只是处理windows
+	LineEnd lineEnd = LineEnd::Dos;
+
+	// contentpath非空暂时不处理
+	if (!contentPath.isEmpty())
+    {
+		return;
+    }
+
+	connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+
+	// add tab;
+    int nCurTabIndex = m_editTabWidget->addTab(pEdit, filename);
+
+	pEdit->setProperty("NewFileIndex", nIndex);
+	pEdit->setProperty("FilePath", filename);
+	pEdit->setProperty("TextChanged", false);
+	pEdit->setProperty("CodeId", (int)cid);
+	pEdit->setProperty("LineEnd", (int)lineEnd);
+
+	//NewFileId nfid(nIndex, pEdit);
+	FileManager::getMgr()->insertNewFileId(nIndex, pEdit);
+	
+	// set zoom value
+	if (m_nZoomValue != 0)
+	{
+		pEdit->zoomTo(m_nZoomValue);
+	}
+
+	int nZoomValue = 100 + m_nZoomValue * m_nZoomValue;
+
+    QString statusText = QString::asprintf("New File Finished [Text Mode] Zoom %d%", nZoomValue);
+	m_statusBar->showMessage(statusText, 8000);
+    setZoomLabelValue(nZoomValue);
+	pEdit->viewport()->setFocus();
+}
+
+void NotepadPP::enableEditTextChangeSign(ScintillaEditView* pEdit)
+{
+	connect(pEdit, &ScintillaEditView::textChanged, this, &NotepadPP::__onTextChanged);
+}
+
+void NotepadPP::disEnableEditTextChangeSign(ScintillaEditView* pEdit)
+{
+	pEdit->disconnect(SIGNAL(textChanged()));
+}
+
+void NotepadPP::setZoomLabelValue(int nZoomValue)
+{
+	QString zoomText = QString::asprintf("Zoom:%d%", nZoomValue);
+	m_zoomLabel->setText(zoomText);
+}
+
+void NotepadPP::closeTab(int index)
+{
+	QWidget* pWidget = m_editTabWidget->widget(index);
+	if (pWidget == nullptr)
+	{
+		return;
+	}
+	m_editTabWidget->removeTab(index);
+
+	int nNewFileIndex = pWidget->property("NewFileIndex").toInt();
+	if (nNewFileIndex != -1)
+	{
+		FileManager::getMgr()->deleteNewFileId(nNewFileIndex);
+	}
+}
+
+void NotepadPP::__onTriggerNewFile()
+{
+	qDebug() << "Trigger New File action.";
+	int nIndex = FileManager::getMgr()->getNextNewFileId();
+
+	QString filename;
+	while(true)
+	{
+		filename = QString("NewFile%1").arg(nIndex);
+		if (!isNewFileNameExist(filename))
+		{
+			break;
+		}
+		nIndex++;
+	}
+	newTxtFile(filename, nIndex);
+}
+
+void NotepadPP::__onTextChanged()
+{
+	auto pEditView = dynamic_cast<ScintillaEditView*>(sender());
+	if (pEditView != nullptr)
+	{
+		bool bTextChanged = pEditView->property("TextChanged").toBool();
+		if (!bTextChanged)
+		{
+            pEditView->setProperty("TextChanged", true);
+		}
+		disEnableEditTextChangeSign(pEditView);
+	}
+}
+
+void NotepadPP::__onZoomValueChange()
+{
+	auto pSrcEdit = dynamic_cast<ScintillaEditView*>(sender());
+	if (pSrcEdit != nullptr)
+	{
+		pSrcEdit->updateLineNumberWidth();
+		int nCurZoomValue = pSrcEdit->execute(SCI_GETZOOM);
+		if (m_nZoomValue != nCurZoomValue)
+		{
+			m_nZoomValue = nCurZoomValue;
+
+			int nZoomValue = 100 + nCurZoomValue * 10;
+			setZoomLabelValue(nZoomValue);
+			m_statusBar->showMessage(tr("Current Zoom Value is %1%").arg(nZoomValue));
+		}
+
+		// 修改其他编辑器的缩放值
+		for (int i = 0; i < m_editTabWidget->count(); i++)
+        {
+            auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
+            if (pEdit != nullptr && pEdit != pSrcEdit)
+            {
+				disconnect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+				pEdit->zoomTo(m_nZoomValue);
+				pEdit->updateLineNumberWidth();
+				connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+            }
+        }
+	}
+}
+
+void NotepadPP::__onTabCloseRequested(int index)
+{
+	closeTab(index);
 }

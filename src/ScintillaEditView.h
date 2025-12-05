@@ -1,4 +1,4 @@
-#pragma  once
+﻿#pragma  once
 
 //#include <Qsci/qsciscintilla.h>
 // #include <Scintilla.h>
@@ -36,6 +36,8 @@ public:
 
 	void __init();
 
+	void setNoteWidget(QWidget* pNoteWidget);
+
 	sptr_t execute(quint32 Msg, uptr_t wParam = 0, sptr_t lParam = 0);
 
 	int nbDigitsFromNbLines(size_t nbLines);
@@ -50,4 +52,5 @@ public:
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;
+    QWidget* m_pNoteWidget;
 };

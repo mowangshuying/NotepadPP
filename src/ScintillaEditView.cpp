@@ -1,4 +1,4 @@
-#include "ScintillaEditView.h"
+﻿#include "ScintillaEditView.h"
 
 void ScintillaEditView::__init()
 {
@@ -15,36 +15,41 @@ void ScintillaEditView::__init()
 		qDebug() << "Can't Get Direct pointer.";
 	}
 
-	// // 行号;
-	// setMarginLineNumbers(__LineNumberMargin, true);
-	// updateLineNumberWidth();
+	// 行号;
+	setMarginLineNumbers(__LineNumberMargin, true);
+	updateLineNumberWidth();
 
-	// // Fold;
-	// setFolding(BoxedTreeFoldStyle, __SymbolMargin);
-	// //updateSymbolWidth(15);
-	// updateFoldWidth(15);
-
-
-	// // Symbol margin;
-	// updateSymbolWidth(15);
-
-	// // Tab width;
-	// setTabWidth(4);
-	// setIndentationsUseTabs(false);
+	// Fold;
+	setFolding(BoxedTreeFoldStyle, __SymbolMargin);
+	//updateSymbolWidth(15);
+	updateFoldWidth(15);
 
 
-	//设置换行符号的格式
-// #ifdef Q_OS_WIN
-// 	execute(SCI_SETEOLMODE, SC_EOL_CRLF);
-// #else
-// 	execute(SCI_SETEOLMODE, SC_EOL_LF);
-// #endif
+	// Symbol margin;
+	updateSymbolWidth(15);
 
-// 	//开启新行自动缩进
-// 	setAutoIndent(true);
+	// Tab width;
+	setTabWidth(4);
+	setIndentationsUseTabs(false);
 
-// 	// 开启后保证长行在滚动条下完整显示
-// 	execute(SCI_SETSCROLLWIDTHTRACKING, true);
+
+	// 设置换行符号的格式
+#ifdef Q_OS_WIN
+	execute(SCI_SETEOLMODE, SC_EOL_CRLF);
+#else
+	execute(SCI_SETEOLMODE, SC_EOL_LF);
+#endif
+
+	//开启新行自动缩进
+	setAutoIndent(true);
+
+	// 开启后保证长行在滚动条下完整显示
+	execute(SCI_SETSCROLLWIDTHTRACKING, true);
+}
+
+void ScintillaEditView::setNoteWidget(QWidget* pNoteWidget)
+{
+	m_pNoteWidget = pNoteWidget;
 }
 
 sptr_t ScintillaEditView::execute(quint32 Msg, uptr_t wParam /*= 0*/, sptr_t lParam /*= 0*/)
