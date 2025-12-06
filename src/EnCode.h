@@ -17,11 +17,9 @@ public:
 	}
 public:
 	static CodeId getCodeIdByName(QString name);
-
     static QString getCodeNameById(CodeId id);
-
-	QByteArray getStartFlagByCodeId(CodeId id);
-
-
+	static QString getQtCodecNameById(CodeId id);
+	static QByteArray getStartFlagByCodeId(CodeId id);
+	static bool translateStringToUnicode(CodeId cid, const char* pText, int nLength, QString& outString);
 };
 

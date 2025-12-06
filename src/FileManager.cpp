@@ -1,5 +1,8 @@
 ﻿#include "FileManager.h"
 #include "ScintillaEditView.h"
+#include <QFile>
+#include "CompareMode.h"
+#include <vector>
 
 FileManager::FileManager(QObject* parent)
 {
@@ -61,4 +64,28 @@ void FileManager::deleteNewFileId(int nIndex)
 			break;
 		}
 	}
+}
+
+int FileManager::loadFileDataInText(ScintillaEditView *pEditView, QString filepath, CodeId cid, LineEnd lineEnd)
+{
+	QFile file(filepath);
+	if (!file.exists())
+	{
+		return -1;
+	}
+
+	QIODevice::OpenMode mode = QIODevice::ReadOnly | QIODevice::ExistingOnly;
+	if (!file.open(mode))
+	{
+		return -1;
+	}
+
+
+	std::vector<FileLineInfo> lineInfoVct;
+	int nMaxLineSize = 0;
+	int nCharNums = 0;
+	CompareMode::scanFileOutput(cid, filepath, lineInfoVct,  nMaxLineSize, nCharNums);
+
+
+    return 0;
 }

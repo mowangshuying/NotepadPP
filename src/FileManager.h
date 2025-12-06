@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QList>
+#include "__global.h"
 
 
 class ScintillaEditView;
@@ -53,6 +54,8 @@ public:
 	void insertNewFileId(int nIndex, ScintillaEditView* pEditView);
 
 	void deleteNewFileId(int nIndex);
+
+	int loadFileDataInText(ScintillaEditView* pEditView, QString filepath, CodeId cid, LineEnd lineEnd);
 protected:
 	std::vector<NewFileId> m_newFileidList;
 };

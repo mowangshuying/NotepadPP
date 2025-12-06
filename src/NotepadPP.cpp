@@ -4,6 +4,7 @@
 #include "FileManager.h"
 #include "ScintillaEditView.h"
 #include "__global.h"
+#include <QFileDialog>
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
@@ -614,8 +615,8 @@ void NotepadPP::__connect()
 {
 	QTabBar* pTabBar = m_editTabWidget->tabBar();
     connect(pTabBar, &QTabBar::tabCloseRequested, this, &NotepadPP::__onTabCloseRequested);
-	connect(m_actionNewFile, SIGNAL(triggered()), this, SLOT(__onTriggerNewFile()));
-
+	connect(m_actionNewFile, &QAction::triggered, this, &NotepadPP::__onTriggerNewFile);
+	connect(m_actionOpenFile,&QAction::triggered, this, &NotepadPP::__onTriggerOpenFile);
 }
 
 bool NotepadPP::isNewFileNameExist(const QString& filename)
@@ -683,6 +684,37 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
 	pEdit->viewport()->setFocus();
 }
 
+void NotepadPP::openFile(QString filename)
+{
+	QString filepath = getRegularFilePath(filename);
+	QFileInfo fileInfo(filepath);
+	if (!fileInfo.exists())
+	{
+		qDebug() << "File not exists:" << filepath;
+		return;
+	}
+
+	int nIndex = findFileIsOpenAtPad(filepath);
+	if (nIndex != -1)
+	{
+		m_editTabWidget->setCurrentIndex(nIndex);
+		QString statusText = QString::asprintf("file %s already opened at tab %d", filepath, nIndex);
+		m_statusBar->showMessage(statusText, 8000);
+		return;
+	}
+
+	openTextFile(filepath);
+}
+
+void NotepadPP::openTextFile(QString filepath)
+{
+	filepath = getRegularFilePath(filepath);
+	auto pEdit = FileManager::getMgr()->newEmptyDocument();
+	pEdit->setNoteWidget(this);
+
+	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, CodeId::Unknown, LineEnd::Unknown);
+}
+
 void NotepadPP::enableEditTextChangeSign(ScintillaEditView* pEdit)
 {
 	connect(pEdit, &ScintillaEditView::textChanged, this, &NotepadPP::__onTextChanged);
@@ -715,6 +747,36 @@ void NotepadPP::closeTab(int index)
 	}
 }
 
+QString NotepadPP::getRegularFilePath(QString path)
+{
+#ifdef _WIN32
+	path = path.replace("/", "\\");
+#else
+	path = path.replace("\\", "/");
+#endif
+	return path;
+}
+
+int NotepadPP::findFileIsOpenAtPad(QString filepath)
+{
+	int nRet = -1;
+	filepath = getRegularFilePath(filepath);
+	for (int i = 0; i < m_editTabWidget->count(); i++)
+	{
+		auto pw = m_editTabWidget->widget(i);
+		if (pw != nullptr)
+		{
+			QString curFilePath = pw->property("FilePath").toString();
+			if (filepath == curFilePath)
+			{
+				nRet = i;
+				break;
+			}
+		}
+	}
+	return nRet;
+}
+
 void NotepadPP::__onTriggerNewFile()
 {
 	qDebug() << "Trigger New File action.";
@@ -731,6 +793,23 @@ void NotepadPP::__onTriggerNewFile()
 		nIndex++;
 	}
 	newTxtFile(filename, nIndex);
+}
+
+void NotepadPP::__onTriggerOpenFile()
+{
+	QFileDialog qfd(this);
+	qfd.setFileMode(QFileDialog::ExistingFile);
+	int nExec = qfd.exec();
+	if (nExec != QDialog::Accepted)
+	{
+		qfd.close();
+		return;
+	}
+
+	QStringList sFiles = qfd.selectedFiles();
+	QFileInfo fileinfo(sFiles[0]);
+	openFile(fileinfo.filePath());
+	// qfd.close();
 }
 
 void NotepadPP::__onTextChanged()

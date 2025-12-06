@@ -27,6 +27,10 @@ public:
 
     void newTxtFile(QString filename, int nIndex, QString contentPath = "");
 
+    void openFile(QString filename);
+
+    void openTextFile(QString filepath);
+
 	//打开监控文件修改的信号
 	void enableEditTextChangeSign(ScintillaEditView* pEdit);
 
@@ -36,8 +40,13 @@ public:
     void setZoomLabelValue(int nZoomValue);
 
     void closeTab(int index);
+
+    QString getRegularFilePath(QString path);
+
+    int findFileIsOpenAtPad(QString filepath);
 public slots:
     void __onTriggerNewFile();
+    void __onTriggerOpenFile();
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);
