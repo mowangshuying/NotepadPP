@@ -66,7 +66,7 @@ void FileManager::deleteNewFileId(int nIndex)
 	}
 }
 
-int FileManager::loadFileDataInText(ScintillaEditView *pEditView, QString filepath, CodeId cid, LineEnd lineEnd)
+int FileManager::loadFileDataInText(ScintillaEditView *pEditView, QString filepath, CodeId& cid, LineEnd lineEnd)
 {
 	QFile file(filepath);
 	if (!file.exists())
@@ -86,6 +86,15 @@ int FileManager::loadFileDataInText(ScintillaEditView *pEditView, QString filepa
 	int nCharNums = 0;
 	CompareMode::scanFileOutput(cid, filepath, lineInfoVct,  nMaxLineSize, nCharNums);
 
+	QString text;
+	for (auto it = lineInfoVct.begin(); it != lineInfoVct.end(); it++)
+	{
+		text.append(it->unicodeStr);
+	}
+
+	file.close();
+
+	pEditView->setText(text);
 
     return 0;
 }

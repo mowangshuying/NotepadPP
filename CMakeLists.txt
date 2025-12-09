@@ -59,6 +59,7 @@ target_link_libraries(NotePadPP PRIVATE
     Qt${QT_VERSION_MAJOR}::Core5Compat
     qscintilla
     libuchardet_static
+    libucd_static
     )
 
 # message(STATUS "-------------- ${UCHARDET_STATIC_LIBRARY}")

@@ -5,6 +5,7 @@
 #include "ScintillaEditView.h"
 #include "__global.h"
 #include <QFileDialog>
+#include "EnCode.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
@@ -585,7 +586,7 @@ void NotepadPP::__initStatusBar()
 	m_statusBar = new QStatusBar(this);
 	//setStatusBar(m_statusBar);
 
-	m_codeStatusLabel = new QLabel("Utf8");
+	m_codeNameLabel = new QLabel("Utf8");
 	m_lineEndComboBox = new QComboBox;
 
 	QStringList lineEnds;
@@ -595,7 +596,7 @@ void NotepadPP::__initStatusBar()
 	m_langDescLabel = new QLabel("Txt");
 	m_zoomLabel = new QLabel("Zoom: 100%");
 
-	m_codeStatusLabel->setMinimumWidth(120);
+	m_codeNameLabel->setMinimumWidth(120);
 	m_lineEndComboBox->setMinimumWidth(100);
 	m_lineNumLabel->setMinimumWidth(120);
 	m_langDescLabel->setMinimumWidth(100);
@@ -605,7 +606,7 @@ void NotepadPP::__initStatusBar()
 	m_statusBar->insertPermanentWidget(1, m_langDescLabel);
 	m_statusBar->insertPermanentWidget(2, m_lineNumLabel);
 	m_statusBar->insertPermanentWidget(3, m_lineEndComboBox);
-	m_statusBar->insertPermanentWidget(4, m_codeStatusLabel);
+	m_statusBar->insertPermanentWidget(4, m_codeNameLabel);
 
 	setStatusBar(m_statusBar);
 
@@ -646,7 +647,7 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
 	auto pEdit = FileManager::getMgr()->newEmptyDocument();
 	pEdit->setNoteWidget(this);
 
-	CodeId cid = CodeId::Utf8;
+	CodeId cid = CodeId::UTF_8;
 	// 目前只是处理windows
 	LineEnd lineEnd = LineEnd::Dos;
 
@@ -712,7 +713,29 @@ void NotepadPP::openTextFile(QString filepath)
 	auto pEdit = FileManager::getMgr()->newEmptyDocument();
 	pEdit->setNoteWidget(this);
 
-	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, CodeId::Unknown, LineEnd::Unknown);
+	CodeId cid = CodeId::UNKNOWN;
+	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, LineEnd::Unknown);
+	int nCurIndex = m_editTabWidget->addTab(pEdit, filepath);
+	m_editTabWidget->setCurrentIndex(nCurIndex);
+
+	// show code id;
+	setCodeBarLabelByCodeId(cid);
+
+	// set line end;
+	pEdit->setProperty("LineEnd", (int)LineEnd::Unknown);
+	// set filepath;
+	pEdit->setProperty("FilePath", filepath);
+	// set Tab Tool tip;
+	m_editTabWidget->setTabToolTip(nCurIndex, filepath);
+	// set new file index;
+	pEdit->setProperty("NewFileIndex", -1);
+	// set motify flag
+	pEdit->setProperty("TextChanged", false);
+	// set code id;
+	pEdit->setProperty("CodeId", (int)cid);
+
+	// zoom value changed;
+	// connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
 }
 
 void NotepadPP::enableEditTextChangeSign(ScintillaEditView* pEdit)
@@ -775,6 +798,12 @@ int NotepadPP::findFileIsOpenAtPad(QString filepath)
 		}
 	}
 	return nRet;
+}
+
+void NotepadPP::setCodeBarLabelByCodeId(CodeId cid)
+{
+	QString codeName = EnCode::getCodeNameById(cid);
+	m_codeNameLabel->setText(codeName);
 }
 
 void NotepadPP::__onTriggerNewFile()
@@ -843,17 +872,17 @@ void NotepadPP::__onZoomValueChange()
 		}
 
 		// 修改其他编辑器的缩放值
-		for (int i = 0; i < m_editTabWidget->count(); i++)
-        {
-            auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
-            if (pEdit != nullptr && pEdit != pSrcEdit)
-            {
-				disconnect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
-				pEdit->zoomTo(m_nZoomValue);
-				pEdit->updateLineNumberWidth();
-				connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
-            }
-        }
+		///for (int i = 0; i < m_editTabWidget->count(); i++)
+  //      {
+  //          auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
+  //          if (pEdit != nullptr && pEdit != pSrcEdit)
+  //          {
+		//		disconnect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+		//		pEdit->zoomTo(m_nZoomValue);
+		//		pEdit->updateLineNumberWidth();
+		//		connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+  //          }
+  //      }
 	}
 }
 

@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include <QObject>
@@ -11,7 +11,7 @@ public:
         nLineNums = 0;
         bLcsExist = false;
         bEmptyLine = false;
-        nCode = CodeId::Unknown;
+        nCode = CodeId::UNKNOWN;
         lineEnd = LineEnd::Unknown;
     }
 public:
@@ -31,9 +31,9 @@ public:
     ~CompareMode() {}
 public:
     static CodeId getTextFileCodeId(uchar* fileFpr, int fileLength, QString filepath);
-    static CodeId scanFileOutput(CodeId cid, QString filepath, std::vector<FileLineInfo>& lineInfoVct, int& nMaxLineSize, int& charNums);
+    static CodeId scanFileOutput(CodeId& cid, QString filepath, std::vector<FileLineInfo>& lineInfoVct, int& nMaxLineSize, int& charNums);
     static CodeId readLineFromFile(uchar* fileptr, const int fileLength, 
-        const CodeId cid, std::vector<FileLineInfo>& lineInfoVct, std::vector<FileLineInfo>& blankLineInfoVct, int mode, int &nMaxLineSize);
+        const CodeId cid, std::vector<FileLineInfo>& lineInfoVct, int &nMaxLineSize, int& charNums);
 
     static bool getOneLineFromFile(uchar* fileptr, int& nStartPos, const int fileLength, const CodeId cid, QByteArray& bytes);
 };

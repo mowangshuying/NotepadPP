@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QComboBox>
+#include "__global.h"
 
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
@@ -44,6 +45,8 @@ public:
     QString getRegularFilePath(QString path);
 
     int findFileIsOpenAtPad(QString filepath);
+
+    void setCodeBarLabelByCodeId(CodeId cid);
 public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
@@ -327,7 +330,7 @@ protected:
 
     // StatusBar;
     QStatusBar* m_statusBar;
-    QLabel* m_codeStatusLabel;
+    QLabel* m_codeNameLabel;
     QComboBox* m_lineEndComboBox;
     QLabel* m_lineNumLabel;
     QLabel* m_langDescLabel;
