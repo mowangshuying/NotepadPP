@@ -51,17 +51,29 @@ void NotepadPP::__initMenu()
 
 
 	m_actionNewFile = new QAction("New");
+	m_actionNewFile->setShortcut(QKeySequence::New);
 	m_actionOpenFile = new QAction("Open ...");
+	m_actionOpenFile->setShortcut(QKeySequence::Open);
 	m_actionSave = new QAction("Save");
+	m_actionSave->setShortcut(QKeySequence::Save);
+
 	m_actionSaveAs = new QAction("Save As ...");
+	m_actionSaveAs->setShortcut(QKeySequence::SaveAs);
+
 	m_actionClose = new QAction("Close");
+	// m_actionClose->setShortcut(QKeySequence::Close);
+
 	m_actionCloseAll = new QAction("Close All");
+	// m_actionCloseAll->setShortcut(QKeySequence::CloseAll);
+
 
 	m_actionClearHistory = new QAction("Clear History");
 
 	m_menuReceneFile = new QMenu("Recene File");
 
 	m_actionExit = new QAction("Exit");
+	m_actionExit->setShortcut(QKeySequence::Quit);
+
 
 	m_menuFile->addAction(m_actionNewFile);
 	m_menuFile->addAction(m_actionOpenFile);
@@ -626,6 +638,8 @@ void NotepadPP::__connect()
 	connect(m_actionNewFile, &QAction::triggered, this, &NotepadPP::__onTriggerNewFile);
 	connect(m_actionOpenFile,&QAction::triggered, this, &NotepadPP::__onTriggerOpenFile);
 	connect(m_actionSave, &QAction::triggered, this, &NotepadPP::__onTriggerSaveFile);
+	connect(m_actionSaveAs, &QAction::triggered, this, &NotepadPP::__onTriggerSaveAs);
+	connect(m_actionClose, &QAction::triggered, this, &NotepadPP::__onTriggerClose);
 	connect(m_actionExit, &QAction::triggered, this, &NotepadPP::__onTriggerExit);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
@@ -729,7 +743,7 @@ void NotepadPP::openTextFile(QString filepath)
 	CodeId cid = CodeId::UNKNOWN;
 	LineEnd lineEnd = LineEnd::Unknown;
 	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, lineEnd);
-	int nCurIndex = m_editTabWidget->addTab(pEdit, filepath);
+	int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), filepath);
 	m_editTabWidget->setCurrentIndex(nCurIndex);
 
 	// enable text change sign
@@ -875,18 +889,22 @@ void NotepadPP::setZoomLabelValue(int nZoomValue)
 
 void NotepadPP::closeTab(int index)
 {
-	QWidget* pWidget = m_editTabWidget->widget(index);
-	if (pWidget == nullptr)
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(index));
+	if (pEdit == nullptr)
 	{
 		return;
 	}
-	m_editTabWidget->removeTab(index);
 
-	int nNewFileIndex = pWidget->property("NewFileIndex").toInt();
+	QString filepath = pEdit->property("FilePath").toString();
+
+	m_editTabWidget->removeTab(index);
+	int nNewFileIndex = pEdit->property("NewFileIndex").toInt();
 	if (nNewFileIndex != -1)
 	{
 		FileManager::getMgr()->deleteNewFileId(nNewFileIndex);
 	}
+
+	pEdit->deleteLater();
 }
 
 QString NotepadPP::getRegularFilePath(QString path)
@@ -977,6 +995,63 @@ void NotepadPP::__onTriggerSaveFile()
 {
 	int nIndex = m_editTabWidget->currentIndex();
 	saveTabEdit(nIndex);
+}
+
+void NotepadPP::__onTriggerSaveAs()
+{
+	int nIndex = m_editTabWidget->currentIndex();
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(nIndex));
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+
+	int nNewFileIndex = pEdit->property("NewFileIndex").toInt();
+	if (nNewFileIndex >= 0)
+	{
+		QString filter("Text files (*.txt);;XML files (*.xml);;h files (*.h);;cpp file(*.cpp);;All types(*.*)");
+		QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(), filter);
+
+		if (fileName.isEmpty())
+		{
+			return;
+		}
+
+		int retIndex = findFileIsOpenAtPad(fileName);
+		if (retIndex >= 0)
+		{
+			return;
+		}
+		
+		saveFile(fileName, pEdit);
+		// return;
+	}
+	else
+	{
+		// QString filepath = pEdit->property("FilePath").toString();
+		QString filter("Text files (*.txt);;XML files (*.xml);;h files (*.h);;cpp file(*.cpp);;All types(*.*)");
+		QString curFilePath = pEdit->property("FilePath").toString();
+		QString newFilePath = QFileDialog::getSaveFileName(this, tr("Save File as"), curFilePath, filter);
+		if (newFilePath.isEmpty())
+		{
+			return;
+		}
+
+		saveFile(newFilePath, pEdit);
+	}
+
+	pEdit->setProperty("TextChanged", false);
+	enableEditTextChangeSign(pEdit);
+	m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imags/noneedsave.png"));
+}
+
+void NotepadPP::__onTriggerClose()
+{
+	int nIndex = m_editTabWidget->currentIndex();
+	if (nIndex >= 0)
+	{
+		closeTab(nIndex);
+	}
 }
 
 void NotepadPP::__onTriggerExit()

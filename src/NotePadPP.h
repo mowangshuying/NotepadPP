@@ -56,6 +56,8 @@ public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
     void __onTriggerSaveFile();
+    void __onTriggerSaveAs();
+    void __onTriggerClose();
     void __onTriggerExit();
     void __onTextChanged();
     void __onZoomValueChange();
