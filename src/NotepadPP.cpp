@@ -61,6 +61,8 @@ void NotepadPP::__initMenu()
 
 	m_menuReceneFile = new QMenu("Recene File");
 
+	m_actionExit = new QAction("Exit");
+
 	m_menuFile->addAction(m_actionNewFile);
 	m_menuFile->addAction(m_actionOpenFile);
 	m_menuFile->addAction(m_actionSave);
@@ -72,6 +74,10 @@ void NotepadPP::__initMenu()
 
 	m_menuFile->addAction(m_actionClearHistory);
 	m_menuFile->addAction(m_menuReceneFile->menuAction());
+
+	m_menuFile->addSeparator();
+	m_menuFile->addAction(m_actionExit);
+
 	m_menuBar->addAction(m_menuFile->menuAction());
 
 	// --- init Edit Menu
@@ -620,6 +626,7 @@ void NotepadPP::__connect()
 	connect(m_actionNewFile, &QAction::triggered, this, &NotepadPP::__onTriggerNewFile);
 	connect(m_actionOpenFile,&QAction::triggered, this, &NotepadPP::__onTriggerOpenFile);
 	connect(m_actionSave, &QAction::triggered, this, &NotepadPP::__onTriggerSaveFile);
+	connect(m_actionExit, &QAction::triggered, this, &NotepadPP::__onTriggerExit);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
@@ -970,6 +977,11 @@ void NotepadPP::__onTriggerSaveFile()
 {
 	int nIndex = m_editTabWidget->currentIndex();
 	saveTabEdit(nIndex);
+}
+
+void NotepadPP::__onTriggerExit()
+{
+	close();
 }
 
 void NotepadPP::__onTextChanged()
