@@ -60,6 +60,17 @@ public slots:
     void __onTriggerClose();
     void __onTriggerCloseAll();
     void __onTriggerExit();
+
+
+    void __onTriggerUndo();
+    void __onTriggerRedo();
+
+    void __onTriggerCut();
+    void __onTriggerCopy();
+    void __onTriggerPaste();
+
+    void __onTriggerSelectAll();
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);

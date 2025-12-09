@@ -95,17 +95,23 @@ void NotepadPP::__initMenu()
 	// --- init Edit Menu
 	m_menuEdit = new QMenu("Edit", m_menuBar);
 	m_actionUndo = new QAction("Undo");
+	m_actionUndo->setShortcut(QKeySequence::Undo);
 	m_actionRedo = new QAction("Redo");
+	m_actionRedo->setShortcut(QKeySequence::Redo);
 
 	// split
 
 	m_actionCut = new QAction("Cut");
+	m_actionCut->setShortcut(QKeySequence::Cut);
 	m_actionCopy = new QAction("Copy");
+	m_actionCopy->setShortcut(QKeySequence::Copy);
 	m_actionPaste = new QAction("Paste");
+	m_actionPaste->setShortcut(QKeySequence::Paste);
 
 	// split
 
 	m_actionSelectAll = new QAction("Select All");
+	m_actionSelectAll->setShortcut(QKeySequence::SelectAll);
 
 	m_menuFormatConversion = new QMenu("Format Conversion");
 	m_actionConverWindowsCRLF = new QAction("Windows(CRLF)");
@@ -643,6 +649,14 @@ void NotepadPP::__connect()
 	connect(m_actionCloseAll, &QAction::triggered, this, &NotepadPP::__onTriggerCloseAll);
 	connect(m_actionExit, &QAction::triggered, this, &NotepadPP::__onTriggerExit);
 
+	connect(m_actionUndo, &QAction::triggered, this, &NotepadPP::__onTriggerUndo);
+	connect(m_actionRedo, &QAction::triggered, this, &NotepadPP::__onTriggerRedo);
+	connect(m_actionCut, &QAction::triggered, this, &NotepadPP::__onTriggerCut);
+	connect(m_actionCopy, &QAction::triggered, this, &NotepadPP::__onTriggerCopy);
+	connect(m_actionPaste, &QAction::triggered, this, &NotepadPP::__onTriggerPaste);
+
+	connect(m_actionSelectAll, &QAction::triggered, this, &NotepadPP::__onTriggerSelectAll);
+
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
 
@@ -1066,6 +1080,67 @@ void NotepadPP::__onTriggerCloseAll()
 void NotepadPP::__onTriggerExit()
 {
 	close();
+}
+
+void NotepadPP::__onTriggerUndo()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+
+	pEdit->undo();
+}
+
+void NotepadPP::__onTriggerRedo()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+	pEdit->redo();
+}
+
+void NotepadPP::__onTriggerCut()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+	pEdit->cut();
+}
+
+void NotepadPP::__onTriggerCopy()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+	pEdit->copy();
+}
+
+void NotepadPP::__onTriggerPaste()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+	pEdit->paste();
+}
+
+void NotepadPP::__onTriggerSelectAll()
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+	pEdit->selectAll();
 }
 
 void NotepadPP::__onTextChanged()
