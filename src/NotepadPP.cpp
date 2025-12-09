@@ -7,7 +7,7 @@
 #include <QFileDialog>
 #include "EnCode.h"
 #include "AboutNotePP.h"
-
+#include <QTextCodec>
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
 	__initUi();
@@ -196,7 +196,7 @@ void NotepadPP::__initMenu()
 	//m_menuBookMark = new QMenu("BookMark");
 	//m_ac = new QAction("Add BookMark");
 
-	// View Menu
+	// View MenuFileListView
 	m_menuView = new QMenu("View");
 
 	m_menuDisplaySymbols = new QMenu("Display Symbols");
@@ -619,6 +619,7 @@ void NotepadPP::__connect()
     connect(pTabBar, &QTabBar::tabCloseRequested, this, &NotepadPP::__onTabCloseRequested);
 	connect(m_actionNewFile, &QAction::triggered, this, &NotepadPP::__onTriggerNewFile);
 	connect(m_actionOpenFile,&QAction::triggered, this, &NotepadPP::__onTriggerOpenFile);
+	connect(m_actionSave, &QAction::triggered, this, &NotepadPP::__onTriggerSaveFile);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
@@ -662,9 +663,11 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
 
 	connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
 
-	// add tab;
-    int nCurTabIndex = m_editTabWidget->addTab(pEdit, filename);
+	// enable text change sign
+	enableEditTextChangeSign(pEdit);
 
+	// add tab;
+    int nCurTabIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), filename);
 	pEdit->setProperty("NewFileIndex", nIndex);
 	pEdit->setProperty("FilePath", filename);
 	pEdit->setProperty("TextChanged", false);
@@ -717,12 +720,15 @@ void NotepadPP::openTextFile(QString filepath)
 	pEdit->setNoteWidget(this);
 
 	CodeId cid = CodeId::UNKNOWN;
-	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, LineEnd::Unknown);
+	LineEnd lineEnd = LineEnd::Unknown;
+	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, lineEnd);
 	int nCurIndex = m_editTabWidget->addTab(pEdit, filepath);
 	m_editTabWidget->setCurrentIndex(nCurIndex);
 
 	// show code id;
 	setCodeBarLabelByCodeId(cid);
+	// show line end;
+	setLineEndBarLabelByLineEnd(LineEnd::Dos);
 
 	// set line end;
 	pEdit->setProperty("LineEnd", (int)LineEnd::Unknown);
@@ -739,6 +745,106 @@ void NotepadPP::openTextFile(QString filepath)
 
 	// zoom value changed;
 	// connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+}
+
+void NotepadPP::saveTabEdit(int nIndex)
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(nIndex));
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+
+	bool bModify = pEdit->property("TextChanged").toBool();
+	if (!bModify)
+	{
+		return;
+	}
+
+	int nNewFileIndex = pEdit->property("NewFileIndex").toInt();
+	if (nNewFileIndex >= 0)
+	{
+		QString filter("Text files (*.txt);;XML files (*.xml);;h files (*.h);;cpp file(*.cpp);;All types(*.*)");
+		QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QString(), filter);
+
+		if (fileName.isEmpty())
+		{
+			return;
+		}
+
+		int retIndex = findFileIsOpenAtPad(fileName);
+		if (retIndex >= 0)
+		{
+			return;
+		}
+		
+		saveFile(fileName, pEdit);
+	}
+	else
+	{
+		QString filepath = pEdit->property("FilePath").toString();
+		if (!filepath.isEmpty())
+		{
+			return;
+		}
+		saveFile(filepath, pEdit);
+	}
+
+	pEdit->setProperty("TextChanged", false);
+	m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imgs/noneedsave.png"));
+	enableEditTextChangeSign(pEdit);
+}
+
+void NotepadPP::saveFile(QString filename, ScintillaEditView *pEditView)
+{
+	QFile srcFile(filename);
+
+	bool bNewFile = true;
+	if (srcFile.exists())
+	{
+		QFlags<QFileDevice::Permission> power = QFile::permissions(filename);
+		if (!power.testFlag(QFile::WriteUser))
+		{
+			m_statusBar->showMessage(tr("No write permission for file %1").arg(filename), 8000);
+			return;
+		}
+		bNewFile = false;
+	}
+
+	/// save work;
+	if (!srcFile.open(QIODevice::ReadWrite | QIODevice::Truncate))
+	{
+		m_statusBar->showMessage(tr("Open file %1 failed for write.").arg(filename), 8000);
+		return;
+	}
+
+	QString textout = pEditView->text();
+	if (textout.isEmpty())
+	{
+		return;
+	}
+
+	CodeId cid = (CodeId)pEditView->property("CodeId").toInt();
+	QString codeName = EnCode::getQtCodecNameById(cid);
+
+	// 是否带BOM
+	// bool bWithBOM = false;
+	if (cid == CodeId::UTF_8BOM || cid == CodeId::UTF_16BEBOM || cid == CodeId::UTF_16LEBOM)
+	{
+		// bWithBOM = true;
+		QByteArray bom = EnCode::getStartFlagByCodeId(cid);
+		if (!bom.isEmpty())
+		{
+			srcFile.write(bom);
+		}
+	}
+
+	QTextCodec::setCodecForLocale(QTextCodec::codecForName(codeName.toStdString().c_str()));
+	
+	QByteArray text = textout.toUtf8();
+	srcFile.write(text);
+	srcFile.close();
+	return;
 }
 
 void NotepadPP::enableEditTextChangeSign(ScintillaEditView* pEdit)
@@ -809,6 +915,19 @@ void NotepadPP::setCodeBarLabelByCodeId(CodeId cid)
 	m_codeNameLabel->setText(codeName);
 }
 
+void NotepadPP::setLineEndBarLabelByLineEnd(LineEnd lineEnd)
+{
+	QString lineEndName = EnCode::getLineEndNameByLineEndId(lineEnd);
+	if (m_lineEndComboBox->currentText() != lineEndName)
+	{
+		int nIndex = m_lineEndComboBox->findText(lineEndName);
+		if (nIndex != -1)
+		{
+			m_lineEndComboBox->setCurrentIndex(nIndex);
+		}
+	}
+}
+
 void NotepadPP::__onTriggerNewFile()
 {
 	qDebug() << "Trigger New File action.";
@@ -844,6 +963,12 @@ void NotepadPP::__onTriggerOpenFile()
 	// qfd.close();
 }
 
+void NotepadPP::__onTriggerSaveFile()
+{
+	int nIndex = m_editTabWidget->currentIndex();
+	saveTabEdit(nIndex);
+}
+
 void NotepadPP::__onTextChanged()
 {
 	auto pEditView = dynamic_cast<ScintillaEditView*>(sender());
@@ -853,6 +978,13 @@ void NotepadPP::__onTextChanged()
 		if (!bTextChanged)
 		{
             pEditView->setProperty("TextChanged", true);
+		}
+
+		// 一旦变化后设置tab图标为红色
+		int nTabIndex = m_editTabWidget->indexOf(pEditView);
+		if (nTabIndex != -1)
+		{
+			m_editTabWidget->setTabIcon(nTabIndex, QIcon("./res/imgs/needsave.png"));
 		}
 		disEnableEditTextChangeSign(pEditView);
 	}

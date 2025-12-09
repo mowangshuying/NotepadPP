@@ -32,6 +32,10 @@ public:
 
     void openTextFile(QString filepath);
 
+    void saveTabEdit(int nIndex);
+
+    void saveFile(QString filename, ScintillaEditView* pEditView);
+
 	//打开监控文件修改的信号
 	void enableEditTextChangeSign(ScintillaEditView* pEdit);
 
@@ -47,9 +51,11 @@ public:
     int findFileIsOpenAtPad(QString filepath);
 
     void setCodeBarLabelByCodeId(CodeId cid);
+    void setLineEndBarLabelByLineEnd(LineEnd lineEnd);
 public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
+    void __onTriggerSaveFile();
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);
