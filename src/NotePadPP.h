@@ -52,6 +52,8 @@ public:
 
     void setCodeBarLabelByCodeId(CodeId cid);
     void setLineEndBarLabelByLineEnd(LineEnd lineEnd);
+
+    bool convertDocLineEnd(LineEnd lineEnd);
 public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
@@ -70,6 +72,10 @@ public slots:
     void __onTriggerPaste();
 
     void __onTriggerSelectAll();
+
+    void __onTriggerConvertWinLineEnd();
+    void __onTriggerConvertUnixLineEnd();
+    void __onTriggerConvertMacLineEnd();
 
     void __onTextChanged();
     void __onZoomValueChange();

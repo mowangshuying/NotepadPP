@@ -971,6 +971,48 @@ void NotepadPP::setLineEndBarLabelByLineEnd(LineEnd lineEnd)
 	}
 }
 
+bool NotepadPP::convertDocLineEnd(LineEnd lineEnd)
+{
+    // return false;
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return false;
+	}
+
+	int eolMode = 0;
+	switch (lineEnd)
+	{
+	case LineEnd::Dos:
+		eolMode = SC_EOL_CRLF;
+		break;
+	case LineEnd::Unix:
+		eolMode = SC_EOL_LF;
+		break;
+	case LineEnd::Mac:
+		eolMode = SC_EOL_CR;
+		break;
+	default:
+		return false;
+	}
+
+	int nCurMode = pEdit->execute(SCI_GETEOLMODE);
+	if (nCurMode != eolMode)
+	{
+		// return false;
+		m_statusBar->showMessage("Convert end of line in progress..., please wait...");
+		pEdit->execute(SCI_SETEOLMODE, eolMode);
+		pEdit->execute(SCI_CONVERTEOLS, eolMode);
+
+		m_statusBar->showMessage("Convert end of line completed.", 8000);
+
+		pEdit->setProperty("LineEnd", (int)lineEnd);
+		pEdit->setProperty("TextChanged", true);
+		setLineEndBarLabelByLineEnd(lineEnd);
+	}
+	return true;
+}
+
 void NotepadPP::__onTriggerNewFile()
 {
 	qDebug() << "Trigger New File action.";
@@ -1141,6 +1183,21 @@ void NotepadPP::__onTriggerSelectAll()
 		return;
 	}
 	pEdit->selectAll();
+}
+
+void NotepadPP::__onTriggerConvertWinLineEnd()
+{
+	convertDocLineEnd(LineEnd::Dos);
+}
+
+void NotepadPP::__onTriggerConvertUnixLineEnd()
+{
+	convertDocLineEnd(LineEnd::Unix);
+}
+
+void NotepadPP::__onTriggerConvertMacLineEnd()
+{
+	convertDocLineEnd(LineEnd::Mac);
 }
 
 void NotepadPP::__onTextChanged()
