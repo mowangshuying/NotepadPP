@@ -725,6 +725,9 @@ void NotepadPP::openTextFile(QString filepath)
 	int nCurIndex = m_editTabWidget->addTab(pEdit, filepath);
 	m_editTabWidget->setCurrentIndex(nCurIndex);
 
+	// enable text change sign
+	enableEditTextChangeSign(pEdit);
+
 	// show code id;
 	setCodeBarLabelByCodeId(cid);
 	// show line end;
@@ -783,7 +786,7 @@ void NotepadPP::saveTabEdit(int nIndex)
 	else
 	{
 		QString filepath = pEdit->property("FilePath").toString();
-		if (!filepath.isEmpty())
+		if (filepath.isEmpty())
 		{
 			return;
 		}
