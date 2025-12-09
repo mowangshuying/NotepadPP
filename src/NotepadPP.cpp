@@ -6,6 +6,7 @@
 #include "__global.h"
 #include <QFileDialog>
 #include "EnCode.h"
+#include "AboutNotePP.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
@@ -586,7 +587,7 @@ void NotepadPP::__initStatusBar()
 	m_statusBar = new QStatusBar(this);
 	//setStatusBar(m_statusBar);
 
-	m_codeNameLabel = new QLabel("Utf8");
+	m_codeNameLabel = new QLabel("");
 	m_lineEndComboBox = new QComboBox;
 
 	QStringList lineEnds;
@@ -618,6 +619,8 @@ void NotepadPP::__connect()
     connect(pTabBar, &QTabBar::tabCloseRequested, this, &NotepadPP::__onTabCloseRequested);
 	connect(m_actionNewFile, &QAction::triggered, this, &NotepadPP::__onTriggerNewFile);
 	connect(m_actionOpenFile,&QAction::triggered, this, &NotepadPP::__onTriggerOpenFile);
+
+	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
 
 bool NotepadPP::isNewFileNameExist(const QString& filename)
@@ -889,4 +892,10 @@ void NotepadPP::__onZoomValueChange()
 void NotepadPP::__onTabCloseRequested(int index)
 {
 	closeTab(index);
+}
+
+void NotepadPP::__onTriggerAboutNotepadPP()
+{
+	AboutNotePP aboutDialog(this);
+	aboutDialog.exec();
 }

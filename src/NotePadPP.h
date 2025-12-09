@@ -53,6 +53,7 @@ public slots:
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);
+    void __onTriggerAboutNotepadPP();
 protected:
     // 
     QAction* m_actionNewFile;

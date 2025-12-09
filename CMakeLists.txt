@@ -13,6 +13,8 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core5Compat)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core5Compat)
 
 set(PROJECT_SOURCES
+    src/AboutNotePP.cpp
+    src/AboutNotePP.h
     src/App.cpp
     src/CompareMode.cpp
     src/CompareMode.h
