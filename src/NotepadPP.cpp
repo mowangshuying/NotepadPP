@@ -585,9 +585,9 @@ void NotepadPP::__initMenu()
 	// toolsMenu
 	m_menuTools = new QMenu("Tools");
 	m_actionMd5Sha = new QAction("Md5/Sha");
-	m_actionBatchFind = new QAction("Batch Find");
+	//m_actionBatchFind = new QAction("Batch Find");
 	m_menuTools->addAction(m_actionMd5Sha);
-	m_menuTools->addAction(m_actionBatchFind);
+	//m_menuTools->addAction(m_actionBatchFind);
 
 	m_menuBar->addAction(m_menuTools->menuAction());
 
@@ -662,6 +662,9 @@ void NotepadPP::__connect()
 	connect(m_actionPaste, &QAction::triggered, this, &NotepadPP::__onTriggerPaste);
 
 	connect(m_actionSelectAll, &QAction::triggered, this, &NotepadPP::__onTriggerSelectAll);
+	connect(m_actionConverWindowsCRLF, &QAction::triggered, this, &NotepadPP::__onTriggerConvertWinLineEnd);
+	connect(m_actionConvertUnixLF, &QAction::triggered, this, &NotepadPP::__onTriggerConvertUnixLineEnd);
+	connect(m_actionConvertMacCR, &QAction::triggered, this, &NotepadPP::__onTriggerConvertMacLineEnd);
 
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
