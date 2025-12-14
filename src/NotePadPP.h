@@ -54,6 +54,15 @@ public:
     void setLineEndBarLabelByLineEnd(LineEnd lineEnd);
 
     bool convertDocLineEnd(LineEnd lineEnd);
+
+    /// 处理最近打开的文件
+    void loadRecentFileFromConfig();
+    void addRecentFile(QString filepath);
+    void deleteRecentFile(QString filepath);
+    bool findRecentFile(QString filepath);
+    void saveRecentFileToConfig();
+    void updateRecentFileMenu();
+    
 public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
@@ -61,6 +70,9 @@ public slots:
     void __onTriggerSaveAs();
     void __onTriggerClose();
     void __onTriggerCloseAll();
+
+    void __onTriggerOpenRecentFile();
+
     void __onTriggerExit();
 
 
@@ -376,5 +388,7 @@ protected:
     int m_nZoomValue;
     // bool m_bShowSpaces;
     // bool m_bShowLineEnd;
+
+    std::vector<QString> m_recentOpenFileList;
 };
 

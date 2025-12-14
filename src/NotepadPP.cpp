@@ -17,6 +17,7 @@ NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoo
 void NotepadPP::__initUi()
 {
 	__initMenu();
+	loadRecentFileFromConfig();
 
 	auto contentWidget = new QWidget(this);
 	setCentralWidget(contentWidget);
@@ -122,8 +123,8 @@ void NotepadPP::__initMenu()
 	m_menuFormatConversion->addAction(m_actionConvertUnixLF);
 	m_menuFormatConversion->addAction(m_actionConvertMacCR);
 
-	m_actionOpenInText = new QAction("Open In Text");
-	m_actionOpenInBin = new QAction("Open In Bin");
+	// m_actionOpenInText = new QAction("Open In Text");
+	// m_actionOpenInBin = new QAction("Open In Bin");
 
 	/// --- black char operator
 	m_menuBlankCharOperate = new QMenu("Blank Char Operate");
@@ -181,8 +182,8 @@ void NotepadPP::__initMenu()
 	//m_menuLineOperations->addAction(m_actionColumnBlockEditing);
 	//m_menuLineOperations->addAction(m_actionColumnEditMode);
 
-	m_actionColumnBlockEditing = new QAction("Column Block Editing");
-	m_actionColumnEditMode = new QAction("Column Edit Mode");
+	// m_actionColumnBlockEditing = new QAction("Column Block Editing");
+	// m_actionColumnEditMode = new QAction("Column Edit Mode");
 
 	m_menuEdit->addAction(m_actionUndo);
 	m_menuEdit->addAction(m_actionRedo);
@@ -196,15 +197,15 @@ void NotepadPP::__initMenu()
 
 	m_menuEdit->addSeparator();
 
-	m_menuEdit->addAction(m_actionOpenFile);
-	m_menuEdit->addAction(m_actionOpenInBin);
+	// m_menuEdit->addAction(m_actionOpenFile);
+	// m_menuEdit->addAction(m_actionOpenInBin);
 	m_menuEdit->addAction(m_menuBlankCharOperate->menuAction());
 	m_menuEdit->addAction(m_menuConvertCaseTo->menuAction());
 	m_menuEdit->addAction(m_menuLineOperations->menuAction());
 
-	m_menuEdit->addSeparator();
-	m_menuEdit->addAction(m_actionColumnBlockEditing);
-	m_menuEdit->addAction(m_actionColumnEditMode);
+	// m_menuEdit->addSeparator();
+	// m_menuEdit->addAction(m_actionColumnBlockEditing);
+	// m_menuEdit->addAction(m_actionColumnEditMode);
 
 	m_menuBar->addAction(m_menuEdit->menuAction());
 
@@ -932,6 +933,12 @@ void NotepadPP::closeTab(int index)
 		FileManager::getMgr()->deleteNewFileId(nNewFileIndex);
 	}
 
+	if (nNewFileIndex == -1)
+	{
+		addRecentFile(filepath);
+		// updateRecentFileMenu();
+	}
+
 	pEdit->deleteLater();
 }
 
@@ -1024,6 +1031,122 @@ bool NotepadPP::convertDocLineEnd(LineEnd lineEnd)
 		setLineEndBarLabelByLineEnd(lineEnd);
 	}
 	return true;
+}
+
+void NotepadPP::loadRecentFileFromConfig()
+{
+	QString configFile("./config/recentfile");
+	// 按行读取直接放入到m_recentFileList中
+	QFile file(configFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return; 
+	}
+
+	// utf-8格式读取一行一行
+	QTextStream in(&file);
+	while (!in.atEnd())
+	{
+		QString line = in.readLine();
+		m_recentOpenFileList.push_back(line);
+	}
+
+	updateRecentFileMenu();
+}
+
+void NotepadPP::addRecentFile(QString filepath)
+{
+	// 直接插入到最前边
+	m_recentOpenFileList.insert(m_recentOpenFileList.begin(), filepath);
+
+	// 移除重复的元素
+	for (auto iter = m_recentOpenFileList.begin(); iter != m_recentOpenFileList.end();)
+	{
+		if ( (*iter) == filepath && iter != m_recentOpenFileList.begin())
+		{
+			iter = m_recentOpenFileList.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+
+	// 最多保留10条记录
+	if (m_recentOpenFileList.size() > 10)
+	{
+		m_recentOpenFileList.pop_back();
+	}
+
+	updateRecentFileMenu();
+	saveRecentFileToConfig();
+}
+
+void NotepadPP::deleteRecentFile(QString filepath)
+{
+	for (auto iter = m_recentOpenFileList.begin(); iter != m_recentOpenFileList.end();)
+	{
+		if ( (*iter) == filepath)
+		{
+			iter = m_recentOpenFileList.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+
+	saveRecentFileToConfig();
+}
+
+bool NotepadPP::findRecentFile(QString filepath)
+{
+	for (auto iter = m_recentOpenFileList.begin(); iter != m_recentOpenFileList.end();)
+	{
+		if ( (*iter) == filepath)
+		{
+			iter = m_recentOpenFileList.erase(iter);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void NotepadPP::saveRecentFileToConfig()
+{
+	QString configFile("./config/recentfile");
+	QFile file(configFile);
+
+	// 删除该文件后再创建该文件
+	if (file.exists())
+	{
+		file.remove();
+	}
+
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		return;
+	}
+
+	QTextStream out(&file);
+	for (auto iter = m_recentOpenFileList.begin(); iter != m_recentOpenFileList.end(); iter++)
+	{
+		out << *iter << "\n";
+	}
+}
+
+void NotepadPP::updateRecentFileMenu()
+{
+	// 根据m_recentOpenFileList更新菜单
+	m_menuReceneFile->clear();
+	for (auto iter = m_recentOpenFileList.begin(); iter != m_recentOpenFileList.end(); iter++)
+	{
+		QAction* recentOpenFileAction = m_menuReceneFile->addAction(*iter);
+		recentOpenFileAction->setProperty("recentFilePath", *iter);
+		recentOpenFileAction->setText(*iter);
+		connect(recentOpenFileAction, &QAction::triggered, this, &NotepadPP::__onTriggerOpenRecentFile);
+	}
 }
 
 void NotepadPP::__onTriggerNewFile()
@@ -1130,6 +1253,18 @@ void NotepadPP::__onTriggerCloseAll()
 	{
 		closeTab(0);
 	} 
+}
+
+void NotepadPP::__onTriggerOpenRecentFile()
+{
+	QAction* action = dynamic_cast<QAction*>(sender());
+	if (action == nullptr)
+	{
+		return;
+	}
+
+	QString filepath = action->property("recentFilePath").toString();
+	openFile(filepath);
 }
 
 void NotepadPP::__onTriggerExit()
