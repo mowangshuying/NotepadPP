@@ -77,6 +77,10 @@ public slots:
     void __onTriggerConvertUnixLineEnd();
     void __onTriggerConvertMacLineEnd();
 
+    void __onTriggerRemoveHeadBlank();
+    void __onTriggerRemoveEndBlank();
+    void __onTriggerRemoveHeadEndBlank();
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);

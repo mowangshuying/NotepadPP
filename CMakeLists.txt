@@ -18,14 +18,26 @@ set(PROJECT_SOURCES
     src/App.cpp
     src/CompareMode.cpp
     src/CompareMode.h
+    src/DirFindPage.cpp
+    src/DirFindPage.h
     src/EnCode.cpp
     src/EnCode.h
     src/FileManager.cpp
     src/FileManager.h
+    src/FindDlg.cpp
+    src/FindDlg.h
+    src/FindPage.cpp
+    src/FindPage.h
+    src/MarkPage.cpp
+    src/MarkPage.h
     src/NotepadPP.cpp 
     src/NotePadPP.h
+    src/ReplacePage.cpp
+    src/ReplacePage.h
     src/ScintillaEditView.cpp
     src/ScintillaEditView.h
+    src/SettingsPage.cpp
+    src/SettingsPage.h
 )
 
 add_subdirectory("3rdparty")

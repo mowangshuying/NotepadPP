@@ -596,12 +596,12 @@ void NotepadPP::__initMenu()
 
 	// helpMenu
 	m_menuHelp = new QMenu("Help");
-	m_actionDonate = new QAction("Donate");
-	m_actionBugFix = new QAction("Fix Bug");
+	// m_actionDonate = new QAction("Donate");
+	// m_actionBugFix = new QAction("Fix Bug");
 	m_actionInfo = new QAction("About NotepadPP");
 
-	m_menuHelp->addAction(m_actionDonate);
-	m_menuHelp->addAction(m_actionBugFix);
+	// m_menuHelp->addAction(m_actionDonate);
+	// m_menuHelp->addAction(m_actionBugFix);
 	m_menuHelp->addAction(m_actionInfo);
 	m_menuBar->addAction(m_menuHelp->menuAction());
 }
@@ -1198,6 +1198,18 @@ void NotepadPP::__onTriggerConvertUnixLineEnd()
 void NotepadPP::__onTriggerConvertMacLineEnd()
 {
 	convertDocLineEnd(LineEnd::Mac);
+}
+
+void NotepadPP::__onTriggerRemoveHeadBlank()
+{
+}
+
+void NotepadPP::__onTriggerRemoveEndBlank()
+{
+}
+
+void NotepadPP::__onTriggerRemoveHeadEndBlank()
+{
 }
 
 void NotepadPP::__onTextChanged()
