@@ -4,14 +4,17 @@ on:
     paths:
       - "*.cpp"
       - "*.h"
+      - "src/*"
+      - "src/*"
       - "CMakeLists.txt"
-      - "*.ui"
       - "3rdparty/**"
       - '.github/workflows/Windows-Qt6.5.1.yml'
   pull_request:
     paths:
       - "*.cpp"
       - "*.h"
+      - "src/*"
+      - "src/*"
       - "CMakeLists.txt"
       - "*.ui"
       - "3rdparty/**"
