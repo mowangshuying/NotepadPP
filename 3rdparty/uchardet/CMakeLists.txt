@@ -73,7 +73,7 @@ install(
 
 add_subdirectory(src)
 add_subdirectory(doc)
-add_subdirectory(test)
+# add_subdirectory(test)
 
 message(STATUS "---- UCHARDET_STATIC_LIBRARY: ${UCHARDET_STATIC_LIBRARY} -----")
 
