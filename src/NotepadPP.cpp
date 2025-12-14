@@ -654,6 +654,7 @@ void NotepadPP::__connect()
 	connect(m_actionSaveAs, &QAction::triggered, this, &NotepadPP::__onTriggerSaveAs);
 	connect(m_actionClose, &QAction::triggered, this, &NotepadPP::__onTriggerClose);
 	connect(m_actionCloseAll, &QAction::triggered, this, &NotepadPP::__onTriggerCloseAll);
+	connect(m_actionClearHistory, &QAction::triggered, this, &NotepadPP::__onTriggerClearHistory);
 	connect(m_actionExit, &QAction::triggered, this, &NotepadPP::__onTriggerExit);
 
 	connect(m_actionUndo, &QAction::triggered, this, &NotepadPP::__onTriggerUndo);
@@ -1253,6 +1254,13 @@ void NotepadPP::__onTriggerCloseAll()
 	{
 		closeTab(0);
 	} 
+}
+
+void NotepadPP::__onTriggerClearHistory()
+{
+	m_recentOpenFileList.clear();
+	updateRecentFileMenu();
+	saveRecentFileToConfig();
 }
 
 void NotepadPP::__onTriggerOpenRecentFile()

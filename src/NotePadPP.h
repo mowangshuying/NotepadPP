@@ -71,6 +71,7 @@ public slots:
     void __onTriggerClose();
     void __onTriggerCloseAll();
 
+    void __onTriggerClearHistory();
     void __onTriggerOpenRecentFile();
 
     void __onTriggerExit();
