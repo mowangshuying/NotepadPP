@@ -225,8 +225,14 @@ void NotepadPP::__initMenu()
 
 	m_menuDisplaySymbols = new QMenu("Display Symbols");
 	m_actionShowSpaces = new QAction("Show Spaces");
+	m_actionShowSpaces->setCheckable(true);
+
 	m_actionShowEndOfLine = new QAction("Show End Of Line");
+	m_actionShowEndOfLine->setCheckable(true);
+
 	m_actionShowAll = new QAction("Show All");
+	m_actionShowAll->setCheckable(true);
+
 	m_menuDisplaySymbols->addAction(m_actionShowSpaces);
 	m_menuDisplaySymbols->addAction(m_actionShowEndOfLine);
 	m_menuDisplaySymbols->addAction(m_actionShowAll);
@@ -656,6 +662,10 @@ void NotepadPP::__connect()
 	connect(m_actionPaste, &QAction::triggered, this, &NotepadPP::__onTriggerPaste);
 
 	connect(m_actionSelectAll, &QAction::triggered, this, &NotepadPP::__onTriggerSelectAll);
+
+	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
+	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
+	connect(m_actionShowAll, &QAction::toggled, this, &NotepadPP::__onTriggerShowAll);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
@@ -1210,6 +1220,65 @@ void NotepadPP::__onTriggerRemoveEndBlank()
 
 void NotepadPP::__onTriggerRemoveHeadEndBlank()
 {
+}
+
+void NotepadPP::__onTriggerShowSpaces(bool bChecked)
+{
+	QsciScintilla::WhitespaceVisibility mode;
+	if (bChecked)
+	{
+		// m_bShowSpaces = true;
+		mode = QsciScintilla::WsVisible;
+		
+	}
+	else
+	{
+		// m_bShowSpaces = false;
+		mode = QsciScintilla::WsInvisible;
+	}
+
+	for (int i = 0; i < m_editTabWidget->count(); i++)
+	{
+		auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
+		pEditView->setWhitespaceVisibility(mode);
+		pEditView->setEolVisibility(false);
+	}
+}
+
+void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
+{
+	for (int i = 0; i < m_editTabWidget->count(); i++)
+	{
+		auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
+		pEditView->setWhitespaceVisibility(QsciScintilla::WsInvisible);
+		pEditView->setEolVisibility(bChecked);
+	}
+}
+
+void NotepadPP::__onTriggerShowAll(bool bChecked)
+{
+	QsciScintilla::WhitespaceVisibility mode;
+	bool bShowLineEnd;
+	if (bChecked)
+	{
+		// m_bShowSpaces = true;
+		mode = QsciScintilla::WsVisible;
+		bShowLineEnd = true;
+		
+	}
+	else
+	{
+		// m_bShowSpaces = false;
+		mode = QsciScintilla::WsInvisible;
+		bShowLineEnd = false;
+	}
+
+	for (int i = 0; i < m_editTabWidget->count(); i++)
+	{
+		auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
+		pEditView->setWhitespaceVisibility(mode);
+		pEditView->setEolVisibility(bShowLineEnd);
+	}
 }
 
 void NotepadPP::__onTextChanged()

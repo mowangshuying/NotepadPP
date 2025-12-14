@@ -81,6 +81,10 @@ public slots:
     void __onTriggerRemoveEndBlank();
     void __onTriggerRemoveHeadEndBlank();
 
+    void __onTriggerShowSpaces(bool bChecked);
+    void __onTriggerShowLineEnd(bool bChecked);
+    void __onTriggerShowAll(bool bChecked);
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);
@@ -370,5 +374,7 @@ protected:
 
 protected:
     int m_nZoomValue;
+    // bool m_bShowSpaces;
+    // bool m_bShowLineEnd;
 };
 
