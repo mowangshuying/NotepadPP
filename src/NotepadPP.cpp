@@ -8,6 +8,9 @@
 #include "EnCode.h"
 #include "AboutNotePP.h"
 #include <QTextCodec>
+// #include <Qsci/qscilexer.h>
+// #include <Qsci/qsciglobal.h>
+#include <SciLexer.h>
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
 	__initUi();
@@ -269,6 +272,11 @@ void NotepadPP::__initMenu()
 
 	m_menuA = new QMenu("A");
 	m_actionASP = new QAction("ASP");
+	m_actionASP->setProperty("Suffix", "asp");
+	m_actionASP->setProperty("LexerId", SCLEX_HTML);
+	m_actionASP->setProperty("description", "Active Server Pages script file");
+
+
 	m_actionActionScript = new QAction("ActionScript");
 	m_actionAssembly = new QAction("Assembly");
 	m_actionAutoIt = new QAction("AutoIt");
@@ -296,7 +304,11 @@ void NotepadPP::__initMenu()
 
 	m_menuC = new QMenu("C");
 	m_actionC = new QAction("C");
+	
 	m_actionCPP = new QAction("C++");
+	m_actionCPP->setProperty("Suffix", "cpp");
+	m_actionCPP->setProperty("LexerId", SCLEX_CPP);
+
 	m_actionCShape = new QAction("C#");
 	m_actionObjectiveC = new QAction("Objective-C");
 	m_actionCss = new QAction("CSS");
@@ -671,6 +683,8 @@ void NotepadPP::__connect()
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
 	connect(m_actionShowAll, &QAction::toggled, this, &NotepadPP::__onTriggerShowAll);
+
+	connect(m_menuLanguage, &QMenu::triggered, this, &NotepadPP::__onTriggerLexerLanguage);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
@@ -1425,6 +1439,11 @@ void NotepadPP::__onTriggerShowAll(bool bChecked)
 		pEditView->setWhitespaceVisibility(mode);
 		pEditView->setEolVisibility(bShowLineEnd);
 	}
+}
+
+void NotepadPP::__onTriggerLexerLanguage(QAction *action)
+{
+	
 }
 
 void NotepadPP::__onTextChanged()

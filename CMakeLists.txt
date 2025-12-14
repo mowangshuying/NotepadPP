@@ -45,7 +45,7 @@ set(PROJECT_SOURCES
 )
 
 add_subdirectory("3rdparty")
-add_subdirectory("example")
+# add_subdirectory("example")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(NotePadPP

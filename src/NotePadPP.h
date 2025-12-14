@@ -98,6 +98,8 @@ public slots:
     void __onTriggerShowLineEnd(bool bChecked);
     void __onTriggerShowAll(bool bChecked);
 
+    void __onTriggerLexerLanguage(QAction* action);
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);

@@ -4,6 +4,7 @@
 // #include <Scintilla.h>
 #include <Qsci/qsciscintilla.h>
 #include <Scintilla.h>
+#include <Qsci/qscilexer.h>
 
 #include <QDebug>
 
@@ -49,6 +50,8 @@ public:
 	void updateFoldWidth(int nWidth);
 
 	void setTabWidth(int nWidth);
+
+	QsciLexer* makeLexerByName(QString lexerName);
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;
