@@ -468,7 +468,7 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
 	enableEditTextChangeSign(pEdit);
 
 	// add tab;
-    int nCurTabIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), filename);
+    int nCurTabIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), getFileNameByPath(filename));
 	pEdit->setProperty("NewFileIndex", nIndex);
 	pEdit->setProperty("FilePath", filename);
 	pEdit->setProperty("TextChanged", false);
@@ -523,7 +523,7 @@ void NotepadPP::openTextFile(QString filepath)
 	CodeId cid = CodeId::UNKNOWN;
 	LineEnd lineEnd = LineEnd::Unknown;
 	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, lineEnd);
-	int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), filepath);
+	int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), getFileNameByPath(filepath));
 	m_editTabWidget->setCurrentIndex(nCurIndex);
 
 	// enable text change sign
@@ -1017,6 +1017,11 @@ void NotepadPP::updateRecentFileMenu()
 		recentOpenFileAction->setText(*iter);
 		connect(recentOpenFileAction, &QAction::triggered, this, &NotepadPP::__onTriggerOpenRecentFile);
 	}
+}
+
+QString NotepadPP::getFileNameByPath(QString filepath)
+{
+	return QFileInfo(filepath).fileName();
 }
 
 void NotepadPP::__onTriggerNewFile()

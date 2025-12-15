@@ -67,6 +67,9 @@ public:
     bool findRecentFile(QString filepath);
     void saveRecentFileToConfig();
     void updateRecentFileMenu();
+
+    // 获取文件名, 根据文件路径
+    QString getFileNameByPath(QString filepath);
     
 public slots:
     void __onTriggerNewFile();
