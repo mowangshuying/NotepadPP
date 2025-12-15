@@ -36,8 +36,10 @@ public:
     void reopenTextFileByCodeId(QString filepath, CodeId cid);
 
     void saveTabEdit(int nIndex);
+    void saveTabEditByCodeId(int nIndex, CodeId cid);
 
     void saveFile(QString filename, ScintillaEditView* pEditView);
+    void saveFileByCodeId(QString filename, ScintillaEditView *pEditView, CodeId cid);
 
 	//打开监控文件修改的信号
 	void enableEditTextChangeSign(ScintillaEditView* pEdit);

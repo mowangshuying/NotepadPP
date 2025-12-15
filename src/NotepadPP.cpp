@@ -623,6 +623,34 @@ void NotepadPP::saveTabEdit(int nIndex)
 	enableEditTextChangeSign(pEdit);
 }
 
+void NotepadPP::saveTabEditByCodeId(int nIndex, CodeId cid)
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(nIndex));
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+
+	int nNewFileIndex = pEdit->property("NewFileIndex").toInt();
+	if (nNewFileIndex >= 0)
+	{
+		return;
+	}
+
+	QString filepath = pEdit->property("FilePath").toString();
+	if (filepath.isEmpty())
+	{
+		return;
+	}
+
+	saveFileByCodeId(filepath, pEdit, cid);
+	pEdit->setProperty("TextChanged", false);
+	pEdit->setProperty("CodeId", (int)cid);
+	setCodeBarLabelByCodeId(cid);
+	m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imgs/noneedsave.png"));
+	enableEditTextChangeSign(pEdit);
+}
+
 void NotepadPP::saveFile(QString filename, ScintillaEditView *pEditView)
 {
 	QFile srcFile(filename);
@@ -674,6 +702,61 @@ void NotepadPP::saveFile(QString filename, ScintillaEditView *pEditView)
 	srcFile.close();
 	return;
 }
+
+void NotepadPP::saveFileByCodeId(QString filename, ScintillaEditView *pEditView, CodeId cid)
+{
+	QFile srcFile(filename);
+
+	bool bNewFile = true;
+	if (srcFile.exists())
+	{
+		QFlags<QFileDevice::Permission> power = QFile::permissions(filename);
+		if (!power.testFlag(QFile::WriteUser))
+		{
+			m_statusBar->showMessage(tr("No write permission for file %1").arg(filename), 8000);
+			return;
+		}
+		bNewFile = false;
+	}
+
+	/// save work;
+	if (!srcFile.open(QIODevice::ReadWrite | QIODevice::Truncate))
+	{
+		m_statusBar->showMessage(tr("Open file %1 failed for write.").arg(filename), 8000);
+		return;
+	}
+
+	QString textout = pEditView->text();
+	if (textout.isEmpty())
+	{
+		return;
+	}
+
+	// CodeId cid = (CodeId)pEditView->property("CodeId").toInt();
+	// 写入cid
+	// pEditView->setProperty("CodeId", (int)cid);
+	QString codeName = EnCode::getQtCodecNameById(cid);
+
+	// 是否带BOM
+	// bool bWithBOM = false;
+	if (cid == CodeId::UTF_8BOM || cid == CodeId::UTF_16BEBOM || cid == CodeId::UTF_16LEBOM)
+	{
+		// bWithBOM = true;
+		QByteArray bom = EnCode::getStartFlagByCodeId(cid);
+		if (!bom.isEmpty())
+		{
+			srcFile.write(bom);
+		}
+	}
+
+	QTextCodec::setCodecForLocale(QTextCodec::codecForName(codeName.toStdString().c_str()));
+	
+	QByteArray text = textout.toUtf8();
+	srcFile.write(text);
+	srcFile.close();
+	return;
+}
+
 
 void NotepadPP::enableEditTextChangeSign(ScintillaEditView* pEdit)
 {
@@ -1218,6 +1301,9 @@ void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 
 void NotepadPP::__onTriggerSaveWithEncoding(QAction *action)
 {
+	CodeId cid = action->property("CodeId").value<CodeId>();
+	int nIndex = m_editTabWidget->currentIndex();
+	saveTabEditByCodeId(nIndex, cid);
 }
 
 void NotepadPP::__onTextChanged()
