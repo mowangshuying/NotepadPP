@@ -289,6 +289,7 @@ protected:
 
 protected:
     int m_nZoomValue;
+    bool m_bShowEndofLine;
     // bool m_bShowSpaces;
     // bool m_bShowLineEnd;
 

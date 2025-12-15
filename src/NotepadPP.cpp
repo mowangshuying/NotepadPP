@@ -12,7 +12,7 @@
 // #include <Qsci/qsciglobal.h>
 #include <SciLexer.h>
 #include "StyleSheetUtils.h"
-NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
+NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0), m_bShowEndofLine(false)
 {
 	__initUi();
 	__connect();
@@ -520,6 +520,8 @@ void NotepadPP::openTextFile(QString filepath)
 	auto pEdit = FileManager::getMgr()->newEmptyDocument();
 	pEdit->setNoteWidget(this);
 	pEdit->setLexerByFilePath(filepath);
+	pEdit->setEolVisibility(m_bShowEndofLine);
+
 
 	CodeId cid = CodeId::UNKNOWN;
 	LineEnd lineEnd = LineEnd::Unknown;
@@ -1275,6 +1277,7 @@ void NotepadPP::__onTriggerShowSpaces(bool bChecked)
 
 void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
 {
+	m_bShowEndofLine = bChecked;
 	for (int i = 0; i < m_editTabWidget->count(); i++)
 	{
 		auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(i));
