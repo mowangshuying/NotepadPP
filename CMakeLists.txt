@@ -42,6 +42,8 @@ set(PROJECT_SOURCES
     src/ScintillaEditView.h
     src/SettingsPage.cpp
     src/SettingsPage.h
+    src/StyleSheetUtils.cpp
+    src/StyleSheetUtils.h
 )
 
 add_subdirectory("3rdparty")

@@ -11,6 +11,7 @@
 // #include <Qsci/qscilexer.h>
 // #include <Qsci/qsciglobal.h>
 #include <SciLexer.h>
+#include "StyleSheetUtils.h"
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0)
 {
 	__initUi();
@@ -30,6 +31,10 @@ void NotepadPP::__initUi()
 	contentWidget->setLayout(m_horizontalLayout);
 
 	m_editTabWidget = new QTabWidget(this);
+	m_editTabWidget->setObjectName("editTabWidget");
+	StyleSheetUtils::setQssByFileName(m_editTabWidget, "./res/StyleSheet/TabWidget.qss");
+
+
 	m_editTabWidget->setIconSize(QSize(22, 22));
 	m_editTabWidget->setTabsClosable(true);
 	m_editTabWidget->setMovable(true);
@@ -41,6 +46,7 @@ void NotepadPP::__initUi()
     //setStatusBar(m_statusBar);
 	__initStatusBar();
 
+	// StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/NotepadPP.qss");
 	resize(1000, 800);
 }
 
@@ -244,26 +250,26 @@ void NotepadPP::__initMenu()
 
 	m_actionSearchResult = new QAction("Search Result");
 
-	m_menuIconSize = new QMenu("Icon Size");
-	m_action24 = new QAction("24x24");
-	m_action36 = new QAction("36x36");
-	m_action48 = new QAction("48x48");
-	m_menuIconSize->addAction(m_action24);
-	m_menuIconSize->addAction(m_action36);
-	m_menuIconSize->addAction(m_action48);
+	// m_menuIconSize = new QMenu("Icon Size");
+	// m_action24 = new QAction("24x24");
+	// m_action36 = new QAction("36x36");
+	// m_action48 = new QAction("48x48");
+	// m_menuIconSize->addAction(m_action24);
+	// m_menuIconSize->addAction(m_action36);
+	// m_menuIconSize->addAction(m_action48);
 
-	m_actionWrap = new QAction("Wrap");
+	// m_actionWrap = new QAction("Wrap");
 	m_actionFileListView = new QAction("FileListView");
-	m_actionShowToolBar = new QAction("Show ToolBar");
-	m_actionShowWebAddr = new QAction("Show WebAddr");
+	// m_actionShowToolBar = new QAction("Show ToolBar");
+	// m_actionShowWebAddr = new QAction("Show WebAddr");
 
 	m_menuView->addAction(m_menuDisplaySymbols->menuAction());
 	m_menuView->addAction(m_actionSearchResult);
-	m_menuView->addAction(m_menuIconSize->menuAction());
-	m_menuView->addAction(m_actionWrap);
+	// m_menuView->addAction(m_menuIconSize->menuAction());
+	// m_menuView->addAction(m_actionWrap);
 	m_menuView->addAction(m_actionFileListView);
-	m_menuView->addAction(m_actionShowToolBar);
-	m_menuView->addAction(m_actionShowWebAddr);
+	// m_menuView->addAction(m_actionShowToolBar);
+	// m_menuView->addAction(m_actionShowWebAddr);
 
 	m_menuBar->addAction(m_menuView->menuAction());
 
@@ -351,6 +357,7 @@ void NotepadPP::__initEncodingMenu()
 void NotepadPP::__initStatusBar()
 {
 	m_statusBar = new QStatusBar(this);
+	m_statusBar->setFixedHeight(20);
 	//setStatusBar(m_statusBar);
 
 	m_codeNameLabel = new QLabel("");

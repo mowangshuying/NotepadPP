@@ -163,7 +163,7 @@ protected:
     QAction* m_actionRemoveEndBlank;
     QAction* m_actionRemoveHeadEndBlank;
     QAction* m_actionColumnBlockEditing;
-    QAction* m_actionWrap;
+    // QAction* m_actionWrap;
     QAction* m_actionDefineLanguage;
     QAction* m_actionUpperCase;
     QAction* m_actionLowerCase;
@@ -209,9 +209,9 @@ protected:
     QAction* m_actionBlue;
     QAction* m_actionBig5;
     QAction* m_actionToBig5;
-    QAction* m_action24;
-    QAction* m_action36;
-    QAction* m_action48;
+    // QAction* m_action24;
+    // QAction* m_action36;
+    // QAction* m_action48;
     QAction* m_actionInfo;
     QAction* m_action1;
     QAction* m_actionFormatXml;
@@ -226,9 +226,9 @@ protected:
     QAction* loopColor;
     QAction* m_actionClearHistory;
     QAction* m_actionFileListView;
-    QAction* m_actionShowToolBar;
+    // QAction* m_actionShowToolBar;
     QAction* m_actionBatchFind;
-    QAction* m_actionShowWebAddr;
+    // QAction* m_actionShowWebAddr;
     QAction* m_actionLanguageFileSuffix;
     QAction* m_actionShortcutKeyManager;
     QAction* m_actionR2;
@@ -251,7 +251,7 @@ protected:
     QMenu* m_menuMarkColor;
     QMenu* m_menuView;
     QMenu* m_menuDisplaySymbols;
-    QMenu* m_menuIconSize;
+    // QMenu* m_menuIconSize;
     
     QMenu* m_menuEncoding;
 

@@ -48,6 +48,7 @@
 // #include <Qsci/qscilexerrust.h>
 // #include <Qsci/qscilexervb.h>
 #include <Qsci/qscilexerasm.h>
+#include "StyleSheetUtils.h"
 
 
 void ScintillaEditView::__init()
@@ -95,6 +96,8 @@ void ScintillaEditView::__init()
 
 	// 开启后保证长行在滚动条下完整显示
 	execute(SCI_SETSCROLLWIDTHTRACKING, true);
+	setFrameStyle(QFrame::Panel);
+	StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/ScintillaEditView.qss");
 }
 
 void ScintillaEditView::setNoteWidget(QWidget* pNoteWidget)
