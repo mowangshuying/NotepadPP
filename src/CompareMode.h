@@ -31,7 +31,15 @@ public:
     ~CompareMode() {}
 public:
     static CodeId getTextFileCodeId(uchar* fileFpr, int fileLength, QString filepath);
-    static CodeId scanFileOutput(CodeId& cid, QString filepath, std::vector<FileLineInfo>& lineInfoVct, int& nMaxLineSize, int& charNums);
+    
+    // 自适应匹配codeid
+    static CodeId scanFileOutput(CodeId& cid, QString filepath,
+        std::vector<FileLineInfo>& lineInfoVct, int& nMaxLineSize, int& charNums);
+    
+        // 指定codeid去打开文件;
+    static CodeId scanFileOutputByCodeId(CodeId cid, QString filepath,
+        std::vector<FileLineInfo>& lineInfoVct, int& nMaxLineSize, int& charNums);
+
     static CodeId readLineFromFile(uchar* fileptr, const int fileLength, 
         const CodeId cid, std::vector<FileLineInfo>& lineInfoVct, int &nMaxLineSize, int& charNums);
 

@@ -98,3 +98,36 @@ int FileManager::loadFileDataInText(ScintillaEditView *pEditView, QString filepa
 
     return 0;
 }
+
+int FileManager::loadFileDataByCodeId(ScintillaEditView *pEditView, QString filepath, CodeId cid, LineEnd lineEnd)
+{
+    QFile file(filepath);
+	if (!file.exists())
+	{
+		return -1;
+	}
+
+	QIODevice::OpenMode mode = QIODevice::ReadOnly | QIODevice::ExistingOnly;
+	if (!file.open(mode))
+	{
+		return -1;
+	}
+
+
+	std::vector<FileLineInfo> lineInfoVct;
+	int nMaxLineSize = 0;
+	int nCharNums = 0;
+	CompareMode::scanFileOutputByCodeId(cid, filepath, lineInfoVct,  nMaxLineSize, nCharNums);
+
+	QString text;
+	for (auto it = lineInfoVct.begin(); it != lineInfoVct.end(); it++)
+	{
+		text.append(it->unicodeStr);
+	}
+
+	file.close();
+
+	pEditView->setText(text);
+
+    return 0;
+}

@@ -407,7 +407,8 @@ void NotepadPP::__connect()
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
 	connect(m_actionShowAll, &QAction::toggled, this, &NotepadPP::__onTriggerShowAll);
 
-	connect(m_menuLanguage, &QMenu::triggered, this, &NotepadPP::__onTriggerLexerLanguage);
+	connect(m_menuReopenWithEncoding, &QMenu::triggered, this, &NotepadPP::__onTriggerReopenWithEncoding);
+	connect(m_menuSaveWithEncoding, &QMenu::triggered, this, &NotepadPP::__onTriggerSaveWithEncoding);
 
 	connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 }
@@ -519,10 +520,10 @@ void NotepadPP::openTextFile(QString filepath)
 	// show code id;
 	setCodeBarLabelByCodeId(cid);
 	// show line end;
-	setLineEndBarLabelByLineEnd(LineEnd::Dos);
+	setLineEndBarLabelByLineEnd(lineEnd);
 
 	// set line end;
-	pEdit->setProperty("LineEnd", (int)LineEnd::Unknown);
+	pEdit->setProperty("LineEnd", (int)lineEnd);
 	// set filepath;
 	pEdit->setProperty("FilePath", filepath);
 	// set Tab Tool tip;
@@ -536,6 +537,42 @@ void NotepadPP::openTextFile(QString filepath)
 
 	// zoom value changed;
 	// connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+}
+
+void NotepadPP::reopenTextFileByCodeId(QString filepath, CodeId cid)
+{
+	filepath = getRegularFilePath(filepath);
+	int nTabIndex = findFileIsOpenAtPad(filepath);
+	if (nTabIndex < 0)
+	{
+		return;
+	}
+
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->widget(nTabIndex));
+
+	LineEnd lineEnd = LineEnd::Unknown;
+	FileManager::getMgr()->loadFileDataByCodeId(pEdit, filepath, cid, lineEnd);
+	m_editTabWidget->setCurrentIndex(nTabIndex);
+	// enable text change sign
+	enableEditTextChangeSign(pEdit);
+
+	// show code id;
+	setCodeBarLabelByCodeId(cid);
+	// show line end;
+	setLineEndBarLabelByLineEnd(lineEnd);
+
+	// set line end;
+	pEdit->setProperty("LineEnd", (int)lineEnd);
+	// set filepath;
+	pEdit->setProperty("FilePath", filepath);
+	// set Tab Tool tip;
+	m_editTabWidget->setTabToolTip(nTabIndex, filepath);
+	// set new file index;
+	pEdit->setProperty("NewFileIndex", -1);
+	// set motify flag
+	pEdit->setProperty("TextChanged", false);
+	// set code id;
+	pEdit->setProperty("CodeId", (int)cid);
 }
 
 void NotepadPP::saveTabEdit(int nIndex)
@@ -1163,10 +1200,24 @@ void NotepadPP::__onTriggerShowAll(bool bChecked)
 		pEditView->setEolVisibility(bShowLineEnd);
 	}
 }
-
-void NotepadPP::__onTriggerLexerLanguage(QAction *action)
+void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {
-	
+	qDebug() << "NotepadPP::__onTriggerReopenWithEncoding";
+	CodeId cid = action->property("CodeId").value<CodeId>();
+	// 获取当前edit
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	int nNewFileIndex = pEdit->property("NewFileIndex").value<int>();
+	if (nNewFileIndex != -1)
+	{
+		return;
+	}
+
+	QString filepath = pEdit->property("FilePath").value<QString>();
+	reopenTextFileByCodeId(filepath, cid);
+}
+
+void NotepadPP::__onTriggerSaveWithEncoding(QAction *action)
+{
 }
 
 void NotepadPP::__onTextChanged()

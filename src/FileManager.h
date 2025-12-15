@@ -56,6 +56,7 @@ public:
 	void deleteNewFileId(int nIndex);
 
 	int loadFileDataInText(ScintillaEditView* pEditView, QString filepath, CodeId& cid, LineEnd lineEnd);
+	int loadFileDataByCodeId(ScintillaEditView* pEditView, QString filepath, CodeId cid, LineEnd lineEnd);
 protected:
 	std::vector<NewFileId> m_newFileidList;
 };

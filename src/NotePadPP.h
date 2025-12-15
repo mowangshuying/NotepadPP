@@ -33,6 +33,7 @@ public:
     void openFile(QString filename);
 
     void openTextFile(QString filepath);
+    void reopenTextFileByCodeId(QString filepath, CodeId cid);
 
     void saveTabEdit(int nIndex);
 
@@ -100,7 +101,8 @@ public slots:
     void __onTriggerShowLineEnd(bool bChecked);
     void __onTriggerShowAll(bool bChecked);
 
-    void __onTriggerLexerLanguage(QAction* action);
+    void __onTriggerReopenWithEncoding(QAction* action);
+    void __onTriggerSaveWithEncoding(QAction* action);
 
     void __onTextChanged();
     void __onZoomValueChange();

@@ -64,6 +64,24 @@ CodeId CompareMode::scanFileOutput(CodeId& cid, QString filepath, std::vector<Fi
     return cid;
 }
 
+CodeId CompareMode::scanFileOutputByCodeId(CodeId cid, QString filepath, std::vector<FileLineInfo> &lineInfoVct, int &nMaxLineSize, int &charNums)
+{
+    QFile* file = new QFile(filepath);
+    if (!file->open(QIODevice::ReadOnly))
+    {
+        return cid;
+    }
+
+    uchar* fileptr = (uchar*)file->map(0, file->size());
+    readLineFromFile(fileptr, file->size(), cid, lineInfoVct, nMaxLineSize, charNums);
+
+    file->unmap(fileptr);
+    file->close();
+    delete file;
+
+    return cid;
+}
+
 CodeId CompareMode::readLineFromFile(uchar *fileptr, const int fileLength, const CodeId cid, std::vector<FileLineInfo> &lineInfoVct, int &nMaxLineSize, int &charNums)
 {
     int nStartPos = 0;
@@ -203,10 +221,20 @@ bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int f
         }
         else if (ch == 0x0A)
         {
-            nLineLen += 1;
-            bytes.append((char*)(fileptr + nStartPos), nLineLen);
-            nStartPos += nLineLen;
-            bFindLine = true;
+            if (cid == CodeId::UTF_16LE || cid == CodeId::UTF_16LEBOM)// 十分特殊情况utf16LE编码却是以 0x0a 和 0x00结尾
+            {
+				nLineLen += 2;
+				bytes.append((char*)(fileptr + nStartPos), nLineLen);
+				nStartPos += nLineLen;
+				bFindLine = true;
+            }
+            else
+            {
+				nLineLen += 1;
+				bytes.append((char*)(fileptr + nStartPos), nLineLen);
+				nStartPos += nLineLen;
+				bFindLine = true;
+            }
             break;
         }
     }
