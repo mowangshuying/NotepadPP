@@ -519,10 +519,18 @@ void NotepadPP::openTextFile(QString filepath)
 	filepath = getRegularFilePath(filepath);
 	auto pEdit = FileManager::getMgr()->newEmptyDocument();
 	pEdit->setNoteWidget(this);
+	pEdit->setLexerByFilePath(filepath);
 
 	CodeId cid = CodeId::UNKNOWN;
 	LineEnd lineEnd = LineEnd::Unknown;
 	FileManager::getMgr()->loadFileDataInText(pEdit, filepath, cid, lineEnd);
+
+		// 去除该宏定义，该宏和函数SCN_ZOOM冲突
+#ifdef SCN_ZOOM
+#undef SCN_ZOOM
+#endif
+	connect(pEdit, &ScintillaEditView::SCN_ZOOM, this, &NotepadPP::__onZoomValueChange);
+
 	int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), getFileNameByPath(filepath));
 	m_editTabWidget->setCurrentIndex(nCurIndex);
 

@@ -1,4 +1,4 @@
-#include "ScintillaEditView.h"
+﻿#include "ScintillaEditView.h"
 #include <Qsci/qscilexerpython.h>
 #include <Qsci/qscilexerasm.h>
 #include <Qsci/qscilexerbash.h>
@@ -49,6 +49,7 @@
 // #include <Qsci/qscilexervb.h>
 #include <Qsci/qscilexerasm.h>
 #include "StyleSheetUtils.h"
+#include <QFileInfo>
 
 
 void ScintillaEditView::__init()
@@ -334,4 +335,12 @@ QsciLexer* ScintillaEditView::makeLexerByName(QString lexerName)
 		return lexer;
 	}
 	return lexer;
+}
+
+void ScintillaEditView::setLexerByFilePath(QString filepath)
+{
+	QFileInfo fileinfo(filepath);
+	QString suffixName = fileinfo.suffix();
+	auto lexer = makeLexerByName(suffixName);
+	setLexer(lexer);
 }

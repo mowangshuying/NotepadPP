@@ -53,6 +53,8 @@ public:
 	void setTabWidth(int nWidth);
 
 	QsciLexer* makeLexerByName(QString lexerName);
+
+	void setLexerByFilePath(QString filepath);
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;
