@@ -457,7 +457,12 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
 		return;
     }
 
-	connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
+	// 去除该宏定义，该宏和函数SCN_ZOOM冲突
+#ifdef SCN_ZOOM
+	#undef SCN_ZOOM
+#endif
+
+	connect(pEdit, &ScintillaEditView::SCN_ZOOM, this, &NotepadPP::__onZoomValueChange);
 
 	// enable text change sign
 	enableEditTextChangeSign(pEdit);

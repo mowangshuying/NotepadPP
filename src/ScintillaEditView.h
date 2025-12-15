@@ -2,6 +2,7 @@
 
 //#include <Qsci/qsciscintilla.h>
 // #include <Scintilla.h>
+// #include <Scintilla.h>
 #include <Qsci/qsciscintilla.h>
 #include <Scintilla.h>
 #include <Qsci/qscilexer.h>
