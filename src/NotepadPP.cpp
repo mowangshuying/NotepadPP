@@ -269,30 +269,14 @@ void NotepadPP::__initMenu()
 
 	// EnCoding
 	m_menuEncoding = new QMenu("Encoding");
-	// gbk utf8 utf8bom 
-	m_actionEncodeInGBK = new QAction("GBK");
-	m_actionEncodeInUft8 = new QAction("UTF-8");
-	m_actionEncodeInUTF8BOM = new QAction("UTF-8 BOM");
-	m_actionEncodeInUCSBEBOM = new QAction("UCS-BE BOM");
-	m_actionEncodeInUCS2LEBOM = new QAction("UCS-2 LE BOM");
+	m_menuReopenWithEncoding = new QMenu("Reopen With Encoding");
+	m_menuSaveWithEncoding = new QMenu("Save With Encoding");
 
-	m_actionConvertToGBK = new QAction("Convert To GBK");
-	m_actionConvertToUTF8 = new QAction("Convert To UTF-8");
-	m_actionConvertToUTF8BOM = new QAction("Convert To UTF-8 BOM");
-	m_actionConvertToUCS2BEBOM = new QAction("Convert To UCS-BE BOM");
-	m_actionConvertToUCS2LEBOM = new QAction("Convert To UCS-2 LE BOM");
 
-	m_menuEncoding->addAction(m_actionEncodeInGBK);
-	m_menuEncoding->addAction(m_actionEncodeInUft8);
-	m_menuEncoding->addAction(m_actionEncodeInUTF8BOM);
-	m_menuEncoding->addAction(m_actionEncodeInUCSBEBOM);
-	m_menuEncoding->addAction(m_actionEncodeInUCS2LEBOM);
-	m_menuEncoding->addSeparator();
-	m_menuEncoding->addAction(m_actionConvertToGBK);
-	m_menuEncoding->addAction(m_actionConvertToUTF8);
-	m_menuEncoding->addAction(m_actionConvertToUTF8BOM);
-	m_menuEncoding->addAction(m_actionConvertToUCS2BEBOM);
-	m_menuEncoding->addAction(m_actionConvertToUCS2LEBOM);
+	__initEncodingMenu();
+
+	m_menuEncoding->addAction(m_menuReopenWithEncoding->menuAction());
+	m_menuEncoding->addAction(m_menuSaveWithEncoding->menuAction());
 	m_menuBar->addAction(m_menuEncoding->menuAction());
 
 	// set menu
@@ -344,6 +328,24 @@ void NotepadPP::__initMenu()
 	// m_menuHelp->addAction(m_actionBugFix);
 	m_menuHelp->addAction(m_actionInfo);
 	m_menuBar->addAction(m_menuHelp->menuAction());
+}
+
+void NotepadPP::__initEncodingMenu()
+{
+	std::vector<QString> codecNames = EnCode::getAllCodecNames();
+	for (auto name : codecNames)
+	{
+		QAction* action = new QAction(name, this);
+		action->setProperty("CodeId", (int)EnCode::getCodeIdByName(name));
+		m_menuReopenWithEncoding->addAction(action);
+	}
+
+	for (auto name : codecNames)
+	{
+		QAction* action = new QAction(name, this);
+		action->setProperty("CodeId", (int)EnCode::getCodeIdByName(name));
+		m_menuSaveWithEncoding->addAction(action);
+	}
 }
 
 void NotepadPP::__initStatusBar()

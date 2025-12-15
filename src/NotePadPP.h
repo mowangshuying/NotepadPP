@@ -20,6 +20,8 @@ public:
 
     void __initMenu();
 
+    void __initEncodingMenu();
+
     void __initStatusBar();
 
     void __connect();
@@ -130,22 +132,14 @@ protected:
     QAction* m_actionShowSpaces;
     QAction* m_actionShowEndOfLine;
     QAction* m_actionShowAll;
-    QAction* m_actionEncodeInGBK;
-    QAction* m_actionEncodeInUft8;
-    QAction* m_actionEncodeInUTF8BOM;
-    QAction* m_actionEncodeInUCSBEBOM;
-    QAction* m_actionEncodeInUCS2LEBOM;
-    QAction* m_actionConvertToGBK;
-    QAction* m_actionConvertToUTF8;
-    QAction* m_actionConvertToUTF8BOM;
-    QAction* m_actionConvertToUCS2BEBOM;
-    QAction* m_actionConvertToUCS2LEBOM;
+
+
     QAction* m_actionBatchConvert;
     QAction* m_actionOptions;
     QAction* m_actionBugFix;
     QAction* m_actionFileCompare;
     QAction* m_actionDirCompare;
-    
+
     QAction* m_actionSearchResult;
     QAction* m_actionDonate;
     QAction* m_actionDefaultStyle;
@@ -254,7 +248,14 @@ protected:
     QMenu* m_menuView;
     QMenu* m_menuDisplaySymbols;
     QMenu* m_menuIconSize;
+    
     QMenu* m_menuEncoding;
+
+    // reopen with encoding
+    QMenu* m_menuReopenWithEncoding;
+    // save with encoding
+    QMenu* m_menuSaveWithEncoding;
+
     QMenu* m_menuASNI;
     QMenu* m_menuConvertToOther;
 

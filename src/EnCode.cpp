@@ -383,3 +383,16 @@ bool EnCode::translateStringToUnicode(CodeId cid, const char *pText, int nLength
 		return false;
     return true;
 }
+
+std::vector<QString> EnCode::getAllCodecNames()
+{
+    // return std::vector<QString>();
+	// 遍历CodeId枚举
+	std::vector<QString> codecNames;
+	for (int i = 0; i < (int)CodeId::_END; i++) {
+		CodeId cid = (CodeId)i;
+		QString codecName = getCodeNameById(cid);
+		codecNames.push_back(codecName);
+	}
+	return codecNames;
+}

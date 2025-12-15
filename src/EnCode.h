@@ -3,6 +3,7 @@
 #include "__global.h"
 #include <QtGlobal>
 #include <QString>
+#include <vector>
 
 class EnCode
 {
@@ -15,6 +16,7 @@ public:
     static QString getQtCodecNameById(CodeId id);
 	static QByteArray getStartFlagByCodeId(CodeId id);
 	static bool translateStringToUnicode(CodeId cid, const char* pText, int nLength, QString& outString);
+	static std::vector<QString> getAllCodecNames();
 
 	static QString getLineEndNameByLineEndId(LineEnd lineEnd)
 	{
