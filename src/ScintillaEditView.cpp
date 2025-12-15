@@ -96,7 +96,7 @@ void ScintillaEditView::__init()
 
 	// 开启后保证长行在滚动条下完整显示
 	execute(SCI_SETSCROLLWIDTHTRACKING, true);
-	setFrameStyle(QFrame::Panel);
+	setFrameStyle(QFrame::Box);
 	StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/ScintillaEditView.qss");
 }
 
