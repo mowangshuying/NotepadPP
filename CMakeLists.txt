@@ -26,6 +26,10 @@ set(PROJECT_SOURCES
     src/DirFindPage.h
     src/EnCode.cpp
     src/EnCode.h
+    src/FileListView.cpp
+    src/FileListView.h
+    src/FileListViewItem.cpp
+    src/FileListViewItem.h
     src/FileManager.cpp
     src/FileManager.h
     src/FindDlg.cpp
