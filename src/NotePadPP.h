@@ -8,7 +8,8 @@
 #include <QLabel>
 #include <QComboBox>
 #include "__global.h"
-
+#include <QDockWidget>
+#include "FileListView.h"
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
@@ -21,6 +22,8 @@ public:
     void __initMenu();
 
     void __initEncodingMenu();
+
+    void __initFileListView();
 
     void __initStatusBar();
 
@@ -70,6 +73,9 @@ public:
 
     // 获取文件名, 根据文件路径
     QString getFileNameByPath(QString filepath);
+
+    // 
+    void setCurTabByPath(QString filepath);
     
 public slots:
     void __onTriggerNewFile();
@@ -294,5 +300,8 @@ protected:
     // bool m_bShowLineEnd;
 
     std::vector<QString> m_recentOpenFileList;
+    
+    FileListView* m_fileListView;
+    QDockWidget* m_fileListViewDock;
 };
 

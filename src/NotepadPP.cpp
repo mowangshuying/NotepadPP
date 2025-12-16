@@ -23,6 +23,8 @@ void NotepadPP::__initUi()
 	__initMenu();
 	loadRecentFileFromConfig();
 
+	__initFileListView();
+
 	auto contentWidget = new QWidget(this);
 	setCentralWidget(contentWidget);
 	
@@ -354,6 +356,19 @@ void NotepadPP::__initEncodingMenu()
 	}
 }
 
+void NotepadPP::__initFileListView()
+{
+	m_fileListViewDock = new QDockWidget("File List View", this);
+	m_fileListViewDock->setFeatures(QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+	m_fileListViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	m_fileListViewDock->setAttribute(Qt::WA_DeleteOnClose);
+
+	m_fileListView = new FileListView(this);
+	m_fileListView->setNotePad(this);
+	m_fileListViewDock->setWidget(m_fileListView);
+	addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
+}
+
 void NotepadPP::__initStatusBar()
 {
 	m_statusBar = new QStatusBar(this);
@@ -556,6 +571,8 @@ void NotepadPP::openTextFile(QString filepath)
 	pEdit->setProperty("TextChanged", false);
 	// set code id;
 	pEdit->setProperty("CodeId", (int)cid);
+
+	m_fileListView->addItem(filepath);
 
 	// zoom value changed;
 	// connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
@@ -817,6 +834,7 @@ void NotepadPP::closeTab(int index)
 	{
 		addRecentFile(filepath);
 		// updateRecentFileMenu();
+		m_fileListView->delItem(filepath);
 	}
 
 	pEdit->deleteLater();
@@ -1032,6 +1050,15 @@ void NotepadPP::updateRecentFileMenu()
 QString NotepadPP::getFileNameByPath(QString filepath)
 {
 	return QFileInfo(filepath).fileName();
+}
+
+void NotepadPP::setCurTabByPath(QString filepath)
+{
+	int nIndex = findFileIsOpenAtPad(filepath);
+	if (nIndex != -1)
+	{
+		m_editTabWidget->setCurrentIndex(nIndex);
+	}
 }
 
 void NotepadPP::__onTriggerNewFile()
