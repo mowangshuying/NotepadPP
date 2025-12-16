@@ -10,6 +10,8 @@ class FileListView : public QWidget
 public:
     FileListView(QWidget *parent = nullptr);
 
+    void __connect();
+
     void setNotePad(QWidget* pNotePad);
 
     FileListViewItem* findItem(QString filepath);

@@ -13,6 +13,13 @@ FileListView::FileListView(QWidget *parent) : QWidget(parent)
 
     m_filelistWidget = new QListWidget(this);
     m_vMainLayout->addWidget(m_filelistWidget);
+
+    __connect();
+}
+
+void FileListView::__connect()
+{
+    connect(m_filelistWidget, &QListWidget::itemClicked, this, &FileListView::onItemClicked);
 }
 
 void FileListView::setNotePad(QWidget *pNotePad)
@@ -84,7 +91,7 @@ void FileListView::setCurItem(QString filepath)
 void FileListView::sortItems()
 {
     std::vector<QString> filepaths;
-    for (int i = 0; i < m_filelistWidget->count(); i++)瓬
+    for (int i = 0; i < m_filelistWidget->count(); i++)
     {
         FileListViewItem* pItem = (FileListViewItem*)m_filelistWidget->item(i);
         filepaths.push_back(pItem->getFilePath());
