@@ -23,6 +23,8 @@ public:
     void setCurItem(QString filepath);
 
     void sortItems();
+
+    void showFileInExplorer(QString path);
 // public slots:
     void onItemClicked(QListWidgetItem* item);
 

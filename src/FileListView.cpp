@@ -2,6 +2,7 @@
 #include "FileListViewItem.h"
 #include <vector>
 #include "NotePadPP.h"
+#include <QProcess>
 
 FileListView::FileListView(QWidget *parent) : QWidget(parent)
 {
@@ -110,6 +111,43 @@ void FileListView::sortItems()
     }
 }
 
+void FileListView::showFileInExplorer(QString path)
+{
+    QString cmd;
+
+#ifdef _WIN32
+	path = path.replace("/", "\\");
+	// cmd = QString("explorer.exe /select,%1").arg(path);
+    QString program = "explorer.exe";
+    QStringList arguments;
+    arguments << "/select," << path;
+#endif
+
+#ifdef ubu
+    path = path.replace("\\", "/");
+    QString program = "nautilus";
+    QStringList arguments;
+    arguments << path;
+#endif
+
+#ifdef uos
+    path = path.replace("\\", "/");
+    QString program = "dde-file-manager";
+    QStringList arguments;
+    arguments << path;
+#endif 
+
+#if defined(Q_OS_MAC)
+    path = path.replace("\\", "/");
+    QString program = "open";
+    QStringList arguments;
+    arguments << "-R" << path;
+#endif
+
+	QProcess process;
+	process.startDetached(program, arguments);
+}
+
 void FileListView::onItemClicked(QListWidgetItem *item)
 {
     setCurItem(item->text());
@@ -126,7 +164,7 @@ void FileListView::onShowPopMenu(const QPoint &pos)
     QMenu* menu = new QMenu(this);
     menu->setAttribute(Qt::WA_DeleteOnClose);
     QAction *showFileInExplorerAction = menu->addAction(tr("Show in Explorer"), this, [&](){
-        // showFileInExplorer(pItem->getFilePath());
+        showFileInExplorer(pItem->getFilePath());
     });
 
     QAction* closeFileAction = menu->addAction(tr("Close File"), this, [&](){
