@@ -14,12 +14,15 @@ FileListView::FileListView(QWidget *parent) : QWidget(parent)
     m_filelistWidget = new QListWidget(this);
     m_vMainLayout->addWidget(m_filelistWidget);
 
+    setContextMenuPolicy(Qt::CustomContextMenu);
+
     __connect();
 }
 
 void FileListView::__connect()
 {
     connect(m_filelistWidget, &QListWidget::itemClicked, this, &FileListView::onItemClicked);
+    connect(this, &QListWidget::customContextMenuRequested, this, &FileListView::onShowPopMenu);
 }
 
 void FileListView::setNotePad(QWidget *pNotePad)
@@ -110,4 +113,33 @@ void FileListView::sortItems()
 void FileListView::onItemClicked(QListWidgetItem *item)
 {
     setCurItem(item->text());
+}
+
+void FileListView::onShowPopMenu(const QPoint &pos)
+{
+    auto pItem = dynamic_cast<FileListViewItem*>(m_filelistWidget->itemAt(pos));
+    if (!pItem)
+    {
+        return;
+    }
+
+    QMenu* menu = new QMenu(this);
+    menu->setAttribute(Qt::WA_DeleteOnClose);
+    QAction *showFileInExplorerAction = menu->addAction(tr("Show in Explorer"), this, [&](){
+        // showFileInExplorer(pItem->getFilePath());
+    });
+
+    QAction* closeFileAction = menu->addAction(tr("Close File"), this, [&](){
+        // delItem(pItem->getFilePath());
+
+        // closeTab(findFileIsOpenAtPad(pItem->getFilePath()));
+        auto pNotePad = dynamic_cast<NotepadPP*>(m_notepad);
+        int nIndex = pNotePad->findFileIsOpenAtPad(pItem->getFilePath());
+        if (nIndex != -1)
+        {
+            pNotePad->closeTab(nIndex);
+        }
+    });
+
+    menu->exec(QCursor::pos());
 }

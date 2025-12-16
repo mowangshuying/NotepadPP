@@ -25,6 +25,8 @@ public:
     void sortItems();
 // public slots:
     void onItemClicked(QListWidgetItem* item);
+
+    void onShowPopMenu(const QPoint& pos);
 protected:
     QListWidget* m_filelistWidget;
     QVBoxLayout* m_vMainLayout;
