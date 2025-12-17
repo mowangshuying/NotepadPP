@@ -147,23 +147,23 @@ void NotepadPP::__initMenu()
 	m_menuBlankCharOperate->addAction(m_actionRemoveHeadEndBlank);
 
 	/// --- convert case to
-	m_menuConvertCaseTo = new QMenu("Convert Case To");
-	m_actionUpperCase = new QAction("Upper Case");
-	m_actionLowerCase = new QAction("Lower Case");
-	m_actionProperCase = new QAction("Proper Case");
-	m_actionProperCaseBlend = new QAction("Proper Case(Blend)");
-	m_actionSentenceCase = new QAction("Scentence Case");
-	m_actionSentenceCaseBlend = new QAction("Scentence Case(Blend)");
-	m_actionInvertCase = new QAction("Invert Case");
-	m_actionRandomCase = new QAction("Random Case");
+	// m_menuConvertCaseTo = new QMenu("Convert Case To");
+	// m_actionUpperCase = new QAction("Upper Case");
+	// m_actionLowerCase = new QAction("Lower Case");
+	// m_actionProperCase = new QAction("Proper Case");
+	// m_actionProperCaseBlend = new QAction("Proper Case(Blend)");
+	// m_actionSentenceCase = new QAction("Scentence Case");
+	// m_actionSentenceCaseBlend = new QAction("Scentence Case(Blend)");
+	// m_actionInvertCase = new QAction("Invert Case");
+	// m_actionRandomCase = new QAction("Random Case");
 
-	m_menuConvertCaseTo->addAction(m_actionUpperCase);
-	m_menuConvertCaseTo->addAction(m_actionLowerCase);
-	m_menuConvertCaseTo->addAction(m_actionProperCase);
-	m_menuConvertCaseTo->addAction(m_actionProperCaseBlend);
-	m_menuConvertCaseTo->addAction(m_actionSentenceCase);
-	m_menuConvertCaseTo->addAction(m_actionSentenceCaseBlend);
-	m_menuConvertCaseTo->addAction(m_actionRandomCase);
+	// m_menuConvertCaseTo->addAction(m_actionUpperCase);
+	// m_menuConvertCaseTo->addAction(m_actionLowerCase);
+	// m_menuConvertCaseTo->addAction(m_actionProperCase);
+	// m_menuConvertCaseTo->addAction(m_actionProperCaseBlend);
+	// m_menuConvertCaseTo->addAction(m_actionSentenceCase);
+	// m_menuConvertCaseTo->addAction(m_actionSentenceCaseBlend);
+	// m_menuConvertCaseTo->addAction(m_actionRandomCase);
 
 	// line operator
 	m_menuLineOperations = new QMenu("Line Operator");
@@ -211,7 +211,7 @@ void NotepadPP::__initMenu()
 	// m_menuEdit->addAction(m_actionOpenFile);
 	// m_menuEdit->addAction(m_actionOpenInBin);
 	m_menuEdit->addAction(m_menuBlankCharOperate->menuAction());
-	m_menuEdit->addAction(m_menuConvertCaseTo->menuAction());
+	// m_menuEdit->addAction(m_menuConvertCaseTo->menuAction());
 	m_menuEdit->addAction(m_menuLineOperations->menuAction());
 
 	// m_menuEdit->addSeparator();
@@ -425,6 +425,9 @@ void NotepadPP::__connect()
 	connect(m_actionConvertUnixLF, &QAction::triggered, this, &NotepadPP::__onTriggerConvertUnixLineEnd);
 	connect(m_actionConvertMacCR, &QAction::triggered, this, &NotepadPP::__onTriggerConvertMacLineEnd);
 
+	connect(m_actionDuplicateCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerDuplicateCurrentLine);
+	connect(m_actionRemoveDuplicateLines, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveDuplicateLines);
+
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
 	connect(m_actionShowAll, &QAction::toggled, this, &NotepadPP::__onTriggerShowAll);
@@ -561,6 +564,8 @@ void NotepadPP::openTextFile(QString filepath)
 
 	// set line end;
 	pEdit->setProperty("LineEnd", (int)lineEnd);
+	setDocEolMode(pEdit, lineEnd);
+
 	// set filepath;
 	pEdit->setProperty("FilePath", filepath);
 	// set Tab Tool tip;
@@ -1061,6 +1066,36 @@ void NotepadPP::setCurTabByPath(QString filepath)
 	}
 }
 
+void NotepadPP::setDocEolMode(ScintillaEditView* pEdit, LineEnd lineEnd)
+{
+	int eolMode = 0;
+
+	switch (lineEnd)
+	{
+
+	case LineEnd::Unix:
+		eolMode = SC_EOL_LF;
+		break;
+	case LineEnd::Dos:
+		eolMode = SC_EOL_CRLF;
+		break;
+	case LineEnd::Mac:
+		eolMode = SC_EOL_CR;
+		break;
+	default:
+		return;
+	}
+
+	if (pEdit != nullptr)
+	{
+		int curCode = pEdit->execute(SCI_GETEOLMODE);
+		if (curCode != eolMode)
+		{
+			pEdit->execute(SCI_SETEOLMODE, eolMode);
+		}
+	}
+}
+
 void NotepadPP::__onTriggerNewFile()
 {
 	qDebug() << "Trigger New File action.";
@@ -1337,6 +1372,26 @@ void NotepadPP::__onTriggerShowAll(bool bChecked)
 		pEditView->setWhitespaceVisibility(mode);
 		pEditView->setEolVisibility(bShowLineEnd);
 	}
+}
+void NotepadPP::__onTriggerDuplicateCurrentLine()
+{
+	qDebug() << "NotepadPP::__onTriggerDuplicateCurrentLine()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
+	
+	pEditView->execute(SCI_LINEDUPLICATE);
+}
+void NotepadPP::__onTriggerRemoveDuplicateLines()
+{
+	qDebug() << "NotepadPP::__onTriggerRemoveDuplicateLines()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
+
+	pEditView->execute(SCI_BEGINUNDOACTION);
+	pEditView->removeAnyDuplicateLines();
+	pEditView->execute(SCI_ENDUNDOACTION);
 }
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {

@@ -55,6 +55,20 @@ public:
 	QsciLexer* makeLexerByName(QString lexerName);
 
 	void setLexerByFilePath(QString filepath);
+
+	QString getEOLString();
+
+	void getText(char* dest, size_t start, size_t end);
+
+	QString getGenericTextAsQString(size_t start, size_t end);
+
+	void removeAnyDuplicateLines();
+
+	std::pair<size_t, size_t> getSelectionLinesRange(intptr_t selectionNumer = -1);
+
+	size_t removeDuplicateLines(QStringList& lines);
+
+	intptr_t replaceTarget(QByteArray& bytes, intptr_t fromTargetPos, intptr_t toTargetPos);
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;

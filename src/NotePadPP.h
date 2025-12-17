@@ -76,6 +76,8 @@ public:
 
     // 
     void setCurTabByPath(QString filepath);
+
+    void setDocEolMode(ScintillaEditView* pEdit, LineEnd lineEnd);
     
 public slots:
     void __onTriggerNewFile();
@@ -111,6 +113,10 @@ public slots:
     void __onTriggerShowSpaces(bool bChecked);
     void __onTriggerShowLineEnd(bool bChecked);
     void __onTriggerShowAll(bool bChecked);
+
+    // 复制当前行
+    void __onTriggerDuplicateCurrentLine();
+    void __onTriggerRemoveDuplicateLines();
 
     void __onTriggerReopenWithEncoding(QAction* action);
     void __onTriggerSaveWithEncoding(QAction* action);
@@ -174,14 +180,14 @@ protected:
     QAction* m_actionColumnBlockEditing;
     // QAction* m_actionWrap;
     QAction* m_actionDefineLanguage;
-    QAction* m_actionUpperCase;
-    QAction* m_actionLowerCase;
-    QAction* m_actionProperCase;
-    QAction* m_actionProperCaseBlend;
-    QAction* m_actionSentenceCase;
-    QAction* m_actionSentenceCaseBlend;
-    QAction* m_actionInvertCase;
-    QAction* m_actionRandomCase;
+    // QAction* m_actionUpperCase;
+    // QAction* m_actionLowerCase;
+    // QAction* m_actionProperCase;
+    // QAction* m_actionProperCaseBlend;
+    // QAction* m_actionSentenceCase;
+    // QAction* m_actionSentenceCaseBlend;
+    // QAction* m_actionInvertCase;
+    // QAction* m_actionRandomCase;
     QAction* m_actionRemoveEmptyLines;
     QAction* m_actionRemoveEmptyLinesCbc;
     QAction* m_actionUserDefine;
@@ -253,7 +259,7 @@ protected:
     QMenu* m_menuEdit;
     QMenu* m_menuFormatConversion;
     QMenu* m_menuBlankCharOperate;
-    QMenu* m_menuConvertCaseTo;
+    // QMenu* m_menuConvertCaseTo;
     QMenu* m_menuLineOperations;
     QMenu* m_menuSearch;
     QMenu* m_menuBookMark;

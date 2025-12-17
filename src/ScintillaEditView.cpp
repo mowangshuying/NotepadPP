@@ -50,7 +50,7 @@
 #include <Qsci/qscilexerasm.h>
 #include "StyleSheetUtils.h"
 #include <QFileInfo>
-
+#include <unordered_set>
 
 void ScintillaEditView::__init()
 {
@@ -343,4 +343,152 @@ void ScintillaEditView::setLexerByFilePath(QString filepath)
 	QString suffixName = fileinfo.suffix();
 	auto lexer = makeLexerByName(suffixName);
 	setLexer(lexer);
+}
+
+QString ScintillaEditView::getEOLString()
+{
+    intptr_t eolMode = execute(SCI_GETEOLMODE);
+	if (eolMode == SC_EOL_CRLF)
+	{
+		return QString("\r\n");
+	}
+	else if (eolMode == SC_EOL_LF)
+	{
+		return QString("\n");
+	}
+	else if(eolMode == SC_EOL_CR)
+	{
+		return QString("\r");
+	}
+	return QString("\n");
+}
+
+void ScintillaEditView::getText(char *dest, size_t start, size_t end)
+{
+	Sci_TextRange tr;
+	tr.chrg.cpMin = static_cast<Sci_PositionCR>(start);
+	tr.chrg.cpMax = static_cast<Sci_PositionCR>(end);
+	tr.lpstrText = dest;
+	execute(SCI_GETTEXTRANGE, 0, reinterpret_cast<sptr_t>(&tr));
+}
+
+QString ScintillaEditView::getGenericTextAsQString(size_t start, size_t end)
+{
+	size_t bufSize = end - start;
+	QByteArray bytes;
+	bytes.resize(bufSize);
+	getText(bytes.data(), start, end);
+	return QString(bytes);
+}
+
+void ScintillaEditView::removeAnyDuplicateLines()
+{
+	size_t fromLine = 0;
+	size_t toLine = 0;
+
+	sptr_t selStart = execute(SCI_GETSELECTIONSTART);
+	sptr_t selEnd = execute(SCI_GETSELECTIONEND);
+
+	bool hasLineSelection = selStart != selEnd;
+	if (hasLineSelection)
+	{
+		std::pair<size_t, size_t> linesRange = getSelectionLinesRange();
+		fromLine = linesRange.first;
+		toLine = linesRange.second;
+	}
+	else
+	{
+		fromLine = 0;
+		toLine = execute(SCI_GETLINECOUNT) - 1;
+	}
+
+	if (fromLine >= toLine)
+		return;
+
+	size_t startPos = execute(SCI_POSITIONFROMLINE, fromLine);
+	size_t endPos = execute(SCI_POSITIONFROMLINE, toLine) + execute(SCI_LINELENGTH, toLine);
+	QString text = getGenericTextAsQString(startPos, endPos);
+
+	QStringList lines = text.split(getEOLString());
+	size_t lineCount = execute(SCI_GETLINECOUNT);
+
+	bool doingEntireDocument = (toLine == lineCount - 1);
+	if (!doingEntireDocument)
+	{
+		if (lines.rbegin()->isEmpty())
+		{
+			lines.pop_back();
+		}
+	}
+
+	size_t oriLinesSize = lines.size();
+	size_t newLinesSize = removeDuplicateLines(lines);
+	if (oriLinesSize != newLinesSize)
+	{
+		QString joined = lines.join(getEOLString());
+		if (!doingEntireDocument)
+		{
+			joined += getEOLString();
+		}
+		
+		if (text != joined)
+		{
+			QByteArray bytes = joined.toUtf8();
+			replaceTarget(bytes, startPos, endPos);
+		}
+	}
+}
+
+std::pair<size_t, size_t> ScintillaEditView::getSelectionLinesRange(intptr_t selectionNumer)
+{
+    // return std::pair<size_t, size_t>();
+	size_t numSelections = execute(SCI_GETSELECTIONS);
+	size_t startPos;
+	size_t endPos;
+
+	if ((selectionNumer < 0) || static_cast<size_t>(selectionNumer) >= numSelections)
+	{
+		startPos = execute(SCI_GETSELECTIONSTART);
+		endPos = execute(SCI_GETSELECTIONEND);
+	}
+	else
+	{
+		startPos = execute(SCI_GETSELECTIONNSTART, selectionNumer);
+		endPos = execute(SCI_GETSELECTIONNEND, selectionNumer);
+	}
+
+	size_t startLine = execute(SCI_LINEFROMPOSITION, startPos);
+	size_t endLine = execute(SCI_LINEFROMPOSITION, endPos);
+
+	if ((startLine != endLine) && (static_cast<size_t>(execute(SCI_POSITIONFROMLINE, endLine)) == endPos))
+	{
+		endLine--;
+	}
+
+	return std::pair<size_t, size_t>(startLine, endLine);
+}
+
+size_t ScintillaEditView::removeDuplicateLines(QStringList &lines)
+{
+	QStringList newLines;
+
+	for (int i = 0; i < lines.size(); i++)
+	{
+		if (!newLines.contains(lines[i]))
+		{
+			newLines.append(lines[i]);
+		}
+	}
+
+	lines = newLines;
+	return lines.size();
+}
+
+intptr_t ScintillaEditView::replaceTarget(QByteArray &bytes, intptr_t fromTargetPos, intptr_t toTargetPos)
+{
+	if (fromTargetPos < 0 || toTargetPos < 0)
+		return 0;
+
+	execute(SCI_SETTARGETRANGE, fromTargetPos, toTargetPos);
+	return execute(SCI_REPLACETARGET, bytes.size(), reinterpret_cast<sptr_t>(bytes.data()));
 }
