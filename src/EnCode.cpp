@@ -53,59 +53,59 @@ CodeId EnCode::getCodeIdByName(QString name)
 	}
 	else if (name == "ISO-8859-1")
 	{
-		return CodeId::ISO_8859_1;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-2")
 	{
-		return CodeId::ISO_8859_2;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-3")
 	{
-		return CodeId::ISO_8859_3;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-4")
 	{
-		return CodeId::ISO_8859_4;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-5")
 	{
-		return CodeId::ISO_8859_5;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-6")
 	{
-		return CodeId::ISO_8859_6;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-7")
 	{
-		return CodeId::ISO_8859_7;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-8")
 	{
-		return CodeId::ISO_8859_8;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-9")
 	{
-		return CodeId::ISO_8859_9;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-10")
 	{
-		return CodeId::ISO_8859_10;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-13")
 	{
-		return CodeId::ISO_8859_13;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-14")
 	{
-		return CodeId::ISO_8859_14;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-15")
 	{
-		return CodeId::ISO_8859_15;
+		return CodeId::UTF_8;
 	}
 	else if (name == "ISO-8859-16")
 	{
-		return CodeId::ISO_8859_16;
+		return CodeId::UTF_8;
 	}
 	else if (name == "KOI8-R")
 	{
@@ -204,33 +204,20 @@ QString EnCode::getCodeNameById(CodeId id)
 	case CodeId::ISO_2022_JP:
 		return "ISO 2022-JP";
 	case CodeId::ISO_8859_1:
-		return "ISO-8859-1";
 	case CodeId::ISO_8859_2:
-		return "ISO-8859-2";
 	case CodeId::ISO_8859_3:
-		return "ISO-8859-3";
 	case CodeId::ISO_8859_4:
-		return "ISO-8859-4";
 	case CodeId::ISO_8859_5:
-		return "ISO-8859-5";
 	case CodeId::ISO_8859_6:
-		return "ISO-8859-6";
 	case CodeId::ISO_8859_7:
-		return "ISO-8859-7";
 	case CodeId::ISO_8859_8:
-		return "ISO-8859-8";
 	case CodeId::ISO_8859_9:
-		return "ISO-8859-9";
 	case CodeId::ISO_8859_10:
-		return "ISO-8859-10";
 	case CodeId::ISO_8859_13:
-		return "ISO-8859-13";
 	case CodeId::ISO_8859_14:
-		return "ISO-8859-14";
 	case CodeId::ISO_8859_15:
-		return "ISO-8859-15";
 	case CodeId::ISO_8859_16:
-		return "ISO-8859-16";
+		return "UTF-8";
 	case CodeId::KOI8_R:
 		return "KOI8-R";
 	case CodeId::KOI8_U:
@@ -295,34 +282,23 @@ QString EnCode::getQtCodecNameById(CodeId id)
 		return "IBM 874";
 	case CodeId::ISO_2022_JP:
 		return "ISO 2022-JP";
+
 	case CodeId::ISO_8859_1:
-		return "ISO 8859-1";
 	case CodeId::ISO_8859_2:
-		return "ISO 8859-2";
 	case CodeId::ISO_8859_3:
-		return "ISO 8859-3";
 	case CodeId::ISO_8859_4:
-		return "ISO 8859-4";
 	case CodeId::ISO_8859_5:
-		return "ISO 8859-5";
 	case CodeId::ISO_8859_6:
-		return "ISO 8859-6";
 	case CodeId::ISO_8859_7:
-		return "ISO 8859-7";
 	case CodeId::ISO_8859_8:
-		return "ISO 8859-8";
 	case CodeId::ISO_8859_9:
-		return "ISO 8859-9";
 	case CodeId::ISO_8859_10:
-		return "ISO 8859-10";
 	case CodeId::ISO_8859_13:
-		return "ISO 8859-13";
 	case CodeId::ISO_8859_14:
-		return "ISO 8859-14";
 	case CodeId::ISO_8859_15:
-		return "ISO 8859-15";
 	case CodeId::ISO_8859_16:
-		return "ISO 8859-16";
+		return "UTF-8";
+
 	case CodeId::KOI8_R:
 		return "KOI8-R";
 	case CodeId::KOI8_U:
