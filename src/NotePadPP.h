@@ -116,7 +116,18 @@ public slots:
 
     // 复制当前行
     void __onTriggerDuplicateCurrentLine();
+    // 删除重复行
     void __onTriggerRemoveDuplicateLines();
+    // 上移行
+    void __onTriggerMoveLineUp();
+    // 下移行
+    void __onTriggerMoveLineDown();
+    // 上方插入空行
+    void __onTriggerInsertBlankAbvCurrentLine();
+    // 下方插入空行
+    void __onTriggerInsertBlankBwCurrentLine();
+
+
 
     void __onTriggerReopenWithEncoding(QAction* action);
     void __onTriggerSaveWithEncoding(QAction* action);
@@ -195,11 +206,12 @@ protected:
     QAction* m_actionTABToSpace;
     QAction* m_actionSpaceToTABAll;
     QAction* m_actionSpaceToTABLeading;
+
     QAction* m_actionDuplicateCurrentLine;
     QAction* m_actionRemoveDuplicateLines;
-    QAction* m_actionRemoveConsecutiveDuplicateLines;
-    QAction* m_actionSplitLines;
-    QAction* m_actionJoinLines;
+    // QAction* m_actionRemoveConsecutiveDuplicateLines;
+    // QAction* m_actionSplitLines;
+    // QAction* m_actionJoinLines;
     QAction* m_actionMoveUpCurrentLine;
     QAction* m_actionMoveDownCurrentLine;
     QAction* m_actionInsertBlankLineAboveCurrent;
@@ -212,7 +224,7 @@ protected:
     QAction* m_actionSortLinesAsDecimalsCommaAscending;
     QAction* m_actionSortLinesAsDecimalsDotAscending;
     QAction* m_actionSortLinesLexicographicallyDescending;
-    QAction* m_actionSortLinesLexDescendingIgnoring_Case;
+    QAction* m_actionSortLinesLexDescendingIgnoringCase;
     QAction* m_actionSortLinesAsIntegersDescending;
     QAction* m_actionSortLinesAsDecimalsCommaDescending;
     QAction* m_actionSortLinesAsDecimalsDotDescending;

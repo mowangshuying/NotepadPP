@@ -169,8 +169,8 @@ void NotepadPP::__initMenu()
 	m_menuLineOperations = new QMenu("Line Operator");
 	m_actionDuplicateCurrentLine = new QAction("Duplicate Current Line");
 	m_actionRemoveDuplicateLines = new QAction("Remove Duplicate Lines");
-	m_actionSplitLines = new QAction("Split Lines");
-	m_actionJoinLines = new QAction("Join Lines");
+	// m_actionSplitLines = new QAction("Split Lines");
+	// m_actionJoinLines = new QAction("Join Lines");
 	m_actionMoveUpCurrentLine = new QAction("Move Up Current Line");
 	m_actionMoveDownCurrentLine = new QAction("Move Down Current Line");
 	m_actionRemoveEmptyLines = new QAction("Remove Empty Lines");
@@ -181,8 +181,8 @@ void NotepadPP::__initMenu()
 
 	m_menuLineOperations->addAction(m_actionDuplicateCurrentLine);
 	m_menuLineOperations->addAction(m_actionRemoveDuplicateLines);
-	m_menuLineOperations->addAction(m_actionSplitLines);
-	m_menuLineOperations->addAction(m_actionJoinLines);
+	// m_menuLineOperations->addAction(m_actionSplitLines);
+	// m_menuLineOperations->addAction(m_actionJoinLines);
 	m_menuLineOperations->addAction(m_actionMoveUpCurrentLine);
 	m_menuLineOperations->addAction(m_actionMoveDownCurrentLine);
 	m_menuLineOperations->addAction(m_actionRemoveEmptyLines);
@@ -427,6 +427,8 @@ void NotepadPP::__connect()
 
 	connect(m_actionDuplicateCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerDuplicateCurrentLine);
 	connect(m_actionRemoveDuplicateLines, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveDuplicateLines);
+	connect(m_actionMoveUpCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerMoveLineUp);
+	connect(m_actionMoveDownCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerMoveLineDown);
 
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
@@ -1392,6 +1394,37 @@ void NotepadPP::__onTriggerRemoveDuplicateLines()
 	pEditView->execute(SCI_BEGINUNDOACTION);
 	pEditView->removeAnyDuplicateLines();
 	pEditView->execute(SCI_ENDUNDOACTION);
+}
+void NotepadPP::__onTriggerMoveLineUp()
+{
+	qDebug() << "NotepadPP::__onTriggerMoveLineUp()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
+	pEditView->execute(SCI_MOVESELECTEDLINESUP);
+}
+void NotepadPP::__onTriggerMoveLineDown()
+{
+	qDebug() << "NotepadPP::__onTriggerMoveLineDown()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
+	pEditView->execute(SCI_MOVESELECTEDLINESDOWN);
+}
+void NotepadPP::__onTriggerInsertBlankAbvCurrentLine()
+{
+	qDebug() << "NotepadPP::__onTriggerInsertBlankAbvCurrentLine()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
+	
+}
+void NotepadPP::__onTriggerInsertBlankBwCurrentLine()
+{
+	qDebug() << "NotepadPP::__onTriggerInsertBlankBwCurrentLine()";
+	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEditView == nullptr)
+		return;
 }
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {
