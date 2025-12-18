@@ -127,6 +127,11 @@ public slots:
     // 下方插入空行
     void __onTriggerInsertBlankBwCurrentLine();
 
+    void __onTriggerSortLinesLexAscending();
+    void __onTriggerSortLinesLexAscendingIgnoreCase();
+    void __onTriggerSortLinesLexDescending();
+    void __onTriggerSortLinesLexDescendingIgnoreCase();
+
 
 
     void __onTriggerReopenWithEncoding(QAction* action);
@@ -218,16 +223,18 @@ protected:
     QAction* m_actionInsertBlankLineBelowCurrent;
     QAction* m_actionReverseLineOrder;
     QAction* m_actionRandomizeLineOrder;
-    QAction* m_actionSortLinesLexicographicallyAscending;
-    QAction* m_actionSortLinesLexAscendingIgnoringCase;
-    QAction* m_actionSortLinesAsIntegersAscending;
-    QAction* m_actionSortLinesAsDecimalsCommaAscending;
-    QAction* m_actionSortLinesAsDecimalsDotAscending;
-    QAction* m_actionSortLinesLexicographicallyDescending;
-    QAction* m_actionSortLinesLexDescendingIgnoringCase;
-    QAction* m_actionSortLinesAsIntegersDescending;
-    QAction* m_actionSortLinesAsDecimalsCommaDescending;
-    QAction* m_actionSortLinesAsDecimalsDotDescending;
+
+    QAction* m_actionSortLinesLexAscending;   //升序
+    QAction* m_actionSortLinesLexAscendingIgnoreCase;     //升序忽略大小写
+    // QAction* m_actionSortLinesAsIntegersAscending;
+    // QAction* m_actionSortLinesAsDecimalsCommaAscending;
+    // QAction* m_actionSortLinesAsDecimalsDotAscending;
+    QAction* m_actionSortLinesLexDescending;
+    QAction* m_actionSortLinesLexDescendingIgnoreCase;
+    // QAction* m_actionSortLinesAsIntegersDescending;
+    // QAction* m_actionSortLinesAsDecimalsCommaDescending;
+    // QAction* m_actionSortLinesAsDecimalsDotDescending;
+
     QAction* m_actionFindInDir;
     QAction* m_actionFindNext;
     QAction* m_actionFindPrev;

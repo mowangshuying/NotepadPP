@@ -36,6 +36,7 @@ set(PROJECT_SOURCES
     src/FindDlg.h
     src/FindPage.cpp
     src/FindPage.h
+    src/ISorter.h
     src/MarkPage.cpp
     src/MarkPage.h
     src/NotepadPP.cpp 

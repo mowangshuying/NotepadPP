@@ -178,6 +178,10 @@ void NotepadPP::__initMenu()
 	m_actionInsertBlankLineAboveCurrent = new QAction("Insert Blank Line Above Current");
 	m_actionInsertBlankLineBelowCurrent = new QAction("Insert Blank Line Below Current");
 	m_actionReverseLineOrder = new QAction("Reverse Line Order");
+	m_actionSortLinesLexAscending = new QAction(tr("Sort lines lexicographically ascending"));
+	m_actionSortLinesLexAscendingIgnoreCase = new QAction(tr("Sort lines lexicographically ascending, ignoring case"));
+	m_actionSortLinesLexDescending = new QAction(tr("Sort lines lexicographically descending"));
+	m_actionSortLinesLexDescendingIgnoreCase= new QAction(tr("Sort lines lexicographically descending, ignoring case"));
 
 	m_menuLineOperations->addAction(m_actionDuplicateCurrentLine);
 	m_menuLineOperations->addAction(m_actionRemoveDuplicateLines);
@@ -190,6 +194,14 @@ void NotepadPP::__initMenu()
 	m_menuLineOperations->addAction(m_actionInsertBlankLineAboveCurrent);
 	m_menuLineOperations->addAction(m_actionInsertBlankLineBelowCurrent);
 	m_menuLineOperations->addAction(m_actionReverseLineOrder);
+
+	m_menuLineOperations->addSeparator();
+	m_menuLineOperations->addAction(m_actionSortLinesLexAscending);
+	m_menuLineOperations->addAction(m_actionSortLinesLexAscendingIgnoreCase);
+	m_menuLineOperations->addAction(m_actionSortLinesLexDescending);
+	m_menuLineOperations->addAction(m_actionSortLinesLexDescendingIgnoreCase);
+	
+
 	//m_menuLineOperations->addAction(m_actionColumnBlockEditing);
 	//m_menuLineOperations->addAction(m_actionColumnEditMode);
 
@@ -429,6 +441,12 @@ void NotepadPP::__connect()
 	connect(m_actionRemoveDuplicateLines, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveDuplicateLines);
 	connect(m_actionMoveUpCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerMoveLineUp);
 	connect(m_actionMoveDownCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerMoveLineDown);
+
+	connect(m_actionSortLinesLexAscending, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexAscending);
+	connect(m_actionSortLinesLexAscendingIgnoreCase, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexAscendingIgnoreCase);
+	connect(m_actionSortLinesLexDescending, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexDescending);
+	connect(m_actionSortLinesLexDescendingIgnoreCase, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase);
+
 
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
@@ -1425,6 +1443,22 @@ void NotepadPP::__onTriggerInsertBlankBwCurrentLine()
 	auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
 	if (pEditView == nullptr)
 		return;
+}
+void NotepadPP::__onTriggerSortLinesLexAscending()
+{
+	qDebug() << "NotepadPP::__onTriggerSortLinesLexAscending()";
+}
+void NotepadPP::__onTriggerSortLinesLexAscendingIgnoreCase()
+{
+	qDebug() << "NotepadPP::__onTriggerSortLinesLexAscendingIgnoreCase()";
+}
+void NotepadPP::__onTriggerSortLinesLexDescending()
+{
+	qDebug() << "NotepadPP::__onTriggerSortLinesLexDescending()";
+}
+void NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()
+{
+	qDebug() << "NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()";
 }
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {
