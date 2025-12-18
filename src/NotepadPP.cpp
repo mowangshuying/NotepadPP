@@ -12,6 +12,8 @@
 // #include <Qsci/qsciglobal.h>
 #include <SciLexer.h>
 #include "StyleSheetUtils.h"
+#include "FindReplaceDlg.h"
+
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0), m_bShowEndofLine(false)
 {
 	__initUi();
@@ -241,6 +243,14 @@ void NotepadPP::__initMenu()
 	m_actionReplace = new QAction("Replace");
 	m_actionGoline = new QAction("Go To Line");
 
+	m_menuSearch->addAction(m_actionFind);
+	m_menuSearch->addAction(m_actionFindPrev);
+	m_menuSearch->addAction(m_actionFindNext);
+	m_menuSearch->addAction(m_actionFindInDir);
+	m_menuSearch->addAction(m_actionReplace);
+	m_menuSearch->addAction(m_actionGoline);
+	m_menuBar->addAction(m_menuSearch->menuAction());
+
 	//m_menuBookMark = new QMenu("BookMark");
 	//m_ac = new QAction("Add BookMark");
 
@@ -447,6 +457,13 @@ void NotepadPP::__connect()
 	connect(m_actionSortLinesLexDescending, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexDescending);
 	connect(m_actionSortLinesLexDescendingIgnoreCase, &QAction::triggered, this, &NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase);
 
+
+	connect(m_actionFind, &QAction::triggered, this, &NotepadPP::__onTriggerFind);
+	connect(m_actionFindNext, &QAction::triggered, this, &NotepadPP::__onTriggerFindNext);
+	connect(m_actionFindPrev, &QAction::triggered, this, &NotepadPP::__onTriggerFindPrev);
+	connect(m_actionFindInDir, &QAction::triggered, this, &NotepadPP::__onTriggerFindInDir);
+	connect(m_actionReplace, &QAction::triggered, this, &NotepadPP::__onTriggerReplace);
+	connect(m_actionGoline, &QAction::triggered, this, &NotepadPP::__onTriggerGoToLine);
 
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
@@ -1535,6 +1552,33 @@ void NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()
 {
 	qDebug() << "NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()";
 	sortLines(SortType::LexDescendingIgnoreCase);
+}
+void NotepadPP::__onTriggerFind()
+{
+	qDebug() << "NotepadPP::__onTriggerFind()";
+	// 打开FindDlg
+	FindReplaceDlg dlg;
+	dlg.exec();
+}
+void NotepadPP::__onTriggerFindNext()
+{
+	qDebug() << "NotepadPP::__onTriggerFindPrev()";
+}
+void NotepadPP::__onTriggerFindPrev()
+{
+	qDebug() << "NotepadPP::__onTriggerFindNext()";
+}
+void NotepadPP::__onTriggerFindInDir()
+{
+	qDebug() << "NotepadPP::__onTriggerFindInDir()";
+}
+void NotepadPP::__onTriggerReplace()
+{
+	qDebug() << "NotepadPP::__onTriggerReplace()";
+}
+void NotepadPP::__onTriggerGoToLine()
+{
+	qDebug() << "NotepadPP::__onTriggerGoToLine()";
 }
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {

@@ -136,7 +136,13 @@ public slots:
     void __onTriggerSortLinesLexDescending();
     void __onTriggerSortLinesLexDescendingIgnoreCase();
 
-
+    // find; ---------------
+    void __onTriggerFind();
+    void __onTriggerFindNext();
+    void __onTriggerFindPrev();
+    void __onTriggerFindInDir();
+    void __onTriggerReplace();
+    void __onTriggerGoToLine();
 
     void __onTriggerReopenWithEncoding(QAction* action);
     void __onTriggerSaveWithEncoding(QAction* action);

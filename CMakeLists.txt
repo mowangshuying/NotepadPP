@@ -32,10 +32,10 @@ set(PROJECT_SOURCES
     src/FileListViewItem.h
     src/FileManager.cpp
     src/FileManager.h
-    src/FindDlg.cpp
-    src/FindDlg.h
     src/FindPage.cpp
     src/FindPage.h
+    src/FindReplaceDlg.cpp
+    src/FindReplaceDlg.h
     src/ISorter.cpp
     src/ISorter.h
     src/MarkPage.cpp
