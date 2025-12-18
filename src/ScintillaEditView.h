@@ -8,6 +8,7 @@
 #include <Qsci/qscilexer.h>
 
 #include <QDebug>
+#include "ISorter.h"
 
 using ScintillaFunc = sptr_t(*)(sptr_t, unsigned int, uptr_t, sptr_t);
 using ScintillaPtr = sptr_t;
@@ -69,6 +70,8 @@ public:
 	size_t removeDuplicateLines(QStringList& lines);
 
 	intptr_t replaceTarget(QByteArray& bytes, intptr_t fromTargetPos, intptr_t toTargetPos);
+
+	void sortLines(size_t nFromLine, size_t nToLine, SortType sortType);
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;

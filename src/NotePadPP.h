@@ -10,6 +10,8 @@
 #include "__global.h"
 #include <QDockWidget>
 #include "FileListView.h"
+#include "ISorter.h"
+
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
@@ -78,6 +80,8 @@ public:
     void setCurTabByPath(QString filepath);
 
     void setDocEolMode(ScintillaEditView* pEdit, LineEnd lineEnd);
+
+    void sortLines(SortType sortType);
     
 public slots:
     void __onTriggerNewFile();

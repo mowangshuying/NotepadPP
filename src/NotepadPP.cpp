@@ -1116,6 +1116,78 @@ void NotepadPP::setDocEolMode(ScintillaEditView* pEdit, LineEnd lineEnd)
 	}
 }
 
+void NotepadPP::sortLines(SortType sortType)
+{
+	auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+	if (pEdit == nullptr)
+	{
+		return;
+	}
+
+	size_t fromLine = 0;
+	size_t toLine = 0;
+	size_t fromColumn = 0;
+	size_t toColumn = 0;
+
+	bool hasLineSelection = false;
+	if (pEdit->execute(SCI_GETSELECTIONS) > 1)
+	{
+		if (pEdit->execute(SCI_SELECTIONISRECTANGLE))
+		{
+			size_t rectSelAnchor = pEdit->execute(SCI_GETRECTANGULARSELECTIONANCHOR);
+			size_t rectSelCaret = pEdit->execute(SCI_GETRECTANGULARSELECTIONCARET);
+			size_t anchorLine = pEdit->execute(SCI_LINEFROMPOSITION, rectSelAnchor);
+			size_t caretLine = pEdit->execute(SCI_LINEFROMPOSITION, rectSelCaret);
+			fromLine = std::min(anchorLine, caretLine);
+			toLine = std::max(anchorLine, caretLine);
+			size_t anchorLineOffset = rectSelAnchor - pEdit->execute(SCI_POSITIONFROMLINE, anchorLine) + pEdit->execute(SCI_GETRECTANGULARSELECTIONANCHORVIRTUALSPACE);
+			size_t caretLineOffset = rectSelCaret - pEdit->execute(SCI_POSITIONFROMLINE, caretLine) + pEdit->execute(SCI_GETRECTANGULARSELECTIONCARETVIRTUALSPACE);
+			fromColumn = std::min(anchorLineOffset, caretLineOffset);
+			toColumn = std::max(anchorLineOffset, caretLineOffset);
+		}
+		else
+		{
+			return;
+		}
+	}
+	else
+	{
+		auto selStart = pEdit->execute(SCI_GETSELECTIONSTART);
+		auto selEnd = pEdit->execute(SCI_GETSELECTIONEND);
+		hasLineSelection = selStart != selEnd;
+		if (hasLineSelection)
+		{
+			const  std::pair<size_t, size_t> lineRange = pEdit->getSelectionLinesRange();
+			// One single line selection is not allowed.
+			if (lineRange.first == lineRange.second)
+			{
+				return;
+			}
+			fromLine = lineRange.first;
+			toLine = lineRange.second;
+		}
+		else
+		{
+			// No selection.
+			fromLine = 0;
+			toLine = pEdit->execute(SCI_GETLINECOUNT) - 1;
+		}
+	}
+
+	pEdit->execute(SCI_BEGINUNDOACTION);
+	pEdit->sortLines(fromLine, toLine, sortType);
+	pEdit->execute(SCI_ENDUNDOACTION);
+
+	if (hasLineSelection)
+	{
+		auto selStart = pEdit->execute(SCI_POSITIONFROMLINE, fromLine);
+		auto selEnd = pEdit->execute(SCI_GETLINEENDPOSITION, toLine);
+		pEdit->execute(SCI_SETSELECTIONSTART, selStart);
+		pEdit->execute(SCI_SETSELECTIONEND, selEnd);
+	}
+
+}
+
 void NotepadPP::__onTriggerNewFile()
 {
 	qDebug() << "Trigger New File action.";
@@ -1447,18 +1519,22 @@ void NotepadPP::__onTriggerInsertBlankBwCurrentLine()
 void NotepadPP::__onTriggerSortLinesLexAscending()
 {
 	qDebug() << "NotepadPP::__onTriggerSortLinesLexAscending()";
+	sortLines(SortType::LexAscending);
 }
 void NotepadPP::__onTriggerSortLinesLexAscendingIgnoreCase()
 {
 	qDebug() << "NotepadPP::__onTriggerSortLinesLexAscendingIgnoreCase()";
+	sortLines(SortType::LexAscendingIgnoreCase);
 }
 void NotepadPP::__onTriggerSortLinesLexDescending()
 {
 	qDebug() << "NotepadPP::__onTriggerSortLinesLexDescending()";
+	sortLines(SortType::LexDescending);
 }
 void NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()
 {
 	qDebug() << "NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()";
+	sortLines(SortType::LexDescendingIgnoreCase);
 }
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {

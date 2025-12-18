@@ -51,6 +51,7 @@
 #include "StyleSheetUtils.h"
 #include <QFileInfo>
 #include <unordered_set>
+#include <QStringList>
 
 void ScintillaEditView::__init()
 {
@@ -491,4 +492,36 @@ intptr_t ScintillaEditView::replaceTarget(QByteArray &bytes, intptr_t fromTarget
 
 	execute(SCI_SETTARGETRANGE, fromTargetPos, toTargetPos);
 	return execute(SCI_REPLACETARGET, bytes.size(), reinterpret_cast<sptr_t>(bytes.data()));
+}
+
+void ScintillaEditView::sortLines(size_t nFromLine, size_t nToLine, SortType sortType)
+{
+	if (nFromLine >= nToLine)
+		return;
+
+	size_t nStartPos = execute(SCI_POSITIONFROMLINE, nFromLine);
+	size_t nEndPos = execute(SCI_POSITIONFROMLINE, nToLine) + execute(SCI_LINELENGTH, nToLine);
+	QString text = getGenericTextAsQString(nStartPos, nEndPos);
+	QStringList lines = text.split(getEOLString());
+
+	size_t nLineCount = execute(SCI_GETLINECOUNT);
+	bool bSortEntireDocument = nToLine == nLineCount - 1;
+	if (!bSortEntireDocument)
+	{
+		if (lines.rbegin()->isEmpty())
+		{
+			lines.pop_back();
+		}
+	}
+
+	ISorter::sort(lines, sortType);
+	
+	QString joined = lines.join(getEOLString());
+	if (!bSortEntireDocument)
+	{
+		joined += getEOLString();
+	}
+
+	QByteArray bytes = joined.toUtf8();
+	replaceTarget(bytes, nStartPos, nEndPos);
 }
