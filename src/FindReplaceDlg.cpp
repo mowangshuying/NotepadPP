@@ -19,3 +19,8 @@ FindReplaceDlg::FindReplaceDlg(QWidget *parent)
     setFixedSize(538, 360);
     setWindowTitle("Find & Replace");
 }
+
+void FindReplaceDlg::setTabWidget(QTabWidget *tabWidget)
+{
+    m_pFindPage->setTabWidget(tabWidget);
+}

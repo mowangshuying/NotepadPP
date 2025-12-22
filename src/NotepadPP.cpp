@@ -1558,6 +1558,7 @@ void NotepadPP::__onTriggerFind()
 	qDebug() << "NotepadPP::__onTriggerFind()";
 	// 打开FindDlg
 	FindReplaceDlg dlg;
+	dlg.setTabWidget(m_editTabWidget);
 	dlg.exec();
 }
 void NotepadPP::__onTriggerFindNext()

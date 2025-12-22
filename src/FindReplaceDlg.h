@@ -13,6 +13,7 @@ class FindReplaceDlg : public QDialog
 public:
     FindReplaceDlg(QWidget *parent = nullptr);
 
+    void setTabWidget(QTabWidget* tabWidget);
 protected:
     QVBoxLayout* m_vMainLayout;
     QTabWidget* m_tabWidget;

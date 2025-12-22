@@ -1,7 +1,18 @@
 #include "FindPage.h"
 #include <QGroupBox>
+#include <QDebug>
+#include "ScintillaEditView.h"
+#include <Qsci/qsciscintilla.h>
 
-FindPage::FindPage(QWidget *parent)
+FindPage::FindPage(QWidget *parent) : QWidget(parent), m_editTabWidget(nullptr), m_sFindExpr(""), m_bReverseSearch(false),
+    m_bMachWholeWord(false), m_bMachCase(false), m_bLoopSearch(false), m_bNormal(false), m_bExended(false), m_bRegularExpression(false),
+    m_bFirstFind(false)
+{
+    __initUI();
+    __connect();
+}
+
+void FindPage::__initUI()
 {
     m_vMainLayout = new QVBoxLayout(this);
     setLayout(m_vMainLayout);
@@ -92,4 +103,131 @@ FindPage::FindPage(QWidget *parent)
     m_vMainLayout->addWidget(m_clearButton);
 
     m_vMainLayout->addStretch();
+}
+
+void FindPage::__connect()
+{
+    connect(m_findNextButton, &QPushButton::clicked, this, &FindPage::__onClickedFindNextButton);
+}
+
+ScintillaEditView *FindPage::autoAdjustCurrentEditWin()
+{
+    // return nullptr;
+    auto pEdit = dynamic_cast<ScintillaEditView*> (m_editTabWidget->currentWidget());
+    if (pEdit == nullptr)
+        return nullptr;
+
+    if (pEdit != m_curEidtView)
+    {
+        m_bFirstFind = true;
+        m_curEidtView = pEdit;
+    }
+    return pEdit;
+}
+
+void FindPage::setTabWidget(QTabWidget *tabWidget)
+{
+    m_editTabWidget = tabWidget;
+}
+
+void FindPage::updateParamsFromUI()
+{
+    // 查找窗口
+    // 需要查找的内容
+    if (m_findTargetComboBox->currentText() != m_sFindExpr)
+    {
+        m_sFindExpr = m_findTargetComboBox->currentText();
+        m_bFirstFind = true;
+    }
+
+    // 正则;
+    // m_bRegularExpression = false;
+    if (m_regexRadioButton->isChecked() != m_bRegularExpression)
+    {
+        m_bRegularExpression = m_regexRadioButton->isChecked();
+    }
+
+    // 反向查找
+    if (m_reverseSearchCheckBox->isChecked() != m_bReverseSearch)
+    {
+        m_bReverseSearch = m_reverseSearchCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+
+    // 匹配整个字符
+    if (m_machWholeWordCheckBox->isChecked() != m_bMachWholeWord)
+    {
+        m_bMachWholeWord = m_machWholeWordCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+
+    // 匹配大小写
+    if (m_matchCaseCheckBox->isChecked() != m_bMachCase)
+    {
+        m_bMachCase = m_matchCaseCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+
+    // 循环查找
+    if (m_loopSearchCheckBox->isChecked() != m_bLoopSearch)
+    {
+        m_bLoopSearch = m_loopSearchCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+}
+
+void FindPage::__onClickedFindNextButton()
+{
+    qDebug() << "FindPage::__onClickedFindNextButton()";
+    QString findText = m_findTargetComboBox->currentText();
+    if (findText.isEmpty())
+    {
+        return;
+    }
+
+
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+
+    updateParamsFromUI();
+    if (m_bFirstFind)
+    {
+        //  const QString &expr, 
+        //  bool re,  // 是否使用正则表达式
+        //  bool cs,  // 区分大小写
+        //  bool wo,  // 全词匹配
+        // bool wrap, // 循环查找
+        //  bool forward,  // 向前
+        //  int line, 
+        //  int index, 
+
+        //  bool show, // 是否显示 
+        //  bool posix, // 
+        //  bool cxx11 // 
+        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, !m_bReverseSearch, -1, -1, true, false, false);
+        if (!bFind)
+        {
+            qDebug() << "find failed";
+            return;
+        }
+        else
+        {
+            m_bFirstFind = false;
+
+            // // FindState& findState = 
+            // pEdit->getSelectionLinesRange
+            // int nLine = 0;
+            // int nIndexStart = 0;
+            // int nIndexEnd = 0;
+            // pEdit->lineIndexFromPosition();
+        }
+    }
+    else
+    {
+        bool bFind = pEdit->findNext();
+        if (!bFind)
+        {
+            qDebug() << "Not found";
+        }
+    }
+
 }

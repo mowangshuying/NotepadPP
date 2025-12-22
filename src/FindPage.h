@@ -7,13 +7,30 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include <QTabWidget>
 
+
+class ScintillaEditView;
 class FindPage : public QWidget
 { 
     Q_OBJECT
 public:
     FindPage(QWidget *parent = nullptr);
+
+    void __initUI();
+    void __connect();
+
+    ScintillaEditView* autoAdjustCurrentEditWin();
+
+    void setTabWidget(QTabWidget* tabWidget);
+
+    void updateParamsFromUI();
+
+    // slots;
+    void __onClickedFindNextButton();
 protected:
+
+//// ui;
     QVBoxLayout* m_vMainLayout;
     QLabel* m_findTargetLabel;
     QComboBox* m_findTargetComboBox;
@@ -46,4 +63,19 @@ protected:
     QPushButton* m_findInAllFileButton;
     // 清空
     QPushButton* m_clearButton;
+
+//// var;
+    QTabWidget* m_editTabWidget;
+    ScintillaEditView* m_curEidtView;
+
+    QString m_sFindExpr; // 表达式
+    bool m_bReverseSearch; // 反向查找
+    bool m_bMachWholeWord; // 全字匹配
+    bool m_bMachCase; // 匹配大小写
+    bool m_bLoopSearch; // 循环查找
+    bool m_bNormal;
+    bool m_bExended; // 扩展
+    bool m_bRegularExpression; // 正则表达式
+
+    bool m_bFirstFind;
 };
