@@ -6,7 +6,7 @@
 
 FindPage::FindPage(QWidget *parent) : QWidget(parent), m_editTabWidget(nullptr), m_sFindExpr(""), m_bReverseSearch(false),
     m_bMachWholeWord(false), m_bMachCase(false), m_bLoopSearch(false), m_bNormal(false), m_bExended(false), m_bRegularExpression(false),
-    m_bFirstFind(false)
+    m_bFirstFind(true)
 {
     __initUI();
     __connect();
@@ -207,6 +207,7 @@ void FindPage::__onClickedFindNextButton()
         if (!bFind)
         {
             qDebug() << "find failed";
+            m_bFirstFind = true;
             return;
         }
         else
