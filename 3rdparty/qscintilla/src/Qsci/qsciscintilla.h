@@ -2189,7 +2189,7 @@ private slots:
 
     void delete_selection();
 
-private:
+protected:
     void detachLexer();
 
     enum IndentState {
