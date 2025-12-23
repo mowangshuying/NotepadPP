@@ -523,6 +523,28 @@ public:
         WrapIndentDeeplyIndented = SC_WRAPINDENT_DEEPINDENT
     };
 
+    struct FindState
+    {
+        enum Status
+        {
+            Finding,
+            FindingInSelection,
+            Idle
+        };
+
+        FindState() : status(Idle) {}
+
+        Status status;
+        QString expr;
+        bool wrap;
+        bool forward;
+        int flags;
+        long startpos, startpos_orig;
+        long endpos, endpos_orig;
+        bool show;
+    };
+
+
     //! Construct an empty QsciScintilla with parent \a parent.
     QsciScintilla(QWidget *parent = 0);
 
@@ -2245,26 +2267,26 @@ protected:
     QByteArray styleText(const QList<QsciStyledText> &styled_text,
             char **styles, int style_offset = 0);
 
-    struct FindState
-    {
-        enum Status
-        {
-            Finding,
-            FindingInSelection,
-            Idle
-        };
+    // struct FindState
+    // {
+    //     enum Status
+    //     {
+    //         Finding,
+    //         FindingInSelection,
+    //         Idle
+    //     };
 
-        FindState() : status(Idle) {}
+    //     FindState() : status(Idle) {}
 
-        Status status;
-        QString expr;
-        bool wrap;
-        bool forward;
-        int flags;
-        long startpos, startpos_orig;
-        long endpos, endpos_orig;
-        bool show;
-    };
+    //     Status status;
+    //     QString expr;
+    //     bool wrap;
+    //     bool forward;
+    //     int flags;
+    //     long startpos, startpos_orig;
+    //     long endpos, endpos_orig;
+    //     bool show;
+    // };
 
     FindState findState;
 
@@ -2306,6 +2328,7 @@ protected:
 
     void set_shortcut(QAction *action, QsciCommand::Command cmd_id) const;
 
+private:
     QsciScintilla(const QsciScintilla &);
     QsciScintilla &operator=(const QsciScintilla &);
 };

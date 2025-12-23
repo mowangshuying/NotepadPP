@@ -72,6 +72,11 @@ public:
 	intptr_t replaceTarget(QByteArray& bytes, intptr_t fromTargetPos, intptr_t toTargetPos);
 
 	void sortLines(size_t nFromLine, size_t nToLine, SortType sortType);
+
+	FindState getLastFindState()
+	{
+		return findState;
+	}
 protected:
 	ScintillaFunc m_pScintillaFunc;
 	ScintillaPtr m_pScintillaPtr;

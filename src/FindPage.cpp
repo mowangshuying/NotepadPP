@@ -213,13 +213,6 @@ void FindPage::__onClickedFindNextButton()
         else
         {
             m_bFirstFind = false;
-
-            // // FindState& findState = 
-            // pEdit->getSelectionLinesRange
-            // int nLine = 0;
-            // int nIndexStart = 0;
-            // int nIndexEnd = 0;
-            // pEdit->lineIndexFromPosition();
         }
     }
     else
