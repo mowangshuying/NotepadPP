@@ -533,7 +533,6 @@ public:
         };
 
         FindState() : status(Idle) {}
-
         Status status;
         QString expr;
         bool wrap;
@@ -541,6 +540,8 @@ public:
         int flags;
         long startpos, startpos_orig;
         long endpos, endpos_orig;
+        // long targetstart, targetend;
+        // int linenum;
         bool show;
     };
 

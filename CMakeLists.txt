@@ -28,14 +28,20 @@ set(PROJECT_SOURCES
     src/EnCode.h
     src/FileListView.cpp
     src/FileListView.h
+    src/FileListViewDock.cpp
+    src/FileListViewDock.h
     src/FileListViewItem.cpp
     src/FileListViewItem.h
     src/FileManager.cpp
     src/FileManager.h
     src/FindPage.cpp
     src/FindPage.h
+    src/FindRecords.cpp
+    src/FindRecords.h
     src/FindReplaceDlg.cpp
     src/FindReplaceDlg.h
+    src/FindResultsDock.cpp
+    src/FindResultsDock.h
     src/ISorter.cpp
     src/ISorter.h
     src/MarkPage.cpp

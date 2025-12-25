@@ -1,6 +1,6 @@
 #include "FindReplaceDlg.h"
 
-FindReplaceDlg::FindReplaceDlg(QWidget *parent)
+FindReplaceDlg::FindReplaceDlg(QWidget *parent) : QDialog(parent), m_bTimeToClose(false)
 {
     m_vMainLayout = new QVBoxLayout(this);
     setLayout(m_vMainLayout);
@@ -23,4 +23,25 @@ FindReplaceDlg::FindReplaceDlg(QWidget *parent)
 void FindReplaceDlg::setTabWidget(QTabWidget *tabWidget)
 {
     m_pFindPage->setTabWidget(tabWidget);
+}
+
+bool FindReplaceDlg::getTimeToClose()
+{
+    return m_bTimeToClose;
+}
+
+void FindReplaceDlg::setTimeToClose(bool bTimeToClose)
+{
+    m_bTimeToClose = bTimeToClose;
+}
+
+void FindReplaceDlg::closeEvent(QCloseEvent *event)
+{
+    if (m_bTimeToClose)
+    {
+        QDialog::closeEvent(event);
+        return;
+    }
+
+    QDialog::hide();
 }

@@ -13,6 +13,7 @@
 #include <SciLexer.h>
 #include "StyleSheetUtils.h"
 #include "FindReplaceDlg.h"
+#include "FileListViewDock.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0), m_bShowEndofLine(false)
 {
@@ -25,7 +26,7 @@ void NotepadPP::__initUi()
 	__initMenu();
 	loadRecentFileFromConfig();
 
-	__initFileListView();
+	__initDockWin();
 
 	auto contentWidget = new QWidget(this);
 	setCentralWidget(contentWidget);
@@ -44,6 +45,10 @@ void NotepadPP::__initUi()
 	m_editTabWidget->setMovable(true);
 	m_editTabWidget->setTabBarAutoHide(false);
 	m_horizontalLayout->addWidget(m_editTabWidget);
+
+	m_findReplaceDlg = new FindReplaceDlg(this);
+	m_findReplaceDlg->setTabWidget(m_editTabWidget);
+	m_findReplaceDlg->hide();
 
 	// init status bar
     //m_statusBar = new QStatusBar(this);
@@ -237,18 +242,19 @@ void NotepadPP::__initMenu()
 	// searchMenu
 	m_menuSearch = new QMenu("Search");
 	m_actionFind = new QAction("Find");
-	m_actionFindNext = new QAction("Find Next");
-	m_actionFindPrev = new QAction("Find Prev");
-	m_actionFindInDir = new QAction("Find In Directory");
+	m_actionFind->setShortcut(QKeySequence::Find);
+	// m_actionFindNext = new QAction("Find Next");
+	// m_actionFindPrev = new QAction("Find Prev");
+	// m_actionFindInDir = new QAction("Find In Directory");
 	m_actionReplace = new QAction("Replace");
-	m_actionGoline = new QAction("Go To Line");
+	// m_actionGoline = new QAction("Go To Line");
 
 	m_menuSearch->addAction(m_actionFind);
-	m_menuSearch->addAction(m_actionFindPrev);
-	m_menuSearch->addAction(m_actionFindNext);
-	m_menuSearch->addAction(m_actionFindInDir);
+	// m_menuSearch->addAction(m_actionFindPrev);
+	// m_menuSearch->addAction(m_actionFindNext);
+	// m_menuSearch->addAction(m_actionFindInDir);
 	m_menuSearch->addAction(m_actionReplace);
-	m_menuSearch->addAction(m_actionGoline);
+	// m_menuSearch->addAction(m_actionGoline);
 	m_menuBar->addAction(m_menuSearch->menuAction());
 
 	//m_menuBookMark = new QMenu("BookMark");
@@ -378,17 +384,22 @@ void NotepadPP::__initEncodingMenu()
 	}
 }
 
-void NotepadPP::__initFileListView()
+void NotepadPP::__initDockWin()
 {
-	m_fileListViewDock = new QDockWidget("File List View", this);
-	m_fileListViewDock->setFeatures(QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
-	m_fileListViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	m_fileListViewDock->setAttribute(Qt::WA_DeleteOnClose);
+	// m_fileListViewDock = new QDockWidget("File List View", this);
+	// m_fileListViewDock->setFeatures(QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+	// m_fileListViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	// m_fileListViewDock->setAttribute(Qt::WA_DeleteOnClose);
 
-	m_fileListView = new FileListView(this);
-	m_fileListView->setNotePad(this);
-	m_fileListViewDock->setWidget(m_fileListView);
+	// m_fileListView = new FileListView(this);
+	// m_fileListView->setNotePad(this);
+	// m_fileListViewDock->setWidget(m_fileListView);
+	// addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
+
+	m_fileListViewDock = new FileListViewDock(this);
+	m_fileListViewDock->setWindowTitle("File List View");
 	addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
+
 }
 
 void NotepadPP::__initStatusBar()
@@ -459,11 +470,11 @@ void NotepadPP::__connect()
 
 
 	connect(m_actionFind, &QAction::triggered, this, &NotepadPP::__onTriggerFind);
-	connect(m_actionFindNext, &QAction::triggered, this, &NotepadPP::__onTriggerFindNext);
-	connect(m_actionFindPrev, &QAction::triggered, this, &NotepadPP::__onTriggerFindPrev);
-	connect(m_actionFindInDir, &QAction::triggered, this, &NotepadPP::__onTriggerFindInDir);
+	// connect(m_actionFindNext, &QAction::triggered, this, &NotepadPP::__onTriggerFindNext);
+	// connect(m_actionFindPrev, &QAction::triggered, this, &NotepadPP::__onTriggerFindPrev);
+	// connect(m_actionFindInDir, &QAction::triggered, this, &NotepadPP::__onTriggerFindInDir);
 	connect(m_actionReplace, &QAction::triggered, this, &NotepadPP::__onTriggerReplace);
-	connect(m_actionGoline, &QAction::triggered, this, &NotepadPP::__onTriggerGoToLine);
+	// connect(m_actionGoline, &QAction::triggered, this, &NotepadPP::__onTriggerGoToLine);
 
 	connect(m_actionShowSpaces, &QAction::toggled, this, &NotepadPP::__onTriggerShowSpaces);
 	connect(m_actionShowEndOfLine, &QAction::toggled, this, &NotepadPP::__onTriggerShowLineEnd);
@@ -614,7 +625,8 @@ void NotepadPP::openTextFile(QString filepath)
 	// set code id;
 	pEdit->setProperty("CodeId", (int)cid);
 
-	m_fileListView->addItem(filepath);
+	// m_fileListView->addItem(filepath);
+	m_fileListViewDock->addFilePath(filepath);
 
 	// zoom value changed;
 	// connect(pEdit, SIGNAL(SCN_ZOOM()), this, SLOT(__onZoomValueChange()));
@@ -876,7 +888,8 @@ void NotepadPP::closeTab(int index)
 	{
 		addRecentFile(filepath);
 		// updateRecentFileMenu();
-		m_fileListView->delItem(filepath);
+		// m_fileListView->delItem(filepath);
+		m_fileListViewDock->delFilePath(filepath);
 	}
 
 	pEdit->deleteLater();
@@ -1556,31 +1569,14 @@ void NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()
 void NotepadPP::__onTriggerFind()
 {
 	qDebug() << "NotepadPP::__onTriggerFind()";
-	// 打开FindDlg
-	FindReplaceDlg dlg;
-	dlg.setTabWidget(m_editTabWidget);
-	dlg.exec();
+	m_findReplaceDlg->show();
 }
-void NotepadPP::__onTriggerFindNext()
-{
-	qDebug() << "NotepadPP::__onTriggerFindPrev()";
-}
-void NotepadPP::__onTriggerFindPrev()
-{
-	qDebug() << "NotepadPP::__onTriggerFindNext()";
-}
-void NotepadPP::__onTriggerFindInDir()
-{
-	qDebug() << "NotepadPP::__onTriggerFindInDir()";
-}
+
 void NotepadPP::__onTriggerReplace()
 {
 	qDebug() << "NotepadPP::__onTriggerReplace()";
 }
-void NotepadPP::__onTriggerGoToLine()
-{
-	qDebug() << "NotepadPP::__onTriggerGoToLine()";
-}
+
 void NotepadPP::__onTriggerReopenWithEncoding(QAction *action)
 {
 	qDebug() << "NotepadPP::__onTriggerReopenWithEncoding";

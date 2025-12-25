@@ -3,6 +3,8 @@
 #include <QDebug>
 #include "ScintillaEditView.h"
 #include <Qsci/qsciscintilla.h>
+#include <QMessageBox>
+#include "FindRecords.h"
 
 FindPage::FindPage(QWidget *parent) : QWidget(parent), m_editTabWidget(nullptr), m_sFindExpr(""), m_bReverseSearch(false),
     m_bMachWholeWord(false), m_bMachCase(false), m_bLoopSearch(false), m_bNormal(false), m_bExended(false), m_bRegularExpression(false),
@@ -84,9 +86,9 @@ void FindPage::__initUI()
     m_findPrevButton->setFixedWidth(150);
     m_vMainLayout->addWidget(m_findPrevButton);
     // 计数
-    m_countButton = new QPushButton(tr("Count"));
-    m_countButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_countButton);
+    m_findCountButton = new QPushButton(tr("Count"));
+    m_findCountButton->setFixedWidth(150);
+    m_vMainLayout->addWidget(m_findCountButton);
     // 在文件中查找
     m_findInCurFileButton = new QPushButton(tr("Find In Current File"));
     m_findInCurFileButton->setFixedWidth(150);
@@ -108,6 +110,10 @@ void FindPage::__initUI()
 void FindPage::__connect()
 {
     connect(m_findNextButton, &QPushButton::clicked, this, &FindPage::__onClickedFindNextButton);
+    connect(m_findPrevButton, &QPushButton::clicked, this, &FindPage::__onClickedFindPrevButton);
+    connect(m_findCountButton, &QPushButton::clicked, this, &FindPage::__onclickedFindCountButton);
+    connect(m_findInCurFileButton, &QPushButton::clicked, this, &FindPage::__onClickedFindInCurFileButton);
+    connect(m_clearButton, &QPushButton::clicked, this, &FindPage::__onClickedClearButton);
 }
 
 ScintillaEditView *FindPage::autoAdjustCurrentEditWin()
@@ -176,6 +182,55 @@ void FindPage::updateParamsFromUI()
     }
 }
 
+FindRecord FindPage::getFindRecordFromLastFindState()
+{
+    FindRecord findRecord;
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    if (pEdit == nullptr)
+    {
+        return findRecord;
+    }
+
+    ScintillaEditView::FindState findState = pEdit->getLastFindState();
+
+    long targetStart = pEdit->execute(SCI_GETTARGETSTART);
+    long targetEnd = pEdit->execute(SCI_GETTARGETEND);
+    long linenum = pEdit->execute(SCI_LINEFROMPOSITION, targetStart);
+    long lineStart = pEdit->execute(SCI_POSITIONFROMLINE, linenum);
+
+    long lineLength = pEdit->execute(SCI_LINELENGTH, linenum);
+    char* lineText = new char[lineLength + 1];
+    memset(lineText, 0, lineLength + 1);
+    pEdit->execute(SCI_GETLINE, linenum, (sptr_t)lineText);
+    QString sLineText = QString::fromUtf8(lineText);
+    sLineText = delEndofLine(sLineText);
+
+    findRecord.setTargetStartPos(targetStart);
+    findRecord.setTargetEndPos(targetEnd);
+    findRecord.setLineNums(linenum);
+    findRecord.setLineStartPos(lineStart);    
+    findRecord.setLineContents(sLineText);
+    return findRecord;
+}
+
+QString FindPage::delEndofLine(QString lineText)
+{
+    // return QString();
+    if (lineText.endsWith("\r\n"))
+	{
+		return lineText.mid(0, lineText.length()-2);
+	}
+	if (lineText.endsWith("\r"))
+	{
+		return lineText.mid(0, lineText.length()-1);
+	}
+	if (lineText.endsWith("\n"))
+	{
+		return lineText.mid(0, lineText.length()-1);
+	}
+	return lineText;
+}
+
 void FindPage::__onClickedFindNextButton()
 {
     qDebug() << "FindPage::__onClickedFindNextButton()";
@@ -185,10 +240,22 @@ void FindPage::__onClickedFindNextButton()
         return;
     }
 
-
     ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
-
     updateParamsFromUI();
+
+
+    // if (m_bFindNext == false)
+    // {
+        // m_bFindNext = true;
+        // m_bFirstFind = true;
+    // }
+
+
+    if (m_lastClickedButtonType == LastClickedButtonType::FindPrev)
+    {
+        m_bFirstFind = true;
+    }
+
     if (m_bFirstFind)
     {
         //  const QString &expr, 
@@ -224,4 +291,157 @@ void FindPage::__onClickedFindNextButton()
         }
     }
 
+    m_lastClickedButtonType = LastClickedButtonType::FindNext;
+
+}
+
+void FindPage::__onClickedFindPrevButton()
+{
+    qDebug() << "FindPage::__onClickedFindPrevButton()";
+    QString findText = m_findTargetComboBox->currentText();
+    if (findText.isEmpty())
+    {
+        return;
+    }
+
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    updateParamsFromUI();
+    
+
+    bool bForward = !m_bReverseSearch;
+    if (m_lastClickedButtonType == LastClickedButtonType::FindNext)
+    {
+        bForward = !bForward;
+        m_bFirstFind = true;
+    }
+
+    if (m_bFirstFind)
+    {
+        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, bForward, -1, -1, true, false, false);
+        if (!bFind)
+        {
+            qDebug() << "find failed";
+            m_bFirstFind = true;
+            return;
+        }
+        else
+        {
+            m_bFirstFind = false;
+        }
+    }
+    else
+    {
+        bool bFind = pEdit->findNext();
+        if (!bFind)
+        {
+            qDebug() << "Not found";
+        }
+    }
+
+    m_lastClickedButtonType = LastClickedButtonType::FindPrev;
+}
+
+void FindPage::__onclickedFindCountButton()
+{
+    qDebug() << "FindPage::__onclickedFindCountButton()";
+    QString findText = m_findTargetComboBox->currentText();
+    if (findText.isEmpty())
+    {
+        return;
+    }
+
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    updateParamsFromUI();
+
+    int nBakCurrentPos = pEdit->execute(SCI_GETCURRENTPOS);
+    int nBakFirstVisibleLine = pEdit->execute(SCI_GETFIRSTVISIBLELINE);
+
+    int nFindCount = 0;
+
+    if (!pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, true, 0, 0, false, false, false))
+    {
+        m_bFirstFind = true;
+        return;
+    }
+
+    nFindCount++;
+
+    while(pEdit->findNext())
+    {
+        nFindCount++;
+    }
+
+    pEdit->execute(SCI_GOTOPOS, nBakCurrentPos);
+    pEdit->execute(SCI_SETFIRSTVISIBLELINE, nBakFirstVisibleLine);
+    pEdit->execute(SCI_SETXOFFSET, 0);
+    
+    // qDebug() << "Total occurrences found:" << nFindCount;
+    // 直接弹出窗口提示
+    QMessageBox::information(this, tr("Find"), tr("Total occurrences found: %1").arg(nFindCount));
+}
+
+void FindPage::__onClickedFindInCurFileButton()
+{
+    qDebug() << "__onClickedFindInCurFileButton()";
+    QString findText = m_findTargetComboBox->currentText();
+    if (findText.isEmpty()) {
+        return;
+    }
+
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    if (pEdit == nullptr)
+    {
+        return;
+    }
+
+    updateParamsFromUI();
+
+    FindRecords findRecords;
+    findRecords.setEditView(pEdit);
+    QString filepath = pEdit->property("FilePath").toString();
+    findRecords.setFindFilePath(filepath);
+    findRecords.setFindText(findText);
+
+    int nBakCurrentPos = pEdit->execute(SCI_GETCURRENTPOS);
+    int nBakFirstVisibleLine = pEdit->execute(SCI_GETFIRSTVISIBLELINE);
+
+    // int nFindCount = 0;
+    /// 从头开始查找
+    bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, false, true, 0, 0);
+    if (!bFind)
+    {
+        m_bFirstFind = true;
+        return;
+    }
+
+    FindRecord findRecord = getFindRecordFromLastFindState();
+    findRecords.addFindRecord(findRecord);
+
+    while (pEdit->findNext())
+    {
+        findRecord = getFindRecordFromLastFindState();
+        findRecords.addFindRecord(findRecord);
+    }
+    
+    pEdit->execute(SCI_GOTOPOS, nBakCurrentPos);
+    pEdit->execute(SCI_SETFIRSTVISIBLELINE, nBakFirstVisibleLine);
+    pEdit->execute(SCI_SETXOFFSET, 0);
+
+    m_bFirstFind = true;
+
+    // log findRecodes
+    // QVector<FindRecord> findRecods = findRecords.getFindRecordList();
+    // for (int i = 0; i < findRecods.size(); i++)
+    // {
+    //     FindRecord findRecord = findRecods[i];
+    //     qDebug() << "line:" << findRecord.getLineNums() << "text:" << findRecord.getLineContents();
+    // }
+
+    emit showFindRecords(&findRecords);
+    
+}
+
+void FindPage::__onClickedClearButton()
+{
+    qDebug() << "__onClickedClearButton()";
 }

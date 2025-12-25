@@ -11,7 +11,9 @@
 #include <QDockWidget>
 #include "FileListView.h"
 #include "ISorter.h"
+#include "FindReplaceDlg.h"
 
+class FileListViewDock;
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
@@ -25,7 +27,7 @@ public:
 
     void __initEncodingMenu();
 
-    void __initFileListView();
+    void __initDockWin();
 
     void __initStatusBar();
 
@@ -136,13 +138,13 @@ public slots:
     void __onTriggerSortLinesLexDescending();
     void __onTriggerSortLinesLexDescendingIgnoreCase();
 
-    // find; ---------------
+    // find;
     void __onTriggerFind();
-    void __onTriggerFindNext();
-    void __onTriggerFindPrev();
-    void __onTriggerFindInDir();
+    // void __onTriggerFindNext();
+    // void __onTriggerFindPrev();
+    // void __onTriggerFindInDir();
     void __onTriggerReplace();
-    void __onTriggerGoToLine();
+    // void __onTriggerGoToLine();
 
     void __onTriggerReopenWithEncoding(QAction* action);
     void __onTriggerSaveWithEncoding(QAction* action);
@@ -173,7 +175,7 @@ protected:
     QAction* m_actionConvertMacCR;
     QAction* m_actionFind;
     QAction* m_actionReplace;
-    QAction* m_actionGoline;
+    // QAction* m_actionGoline;
     QAction* m_actionShowSpaces;
     QAction* m_actionShowEndOfLine;
     QAction* m_actionShowAll;
@@ -245,9 +247,9 @@ protected:
     // QAction* m_actionSortLinesAsDecimalsCommaDescending;
     // QAction* m_actionSortLinesAsDecimalsDotDescending;
 
-    QAction* m_actionFindInDir;
-    QAction* m_actionFindNext;
-    QAction* m_actionFindPrev;
+    // QAction* m_actionFindInDir;
+    // QAction* m_actionFindNext;
+    // QAction* m_actionFindPrev;
     QAction* m_actionRed;
     QAction* m_actionYellow2;
     QAction* m_actionBlue;
@@ -336,7 +338,11 @@ protected:
 
     std::vector<QString> m_recentOpenFileList;
     
-    FileListView* m_fileListView;
-    QDockWidget* m_fileListViewDock;
+    // FileListView* m_fileListView;
+    // QDockWidget* m_fileListViewDock;
+    FileListViewDock* m_fileListViewDock;
+
+    // find and replace dlg;
+    FindReplaceDlg* m_findReplaceDlg;
 };
 

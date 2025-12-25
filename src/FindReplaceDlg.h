@@ -14,10 +14,20 @@ public:
     FindReplaceDlg(QWidget *parent = nullptr);
 
     void setTabWidget(QTabWidget* tabWidget);
+
+    bool getTimeToClose();
+    void setTimeToClose(bool bTimeToClose);
+
+    // close event
+    void closeEvent(QCloseEvent* event) override;
 protected:
+
     QVBoxLayout* m_vMainLayout;
     QTabWidget* m_tabWidget;
 
     FindPage* m_pFindPage;
     ReplacePage* m_pReplacePage;
+
+    // 是时候关闭了
+    bool m_bTimeToClose;
 };

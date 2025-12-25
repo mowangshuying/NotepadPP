@@ -8,12 +8,23 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 #include <QTabWidget>
+#include "FindRecords.h"
 
 
 class ScintillaEditView;
+// class FindState;
 class FindPage : public QWidget
 { 
     Q_OBJECT
+public:
+    enum class LastClickedButtonType{
+        FindNext,
+        FindPrev,
+        Count, 
+        FindInCurFile,
+        FindInOpenFiles,
+        Clear,
+    };
 public:
     FindPage(QWidget *parent = nullptr);
 
@@ -26,8 +37,17 @@ public:
 
     void updateParamsFromUI();
 
-    // slots;
+    FindRecord getFindRecordFromLastFindState();
+    QString delEndofLine(QString lineText);
+
+signals:
+    void showFindRecords(FindRecords* findRecords);
+public slots:
     void __onClickedFindNextButton();
+    void __onClickedFindPrevButton();
+    void __onclickedFindCountButton();
+    void __onClickedFindInCurFileButton();
+    void __onClickedClearButton();
 protected:
 
 //// ui;
@@ -56,7 +76,7 @@ protected:
     // 查找上一个
     QPushButton* m_findPrevButton;
     // 计数
-    QPushButton* m_countButton;
+    QPushButton* m_findCountButton;
     // 在当前文件中查找
     QPushButton* m_findInCurFileButton;
     // 在所有打开文件中查找
@@ -77,5 +97,8 @@ protected:
     bool m_bExended; // 扩展
     bool m_bRegularExpression; // 正则表达式
 
+    // bool m_bFindNext;
     bool m_bFirstFind;
+
+    LastClickedButtonType m_lastClickedButtonType;
 };
