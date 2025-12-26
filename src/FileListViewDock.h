@@ -16,6 +16,8 @@ public:
     void addFilePath(QString filepath);
     void delFilePath(QString filepath);
 
+    void setNotePad(QWidget* notepad);
+
 private:
     FileListView* m_pFileListView;
 };

@@ -42,6 +42,8 @@ set(PROJECT_SOURCES
     src/FindReplaceDlg.h
     src/FindResultsDock.cpp
     src/FindResultsDock.h
+    src/FindResultsView.cpp
+    src/FindResultsView.h
     src/ISorter.cpp
     src/ISorter.h
     src/MarkPage.cpp
@@ -56,6 +58,8 @@ set(PROJECT_SOURCES
     src/SettingsPage.h
     src/StyleSheetUtils.cpp
     src/StyleSheetUtils.h
+    src/TreeView.cpp
+    src/TreeView.h
 )
 
 add_subdirectory("3rdparty")

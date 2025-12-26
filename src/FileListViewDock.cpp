@@ -18,7 +18,7 @@ void FileListViewDock::__initUI()
 
 
 	m_pFileListView = new FileListView(this);
-	m_pFileListView->setNotePad(this);
+	// m_pFileListView->setNotePad(this);
 	setWidget(m_pFileListView);
 }
 
@@ -30,4 +30,9 @@ void FileListViewDock::addFilePath(QString filepath)
 void FileListViewDock::delFilePath(QString filepath)
 {
     m_pFileListView->delItem(filepath);
+}
+
+void FileListViewDock::setNotePad(QWidget *notepad)
+{
+    m_pFileListView->setNotePad(this);
 }

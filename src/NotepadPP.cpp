@@ -14,6 +14,7 @@
 #include "StyleSheetUtils.h"
 #include "FindReplaceDlg.h"
 #include "FileListViewDock.h"
+#include "FindResultsDock.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent),m_nZoomValue(0), m_bShowEndofLine(false)
 {
@@ -397,9 +398,18 @@ void NotepadPP::__initDockWin()
 	// addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
 
 	m_fileListViewDock = new FileListViewDock(this);
+	m_fileListViewDock->setNotePad(this);
 	m_fileListViewDock->setWindowTitle("File List View");
 	addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
 
+	m_findResultsDock = new FindResultsDock(this);
+	m_findResultsDock->setWindowTitle("Find Results");
+	addDockWidget(Qt::BottomDockWidgetArea, m_findResultsDock);
+
+	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 }
 
 void NotepadPP::__initStatusBar()

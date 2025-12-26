@@ -14,6 +14,7 @@
 #include "FindReplaceDlg.h"
 
 class FileListViewDock;
+class FindResultsDock;
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
@@ -344,5 +345,7 @@ protected:
 
     // find and replace dlg;
     FindReplaceDlg* m_findReplaceDlg;
+    //
+    FindResultsDock* m_findResultsDock;
 };
 
