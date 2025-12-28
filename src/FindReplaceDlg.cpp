@@ -25,6 +25,12 @@ void FindReplaceDlg::setTabWidget(QTabWidget *tabWidget)
     m_pFindPage->setTabWidget(tabWidget);
 }
 
+void FindReplaceDlg::setNoteWidget(QWidget *pNoteWidget)
+{
+    m_pNoteWidget = pNoteWidget;
+    m_pFindPage->setNoteWidget(pNoteWidget);
+}
+
 bool FindReplaceDlg::getTimeToClose()
 {
     return m_bTimeToClose;

@@ -12,6 +12,7 @@
 #include "FileListView.h"
 #include "ISorter.h"
 #include "FindReplaceDlg.h"
+#include "FindRecords.h"
 
 class FileListViewDock;
 class FindResultsDock;
@@ -154,6 +155,9 @@ public slots:
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);
     void __onTriggerAboutNotepadPP();
+
+    // 查找结果反馈
+    void __onShowFindRecords(FindRecords* findRecords);
 protected:
     // 
     QAction* m_actionNewFile;

@@ -48,6 +48,7 @@ void NotepadPP::__initUi()
 	m_horizontalLayout->addWidget(m_editTabWidget);
 
 	m_findReplaceDlg = new FindReplaceDlg(this);
+	m_findReplaceDlg->setNoteWidget(this);
 	m_findReplaceDlg->setTabWidget(m_editTabWidget);
 	m_findReplaceDlg->hide();
 
@@ -1671,4 +1672,10 @@ void NotepadPP::__onTriggerAboutNotepadPP()
 {
 	AboutNotePP aboutDialog(this);
 	aboutDialog.exec();
+}
+
+void NotepadPP::__onShowFindRecords(FindRecords* findRecords)
+{
+	qDebug() << "NotepadPP::__onShowFindRecords()";
+	qDebug() << "findText:" << findRecords->getFindText() << ", hitCount:" << findRecords->getFindRecordList().size();
 }

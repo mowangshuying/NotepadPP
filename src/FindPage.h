@@ -35,6 +35,8 @@ public:
 
     void setTabWidget(QTabWidget* tabWidget);
 
+    void setNoteWidget(QWidget* pNoteWidget);
+
     void updateParamsFromUI();
 
     FindRecord getFindRecordFromLastFindState();
@@ -101,4 +103,6 @@ protected:
     bool m_bFirstFind;
 
     LastClickedButtonType m_lastClickedButtonType;
+
+    QWidget* m_pNotepadWidget;
 };

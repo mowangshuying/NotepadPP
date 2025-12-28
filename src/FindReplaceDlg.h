@@ -15,6 +15,8 @@ public:
 
     void setTabWidget(QTabWidget* tabWidget);
 
+    void setNoteWidget(QWidget* pNoteWidget);
+
     bool getTimeToClose();
     void setTimeToClose(bool bTimeToClose);
 
@@ -30,4 +32,7 @@ protected:
 
     // 是时候关闭了
     bool m_bTimeToClose;
+
+    ///
+    QWidget* m_pNoteWidget;
 };

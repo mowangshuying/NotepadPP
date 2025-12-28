@@ -5,11 +5,17 @@
 #include <Qsci/qsciscintilla.h>
 #include <QMessageBox>
 #include "FindRecords.h"
+#include "NotePadPP.h"
 
 FindPage::FindPage(QWidget *parent) : QWidget(parent), m_editTabWidget(nullptr), m_sFindExpr(""), m_bReverseSearch(false),
     m_bMachWholeWord(false), m_bMachCase(false), m_bLoopSearch(false), m_bNormal(false), m_bExended(false), m_bRegularExpression(false),
-    m_bFirstFind(true)
+    m_bFirstFind(true), m_pNotepadWidget(nullptr)
 {
+    // if (parent != nullptr)
+    // {
+    //     setNoteWidget(parent);
+    // }
+
     __initUI();
     __connect();
 }
@@ -113,6 +119,10 @@ void FindPage::__connect()
     connect(m_findPrevButton, &QPushButton::clicked, this, &FindPage::__onClickedFindPrevButton);
     connect(m_findCountButton, &QPushButton::clicked, this, &FindPage::__onclickedFindCountButton);
     connect(m_findInCurFileButton, &QPushButton::clicked, this, &FindPage::__onClickedFindInCurFileButton);
+
+
+    // auto pNotepad = dynamic_cast<NotepadPP*>(m_pNotepadWidget);
+    // connect(this, &FindPage::showFindRecords, pNotepad, &NotepadPP::__onShowFindRecords);
     connect(m_clearButton, &QPushButton::clicked, this, &FindPage::__onClickedClearButton);
 }
 
@@ -134,6 +144,14 @@ ScintillaEditView *FindPage::autoAdjustCurrentEditWin()
 void FindPage::setTabWidget(QTabWidget *tabWidget)
 {
     m_editTabWidget = tabWidget;
+}
+
+void FindPage::setNoteWidget(QWidget *pNoteWidget)
+{
+    m_pNotepadWidget = pNoteWidget;
+    auto pNotepad = dynamic_cast<NotepadPP*>(m_pNotepadWidget);
+    disconnect(this, &FindPage::showFindRecords, pNotepad, &NotepadPP::__onShowFindRecords);
+    connect(this, &FindPage::showFindRecords, pNotepad, &NotepadPP::__onShowFindRecords);
 }
 
 void FindPage::updateParamsFromUI()
@@ -437,6 +455,7 @@ void FindPage::__onClickedFindInCurFileButton()
     //     qDebug() << "line:" << findRecord.getLineNums() << "text:" << findRecord.getLineContents();
     // }
 
+    qDebug() << "emit showFindRecords";
     emit showFindRecords(&findRecords);
     
 }
