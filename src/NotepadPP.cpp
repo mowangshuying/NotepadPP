@@ -1678,4 +1678,5 @@ void NotepadPP::__onShowFindRecords(FindRecords* findRecords)
 {
 	qDebug() << "NotepadPP::__onShowFindRecords()";
 	qDebug() << "findText:" << findRecords->getFindText() << ", hitCount:" << findRecords->getFindRecordList().size();
+	m_findResultsDock->appendResultsToShow(findRecords);
 }

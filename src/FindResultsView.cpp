@@ -15,3 +15,8 @@ void FindResultsView::__initUI()
     m_treeView = new TreeView;
     m_vMainLayout->addWidget(m_treeView);
 }
+
+void FindResultsView::appendResultsToShow(FindRecords *findRecords)
+{
+    m_treeView->appendResultsToShow(findRecords);
+}

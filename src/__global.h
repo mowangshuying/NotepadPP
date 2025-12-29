@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <QObject>
+
 
 enum class CodeId {
 	UNKNOWN,
@@ -54,3 +56,15 @@ enum class LineEnd
 	Unix,
 	Mac,
 }; 
+
+enum class SelfUserRole
+{
+	// find results;
+	ResultItemPos = Qt::UserRole + 1,
+	ResultItemEditor,
+	ResultItemWhatFind,
+	ResultItemRoot,
+	ResultItemEditorFilePath,
+	ResultItemLen,
+	ResultItemDesc,
+};
