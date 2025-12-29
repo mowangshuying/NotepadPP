@@ -44,6 +44,8 @@ set(PROJECT_SOURCES
     src/FindResultsDock.h
     src/FindResultsView.cpp
     src/FindResultsView.h
+    src/HtmlStyledItemDelegate.cpp
+    src/HtmlStyledItemDelegate.h
     src/ISorter.cpp
     src/ISorter.h
     src/MarkPage.cpp
