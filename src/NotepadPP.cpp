@@ -1671,9 +1671,34 @@ void NotepadPP::__onShowFindRecords(FindRecords* findRecords)
 void NotepadPP::__onFindResultsViewItemClicked(const QModelIndex& index)
 {
 	qDebug() << "NotepadPP::__onFindResultsViewItemClicked()";
+	auto pIndex = &index;
+	if (!pIndex->data((int)SelfUserRole::ResultItemDesc).isNull())
+	{
+		return;
+	}
+
+	if (!pIndex->data((int)SelfUserRole::ResultItemEditor).isNull())
+	{
+		return;
+	}
+
+	if (!pIndex->data((int)SelfUserRole::ResultItemPos).isNull())
+	{
+		auto root = pIndex->parent();
+		auto pEdit = dynamic_cast<ScintillaEditView*>((QObject*) (root.data((int)SelfUserRole::ResultItemEditor).value<qlonglong>()));
+		if (pEdit != nullptr)
+		{
+			auto pos = pIndex->data((int)SelfUserRole::ResultItemPos).value<int>();
+			auto len = pIndex->data((int)SelfUserRole::ResultItemLen).value<int>();
+			pEdit->execute(SCI_SETSEL, pos, pos + len);
+		}
+
+		return;
+	}
 }
 
 void NotepadPP::__onFindResultsViewItemDoubleClicked(const QModelIndex& index)
 {
-	qDebug() << "NotepadPP::__onFindResultsViewItemDoubleClicked()";
+	// qDebug() << "NotepadPP::__onFindResultsViewItemDoubleClicked()";
+	__onFindResultsViewItemClicked(index);
 }

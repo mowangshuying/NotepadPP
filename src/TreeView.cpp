@@ -82,7 +82,7 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     setItemBackgroundColor(descItem, QColor(0x484848));
     titleItem->appendRow(descItem);
 
-    descItem->setData((qlonglong)findRecords->getEditView(), (int)(SelfUserRole::ResultItemEditor));
+    descItem->setData((qlonglong)(findRecords->getEditView()), (int)(SelfUserRole::ResultItemEditor));
     descItem->setData(findRecords->getFindFilePath(), (int)(SelfUserRole::ResultItemEditorFilePath));
     descItem->setData(findRecords->getFindText(), (int)(SelfUserRole::ResultItemWhatFind));
     descItem->setData(true, (int)(SelfUserRole::ResultItemDesc));
@@ -95,7 +95,7 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         text = tr("<font style='font-size:14px;color:#ffffff'>Line </font><font style='font-size:14px;color:#ff8040'>%1</font> : %2").arg(findRecord.getLineNums() + 1).arg(richText);
 
         QStandardItem *childItem = new QStandardItem(text);
-        childItem->setData(findRecord.getLineStartPos(), (int)(SelfUserRole::ResultItemPos));
+        childItem->setData(findRecord.getTargetStartPos(), (int)(SelfUserRole::ResultItemPos));
         childItem->setData(findRecord.getTargetEndPos() - findRecord.getTargetStartPos(), (int)(SelfUserRole::ResultItemLen));
         descItem->appendRow(childItem);
     }
