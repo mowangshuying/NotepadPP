@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 #include "FindRecords.h"
 #include <QStandardItem>
+#include <QModelIndex>
 
 class TreeView : public QTreeView
 {

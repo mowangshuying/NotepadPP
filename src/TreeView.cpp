@@ -132,12 +132,12 @@ QString TreeView::highLightFindText(FindRecord &record)
     return QString("%1%2%3").arg(head, target, tail);
 }
 
-void TreeView::__onPressed(QModelIndex modeIndex)
+void TreeView::__onPressed(const QModelIndex& modeIndex)
 {
     resizeColumnToContents(modeIndex.column());
 }
 
-void TreeView::__onExpanded(QModelIndex modeIndex)
+void TreeView::__onExpanded(const QModelIndex& modeIndex)
 {
     resizeColumnToContents(modeIndex.column());
 }

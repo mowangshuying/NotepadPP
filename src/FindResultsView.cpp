@@ -4,6 +4,7 @@
 FindResultsView::FindResultsView(QWidget *parent) : QWidget(parent)
 {
     __initUI();
+    __connect();
 }
 
 void FindResultsView::__initUI()

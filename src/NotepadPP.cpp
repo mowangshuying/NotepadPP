@@ -486,6 +486,9 @@ void NotepadPP::__connect()
     connect(m_menuSaveWithEncoding, &QMenu::triggered, this, &NotepadPP::__onTriggerSaveWithEncoding);
 
     connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
+
+	connect(m_findResultsDock, &FindResultsDock::itemClicked, this, &NotepadPP::__onFindResultsViewItemClicked);
+	connect(m_findResultsDock, &FindResultsDock::itemDoubleClicked, this, &NotepadPP::__onFindResultsViewItemDoubleClicked);
 }
 
 bool NotepadPP::isNewFileNameExist(const QString& filename)

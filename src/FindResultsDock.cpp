@@ -5,6 +5,8 @@ FindResultsDock::FindResultsDock(QWidget *parent) : QDockWidget(parent)
 {
     m_findResultsView = new FindResultsView;
     setWidget(m_findResultsView);
+
+    __connect();
 }
 
 void FindResultsDock::__connect()
