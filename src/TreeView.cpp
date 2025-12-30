@@ -32,6 +32,7 @@ void TreeView::__initUI()
 
 void TreeView::__connect()
 {
+    
 }
 
 QModelIndexList TreeView::getSelectedIndexes()

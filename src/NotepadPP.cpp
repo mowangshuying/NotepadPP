@@ -1664,3 +1664,13 @@ void NotepadPP::__onShowFindRecords(FindRecords* findRecords)
     qDebug() << "findText:" << findRecords->getFindText() << ", hitCount:" << findRecords->getFindRecordList().size();
     m_findResultsDock->appendResultsToShow(findRecords);
 }
+
+void NotepadPP::__onFindResultsViewItemClicked(const QModelIndex& index)
+{
+	qDebug() << "NotepadPP::__onFindResultsViewItemClicked()";
+}
+
+void NotepadPP::__onFindResultsViewItemDoubleClicked(const QModelIndex& index)
+{
+	qDebug() << "NotepadPP::__onFindResultsViewItemDoubleClicked()";
+}

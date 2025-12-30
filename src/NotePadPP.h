@@ -158,6 +158,9 @@ class NotepadPP : public QMainWindow
     // 查找结果反馈
     void __onShowFindRecords(FindRecords* findRecords);
 
+    void __onFindResultsViewItemClicked(const QModelIndex& index);
+    void __onFindResultsViewItemDoubleClicked(const QModelIndex& index);
+
   protected:
     //
     QAction* m_actionNewFile;

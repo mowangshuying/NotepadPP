@@ -24,10 +24,13 @@ class TreeView : public QTreeView
     QString highLightFindText(FindRecord& record);
 
     // public slots:
-    void __onPressed(QModelIndex modeIndex);
-    void __onExpanded(QModelIndex modeIndex);
+    void __onPressed(const QModelIndex& modeIndex);
+    void __onExpanded(const QModelIndex& modeIndex);
 
-  protected:
+signals:
+//   void itemClicked(QModelIndex modelIndex);
+//   void itemDoubleClicked(QModelIndex modelIndex);  
+protected:
     HtmlStyledItemDelegate* m_delegate;
     QStandardItemModel* m_model;
 };

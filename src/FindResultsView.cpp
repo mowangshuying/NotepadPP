@@ -16,6 +16,12 @@ void FindResultsView::__initUI()
     m_vMainLayout->addWidget(m_treeView);
 }
 
+void FindResultsView::__connect()
+{
+    connect(m_treeView, &TreeView::clicked, this, &FindResultsView::itemClicked);
+    connect(m_treeView, &TreeView::doubleClicked, this, &FindResultsView::itemDoubleClicked);
+}
+
 void FindResultsView::appendResultsToShow(FindRecords *findRecords)
 {
     m_treeView->appendResultsToShow(findRecords);
