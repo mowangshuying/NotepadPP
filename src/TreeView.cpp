@@ -1,4 +1,4 @@
-#include "TreeView.h"
+﻿#include "TreeView.h"
 #include <QHeaderView>
 #include "__global.h"
 #include "StyleSheetUtils.h"
@@ -53,13 +53,34 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         return;
     }
 
-    // 
+    
+    //// 处理重复的记录, 移除重复的记录
+    bool bHasRecord = false;
+    int nMarkIndex = 0;
     for (int i = 0; i < m_findRecordsVct.size(); i++)
     {
         QString findText = m_findRecordsVct.at(i).getFindText();
         ScintillaEditView* pEdit = m_findRecordsVct.at(i).getEditView();
+        if (findRecords->getFindText() == findText && findRecords->getEditView() == pEdit)
+        {
+            bHasRecord = true;
+            nMarkIndex = i;
+            break;
+        }
     }
 
+    if (bHasRecord)
+    {
+        // 删除nMarkIndex位置的记录
+        m_findRecordsVct.erase(m_findRecordsVct.begin() + nMarkIndex);
+        m_model->removeRow(nMarkIndex);
+    }
+
+    FindRecords frs;
+    frs.setFindFilePath(findRecords->getFindFilePath());
+    frs.setFindText(findRecords->getFindText());
+    frs.setEditView(findRecords->getEditView());
+    m_findRecordsVct.insert(m_findRecordsVct.begin(), frs);
 
     QString findTitle;
     findTitle = tr("<font style='font-size:14px;font-weight:bold;color:#343497'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
