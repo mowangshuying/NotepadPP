@@ -1,0 +1,11 @@
+QTreeView::indicator {
+    padding: 0px 0px 0px 0px;
+    width: 13px;
+    height: 13px;
+}
+
+QTreeView::item {
+    padding: 1px;
+    margin: 0px;
+    border: 0px;
+}

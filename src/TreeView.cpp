@@ -1,6 +1,7 @@
 #include "TreeView.h"
 #include <QHeaderView>
 #include "__global.h"
+#include "StyleSheetUtils.h"
 
 TreeView::TreeView(QWidget *parent)
 {
@@ -10,6 +11,9 @@ TreeView::TreeView(QWidget *parent)
     m_delegate = new HtmlStyledItemDelegate(this);
     setItemDelegate(m_delegate);
     setModel(m_model);
+
+    // setHeaderHidden(true);
+    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/TreeView.qss");
 }
 
 void TreeView::__initUI()
@@ -18,7 +22,7 @@ void TreeView::__initUI()
     setFrameShape(QFrame::Panel);
 
     setAnimated(true);
-    header()->setVisible(true);
+    header()->setVisible(false);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setEditTriggers(QAbstractItemView::DoubleClicked);
