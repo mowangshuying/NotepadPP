@@ -17,7 +17,7 @@ void HtmlStyledItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
 
-    QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
+    QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
 
     QString text = opt.text;
     opt.text.clear();

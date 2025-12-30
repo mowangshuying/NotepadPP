@@ -5,15 +5,16 @@
 
 class HtmlStyledItemDelegate : public QStyledItemDelegate
 {
-public:
+  public:
     Q_OBJECT
 
-public:
+  public:
     HtmlStyledItemDelegate(QObject *parent = nullptr);
 
     void setFontSize(int fontSize);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-protected:
+
+  protected:
     int m_defaultFontSize;
 };

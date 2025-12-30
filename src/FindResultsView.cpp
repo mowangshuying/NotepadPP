@@ -9,7 +9,7 @@ FindResultsView::FindResultsView(QWidget *parent) : QWidget(parent)
 void FindResultsView::__initUI()
 {
     m_vMainLayout = new QVBoxLayout;
-    m_vMainLayout->setContentsMargins(0,0,0,0);
+    m_vMainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(m_vMainLayout);
 
     m_treeView = new TreeView;

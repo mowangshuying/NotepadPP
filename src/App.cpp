@@ -5,10 +5,10 @@
 
 int main(int argc, char** argv)
 {
-	QApplication app(argc, argv);
-	
-	NotepadPP pp;
-	pp.show();
+    QApplication app(argc, argv);
 
-	return app.exec();
+    NotepadPP pp;
+    pp.show();
+
+    return app.exec();
 }

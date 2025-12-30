@@ -3,10 +3,10 @@
 #include <QWidget>
 
 class MarkPage : public QWidget
-{ 
+{
     Q_OBJECT
-public:
+  public:
     MarkPage(QWidget *parent = nullptr);
-protected:
 
+  protected:
 };

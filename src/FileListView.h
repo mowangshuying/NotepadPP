@@ -7,8 +7,8 @@ class FileListViewItem;
 class FileListView : public QWidget
 {
     Q_OBJECT
-public:
-    FileListView(QWidget *parent = nullptr);
+  public:
+    FileListView(QWidget* parent = nullptr);
 
     void __connect();
 
@@ -25,11 +25,12 @@ public:
     void sortItems();
 
     void showFileInExplorer(QString path);
-// public slots:
+    // public slots:
     void onItemClicked(QListWidgetItem* item);
 
     void onShowPopMenu(const QPoint& pos);
-protected:
+
+  protected:
     QListWidget* m_filelistWidget;
     QVBoxLayout* m_vMainLayout;
     QWidget* m_notepad;

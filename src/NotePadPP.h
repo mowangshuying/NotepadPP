@@ -19,11 +19,11 @@ class FindResultsDock;
 class ScintillaEditView;
 class NotepadPP : public QMainWindow
 {
-	Q_OBJECT
-public:
-	NotepadPP(QWidget* parent = nullptr);
+    Q_OBJECT
+  public:
+    NotepadPP(QWidget* parent = nullptr);
 
-	void __initUi();
+    void __initUi();
 
     void __initMenu();
 
@@ -48,13 +48,13 @@ public:
     void saveTabEditByCodeId(int nIndex, CodeId cid);
 
     void saveFile(QString filename, ScintillaEditView* pEditView);
-    void saveFileByCodeId(QString filename, ScintillaEditView *pEditView, CodeId cid);
+    void saveFileByCodeId(QString filename, ScintillaEditView* pEditView, CodeId cid);
 
-	//打开监控文件修改的信号
-	void enableEditTextChangeSign(ScintillaEditView* pEdit);
+    // 打开监控文件修改的信号
+    void enableEditTextChangeSign(ScintillaEditView* pEdit);
 
-	//关闭监控文件修改的信号。这样是为了高效，一旦文字修改后，后续不需要在监控该信号。直到保存后，再放开
-	void disEnableEditTextChangeSign(ScintillaEditView* pEdit);
+    // 关闭监控文件修改的信号。这样是为了高效，一旦文字修改后，后续不需要在监控该信号。直到保存后，再放开
+    void disEnableEditTextChangeSign(ScintillaEditView* pEdit);
 
     void setZoomLabelValue(int nZoomValue);
 
@@ -80,14 +80,14 @@ public:
     // 获取文件名, 根据文件路径
     QString getFileNameByPath(QString filepath);
 
-    // 
+    //
     void setCurTabByPath(QString filepath);
 
     void setDocEolMode(ScintillaEditView* pEdit, LineEnd lineEnd);
 
     void sortLines(SortType sortType);
-    
-public slots:
+
+  public slots:
     void __onTriggerNewFile();
     void __onTriggerOpenFile();
     void __onTriggerSaveFile();
@@ -99,7 +99,6 @@ public slots:
     void __onTriggerOpenRecentFile();
 
     void __onTriggerExit();
-
 
     void __onTriggerUndo();
     void __onTriggerRedo();
@@ -158,8 +157,9 @@ public slots:
 
     // 查找结果反馈
     void __onShowFindRecords(FindRecords* findRecords);
-protected:
-    // 
+
+  protected:
+    //
     QAction* m_actionNewFile;
     QAction* m_actionOpenFile;
     QAction* m_actionSave;
@@ -167,7 +167,7 @@ protected:
     QAction* m_actionClose;
     QAction* m_actionExit;
     QAction* m_actionCloseAll;
-    
+
     //
     QAction* m_actionUndo;
     QAction* m_actionRedo;
@@ -184,7 +184,6 @@ protected:
     QAction* m_actionShowSpaces;
     QAction* m_actionShowEndOfLine;
     QAction* m_actionShowAll;
-
 
     QAction* m_actionBatchConvert;
     QAction* m_actionOptions;
@@ -241,8 +240,8 @@ protected:
     QAction* m_actionReverseLineOrder;
     QAction* m_actionRandomizeLineOrder;
 
-    QAction* m_actionSortLinesLexAscending;   //升序
-    QAction* m_actionSortLinesLexAscendingIgnoreCase;     //升序忽略大小写
+    QAction* m_actionSortLinesLexAscending;            // 升序
+    QAction* m_actionSortLinesLexAscendingIgnoreCase;  // 升序忽略大小写
     // QAction* m_actionSortLinesAsIntegersAscending;
     // QAction* m_actionSortLinesAsDecimalsCommaAscending;
     // QAction* m_actionSortLinesAsDecimalsDotAscending;
@@ -288,7 +287,6 @@ protected:
     QAction* m_actionMd5Sha;
     QWidget* centralWidget;
 
-
     QMenuBar* m_menuBar;
     QMenu* m_menuFile;
     QMenu* m_menuReceneFile;
@@ -303,7 +301,7 @@ protected:
     QMenu* m_menuView;
     QMenu* m_menuDisplaySymbols;
     // QMenu* m_menuIconSize;
-    
+
     QMenu* m_menuEncoding;
 
     // reopen with encoding
@@ -322,10 +320,10 @@ protected:
     QMenu* m_menuPlugin;
 
     // ToolBar;
-    //QToolBar* m_mainToolBar;
-    
-	QHBoxLayout* m_horizontalLayout;
-	QTabWidget* m_editTabWidget;
+    // QToolBar* m_mainToolBar;
+
+    QHBoxLayout* m_horizontalLayout;
+    QTabWidget* m_editTabWidget;
 
     // StatusBar;
     QStatusBar* m_statusBar;
@@ -335,14 +333,14 @@ protected:
     QLabel* m_langDescLabel;
     QLabel* m_zoomLabel;
 
-protected:
+  protected:
     int m_nZoomValue;
     bool m_bShowEndofLine;
     // bool m_bShowSpaces;
     // bool m_bShowLineEnd;
 
     std::vector<QString> m_recentOpenFileList;
-    
+
     // FileListView* m_fileListView;
     // QDockWidget* m_fileListViewDock;
     FileListViewDock* m_fileListViewDock;
@@ -352,4 +350,3 @@ protected:
     //
     FindResultsDock* m_findResultsDock;
 };
-

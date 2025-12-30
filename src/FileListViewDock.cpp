@@ -11,15 +11,13 @@ FileListViewDock::~FileListViewDock()
 
 void FileListViewDock::__initUI()
 {
-
     setFeatures(QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     setAttribute(Qt::WA_DeleteOnClose);
 
-
-	m_pFileListView = new FileListView(this);
-	// m_pFileListView->setNotePad(this);
-	setWidget(m_pFileListView);
+    m_pFileListView = new FileListView(this);
+    // m_pFileListView->setNotePad(this);
+    setWidget(m_pFileListView);
 }
 
 void FileListViewDock::addFilePath(QString filepath)

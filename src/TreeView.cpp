@@ -53,10 +53,9 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     }
 
     QString findTitle;
-    findTitle = tr("<font style='font-size:14px;font-weight:bold;color:#343497'>Search \"%1\" (%2 hits)</font>")
-        .arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    findTitle = tr("<font style='font-size:14px;font-weight:bold;color:#343497'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
-    QStandardItem* titleItem = new QStandardItem(findTitle);
+    QStandardItem *titleItem = new QStandardItem(findTitle);
     setItemBackgroundColor(titleItem, QColor(0xbbbbfff));
 
     m_model->insertRow(0, titleItem);
@@ -76,10 +75,9 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     }
 
     QString desc;
-    desc = tr("<font style='font-size:14px;color:#99cc99'>%1 (%2 hits)</font>")
-        .arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    desc = tr("<font style='font-size:14px;color:#99cc99'>%1 (%2 hits)</font>").arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
-    QStandardItem* descItem = new QStandardItem(desc);
+    QStandardItem *descItem = new QStandardItem(desc);
     setItemBackgroundColor(descItem, QColor(0x484848));
     titleItem->appendRow(descItem);
 
@@ -90,13 +88,12 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
 
     for (int i = 0; i < findRecords->getFindRecordList().size(); i++)
     {
-        
         FindRecord findRecord = findRecords->getFindRecordList().at(i);
         QString richText = highLightFindText(findRecord);
         QString text;
-        text = tr("<font style='font-size:14px;color:#ffffff'>Line </font><font style='font-size:14px;color:#ff8040'>%1</font> : %2").arg(findRecord.getLineNums()+ 1).arg(richText);
+        text = tr("<font style='font-size:14px;color:#ffffff'>Line </font><font style='font-size:14px;color:#ff8040'>%1</font> : %2").arg(findRecord.getLineNums() + 1).arg(richText);
 
-        QStandardItem* childItem = new QStandardItem(text);
+        QStandardItem *childItem = new QStandardItem(text);
         childItem->setData(findRecord.getLineStartPos(), (int)(SelfUserRole::ResultItemPos));
         childItem->setData(findRecord.getTargetEndPos() - findRecord.getTargetStartPos(), (int)(SelfUserRole::ResultItemLen));
         descItem->appendRow(childItem);
@@ -115,7 +112,7 @@ QString TreeView::highLightFindText(FindRecord &record)
     int lineLens = utf8Bytes.length();
 
     int targetStartPos = record.getTargetStartPos() - record.getLineStartPos();
-    int targetLens = record.getTargetEndPos()- record.getTargetStartPos();
+    int targetLens = record.getTargetEndPos() - record.getTargetStartPos();
     int tailStart = record.getTargetEndPos() - record.getLineStartPos();
 
     QString head = QString(utf8Bytes.mid(0, targetStartPos)).toHtmlEscaped();
@@ -131,9 +128,7 @@ QString TreeView::highLightFindText(FindRecord &record)
     target = tr("<font style='font-size:14px;background-color:#ffffbf'>%1</font>").arg(target);
     tail = tr("<font style='font-size:14px;'>%1</font>").arg(tail);
 
-
     return QString("%1%2%3").arg(head, target, tail);
-
 }
 
 void TreeView::__onPressed(QModelIndex modeIndex)

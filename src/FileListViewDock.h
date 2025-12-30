@@ -5,12 +5,12 @@
 #include "FileListView.h"
 
 class FileListViewDock : public QDockWidget
-{ 
+{
     Q_OBJECT
-public:
-    FileListViewDock(QWidget *parent = nullptr);
+  public:
+    FileListViewDock(QWidget* parent = nullptr);
     ~FileListViewDock();
-    
+
     void __initUI();
 
     void addFilePath(QString filepath);
@@ -18,6 +18,6 @@ public:
 
     void setNotePad(QWidget* notepad);
 
-private:
+  private:
     FileListView* m_pFileListView;
 };

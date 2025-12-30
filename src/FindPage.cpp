@@ -7,9 +7,19 @@
 #include "FindRecords.h"
 #include "NotePadPP.h"
 
-FindPage::FindPage(QWidget *parent) : QWidget(parent), m_editTabWidget(nullptr), m_sFindExpr(""), m_bReverseSearch(false),
-    m_bMachWholeWord(false), m_bMachCase(false), m_bLoopSearch(false), m_bNormal(false), m_bExended(false), m_bRegularExpression(false),
-    m_bFirstFind(true), m_pNotepadWidget(nullptr)
+FindPage::FindPage(QWidget* parent)
+    : QWidget(parent),
+      m_editTabWidget(nullptr),
+      m_sFindExpr(""),
+      m_bReverseSearch(false),
+      m_bMachWholeWord(false),
+      m_bMachCase(false),
+      m_bLoopSearch(false),
+      m_bNormal(false),
+      m_bExended(false),
+      m_bRegularExpression(false),
+      m_bFirstFind(true),
+      m_pNotepadWidget(nullptr)
 {
     // if (parent != nullptr)
     // {
@@ -82,7 +92,6 @@ void FindPage::__initUI()
 
     m_vMainLayout->addSpacing(10);
 
-
     // 查找下一个
     m_findNextButton = new QPushButton(tr("Find Next"));
     m_findNextButton->setFixedWidth(150);
@@ -104,7 +113,7 @@ void FindPage::__initUI()
     m_findInAllFileButton = new QPushButton(tr("Find In All Open Files"));
     m_findInAllFileButton->setFixedWidth(150);
     m_vMainLayout->addWidget(m_findInAllFileButton);
-    
+
     // 清空
     m_clearButton = new QPushButton(tr("Clear"));
     m_clearButton->setFixedWidth(150);
@@ -120,16 +129,15 @@ void FindPage::__connect()
     connect(m_findCountButton, &QPushButton::clicked, this, &FindPage::__onclickedFindCountButton);
     connect(m_findInCurFileButton, &QPushButton::clicked, this, &FindPage::__onClickedFindInCurFileButton);
 
-
     // auto pNotepad = dynamic_cast<NotepadPP*>(m_pNotepadWidget);
     // connect(this, &FindPage::showFindRecords, pNotepad, &NotepadPP::__onShowFindRecords);
     connect(m_clearButton, &QPushButton::clicked, this, &FindPage::__onClickedClearButton);
 }
 
-ScintillaEditView *FindPage::autoAdjustCurrentEditWin()
+ScintillaEditView* FindPage::autoAdjustCurrentEditWin()
 {
     // return nullptr;
-    auto pEdit = dynamic_cast<ScintillaEditView*> (m_editTabWidget->currentWidget());
+    auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
     if (pEdit == nullptr)
         return nullptr;
 
@@ -141,12 +149,12 @@ ScintillaEditView *FindPage::autoAdjustCurrentEditWin()
     return pEdit;
 }
 
-void FindPage::setTabWidget(QTabWidget *tabWidget)
+void FindPage::setTabWidget(QTabWidget* tabWidget)
 {
     m_editTabWidget = tabWidget;
 }
 
-void FindPage::setNoteWidget(QWidget *pNoteWidget)
+void FindPage::setNoteWidget(QWidget* pNoteWidget)
 {
     m_pNotepadWidget = pNoteWidget;
     auto pNotepad = dynamic_cast<NotepadPP*>(m_pNotepadWidget);
@@ -226,7 +234,7 @@ FindRecord FindPage::getFindRecordFromLastFindState()
     findRecord.setTargetStartPos(targetStart);
     findRecord.setTargetEndPos(targetEnd);
     findRecord.setLineNums(linenum);
-    findRecord.setLineStartPos(lineStart);    
+    findRecord.setLineStartPos(lineStart);
     findRecord.setLineContents(sLineText);
     return findRecord;
 }
@@ -235,18 +243,18 @@ QString FindPage::delEndofLine(QString lineText)
 {
     // return QString();
     if (lineText.endsWith("\r\n"))
-	{
-		return lineText.mid(0, lineText.length()-2);
-	}
-	if (lineText.endsWith("\r"))
-	{
-		return lineText.mid(0, lineText.length()-1);
-	}
-	if (lineText.endsWith("\n"))
-	{
-		return lineText.mid(0, lineText.length()-1);
-	}
-	return lineText;
+    {
+        return lineText.mid(0, lineText.length() - 2);
+    }
+    if (lineText.endsWith("\r"))
+    {
+        return lineText.mid(0, lineText.length() - 1);
+    }
+    if (lineText.endsWith("\n"))
+    {
+        return lineText.mid(0, lineText.length() - 1);
+    }
+    return lineText;
 }
 
 void FindPage::__onClickedFindNextButton()
@@ -261,13 +269,11 @@ void FindPage::__onClickedFindNextButton()
     ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
     updateParamsFromUI();
 
-
     // if (m_bFindNext == false)
     // {
-        // m_bFindNext = true;
-        // m_bFirstFind = true;
+    // m_bFindNext = true;
+    // m_bFirstFind = true;
     // }
-
 
     if (m_lastClickedButtonType == LastClickedButtonType::FindPrev)
     {
@@ -276,18 +282,18 @@ void FindPage::__onClickedFindNextButton()
 
     if (m_bFirstFind)
     {
-        //  const QString &expr, 
+        //  const QString &expr,
         //  bool re,  // 是否使用正则表达式
         //  bool cs,  // 区分大小写
         //  bool wo,  // 全词匹配
         // bool wrap, // 循环查找
         //  bool forward,  // 向前
-        //  int line, 
-        //  int index, 
+        //  int line,
+        //  int index,
 
-        //  bool show, // 是否显示 
-        //  bool posix, // 
-        //  bool cxx11 // 
+        //  bool show, // 是否显示
+        //  bool posix, //
+        //  bool cxx11 //
         bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, !m_bReverseSearch, -1, -1, true, false, false);
         if (!bFind)
         {
@@ -310,7 +316,6 @@ void FindPage::__onClickedFindNextButton()
     }
 
     m_lastClickedButtonType = LastClickedButtonType::FindNext;
-
 }
 
 void FindPage::__onClickedFindPrevButton()
@@ -324,7 +329,6 @@ void FindPage::__onClickedFindPrevButton()
 
     ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
     updateParamsFromUI();
-    
 
     bool bForward = !m_bReverseSearch;
     if (m_lastClickedButtonType == LastClickedButtonType::FindNext)
@@ -384,7 +388,7 @@ void FindPage::__onclickedFindCountButton()
 
     nFindCount++;
 
-    while(pEdit->findNext())
+    while (pEdit->findNext())
     {
         nFindCount++;
     }
@@ -392,7 +396,7 @@ void FindPage::__onclickedFindCountButton()
     pEdit->execute(SCI_GOTOPOS, nBakCurrentPos);
     pEdit->execute(SCI_SETFIRSTVISIBLELINE, nBakFirstVisibleLine);
     pEdit->execute(SCI_SETXOFFSET, 0);
-    
+
     // qDebug() << "Total occurrences found:" << nFindCount;
     // 直接弹出窗口提示
     QMessageBox::information(this, tr("Find"), tr("Total occurrences found: %1").arg(nFindCount));
@@ -402,7 +406,8 @@ void FindPage::__onClickedFindInCurFileButton()
 {
     qDebug() << "__onClickedFindInCurFileButton()";
     QString findText = m_findTargetComboBox->currentText();
-    if (findText.isEmpty()) {
+    if (findText.isEmpty())
+    {
         return;
     }
 
@@ -440,7 +445,7 @@ void FindPage::__onClickedFindInCurFileButton()
         findRecord = getFindRecordFromLastFindState();
         findRecords.addFindRecord(findRecord);
     }
-    
+
     pEdit->execute(SCI_GOTOPOS, nBakCurrentPos);
     pEdit->execute(SCI_SETFIRSTVISIBLELINE, nBakFirstVisibleLine);
     pEdit->execute(SCI_SETXOFFSET, 0);
@@ -457,7 +462,6 @@ void FindPage::__onClickedFindInCurFileButton()
 
     qDebug() << "emit showFindRecords";
     emit showFindRecords(&findRecords);
-    
 }
 
 void FindPage::__onClickedClearButton()

@@ -3,65 +3,75 @@
 #include <QString>
 #include <QVector>
 
-class FindRecord {
-public:
-      FindRecord() : m_nLineNum(0), m_nLineStartPos(0), m_nTargetStartPos(0), m_nTargetEndPos(0), m_sLineContents("")
-      {
+class FindRecord
+{
+  public:
+    FindRecord() : m_nLineNum(0), m_nLineStartPos(0), m_nTargetStartPos(0), m_nTargetEndPos(0), m_sLineContents("")
+    {
+    }
 
-      }
+    void setLineNums(int lineNums)
+    {
+        m_nLineNum = lineNums;
+    }
 
-      void setLineNums(int lineNums) {
-          m_nLineNum = lineNums;
-      }
+    int getLineNums() const
+    {
+        return m_nLineNum;
+    }
 
-      int getLineNums() const {
-          return m_nLineNum;
-      }
+    void setLineStartPos(int lineStartPos)
+    {
+        m_nLineStartPos = lineStartPos;
+    }
 
-      void setLineStartPos(int lineStartPos) {
-          m_nLineStartPos = lineStartPos;
-      }
+    int getLineStartPos() const
+    {
+        return m_nLineStartPos;
+    }
 
-      int getLineStartPos() const {
-          return m_nLineStartPos;
-      }
+    void setTargetStartPos(int targetStartPos)
+    {
+        m_nTargetStartPos = targetStartPos;
+    }
 
-      void setTargetStartPos(int targetStartPos) {
-          m_nTargetStartPos = targetStartPos;
-      }
+    int getTargetStartPos() const
+    {
+        return m_nTargetStartPos;
+    }
 
-      int getTargetStartPos() const {
-          return m_nTargetStartPos;
-      }
+    void setTargetEndPos(int targetEndPos)
+    {
+        m_nTargetEndPos = targetEndPos;
+    }
 
-      void setTargetEndPos(int targetEndPos) {
-          m_nTargetEndPos = targetEndPos;
-      }
+    int getTargetEndPos() const
+    {
+        return m_nTargetEndPos;
+    }
 
-      int getTargetEndPos() const {
-          return m_nTargetEndPos;
-      }
+    void setLineContents(const QString& lineContents)
+    {
+        m_sLineContents = lineContents;
+    }
 
-      void setLineContents(const QString& lineContents) {
-          m_sLineContents = lineContents;
-      }
+    QString getLineContents() const
+    {
+        return m_sLineContents;
+    }
 
-      QString getLineContents() const {
-          return m_sLineContents;
-      }
-
-protected:
-      int m_nLineNum;
-      int m_nLineStartPos;
-      int m_nTargetStartPos;
-      int m_nTargetEndPos;
-      QString m_sLineContents;
+  protected:
+    int m_nLineNum;
+    int m_nLineStartPos;
+    int m_nTargetStartPos;
+    int m_nTargetEndPos;
+    QString m_sLineContents;
 };
 
-
 class ScintillaEditView;
-class FindRecords {
-public:
+class FindRecords
+{
+  public:
     FindRecords()
     {
     }
@@ -115,10 +125,11 @@ public:
     {
         return m_findRecordList;
     }
-protected:
-      QString m_findFilePath;
-      QString findText;
-      int m_nHeightLightColor;
-      ScintillaEditView* m_editView;
-      QVector<FindRecord> m_findRecordList;
+
+  protected:
+    QString m_findFilePath;
+    QString findText;
+    int m_nHeightLightColor;
+    ScintillaEditView* m_editView;
+    QVector<FindRecord> m_findRecordList;
 };

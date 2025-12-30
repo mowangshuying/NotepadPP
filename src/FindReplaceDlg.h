@@ -8,10 +8,10 @@
 #include "ReplacePage.h"
 
 class FindReplaceDlg : public QDialog
-{ 
+{
     Q_OBJECT
-public:
-    FindReplaceDlg(QWidget *parent = nullptr);
+  public:
+    FindReplaceDlg(QWidget* parent = nullptr);
 
     void setTabWidget(QTabWidget* tabWidget);
 
@@ -22,8 +22,8 @@ public:
 
     // close event
     void closeEvent(QCloseEvent* event) override;
-protected:
 
+  protected:
     QVBoxLayout* m_vMainLayout;
     QTabWidget* m_tabWidget;
 

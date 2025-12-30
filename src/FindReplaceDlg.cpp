@@ -9,7 +9,6 @@ FindReplaceDlg::FindReplaceDlg(QWidget *parent) : QDialog(parent), m_bTimeToClos
     m_tabWidget = new QTabWidget(this);
     m_vMainLayout->addWidget(m_tabWidget);
 
-
     m_pFindPage = new FindPage(this);
     m_tabWidget->addTab(m_pFindPage, "Find");
 

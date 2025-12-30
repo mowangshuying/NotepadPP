@@ -4,7 +4,7 @@
 #include "NotePadPP.h"
 #include <QProcess>
 
-FileListView::FileListView(QWidget *parent) : QWidget(parent)
+FileListView::FileListView(QWidget* parent) : QWidget(parent)
 {
     setWindowTitle("FileListView");
 
@@ -26,12 +26,12 @@ void FileListView::__connect()
     connect(this, &QListWidget::customContextMenuRequested, this, &FileListView::onShowPopMenu);
 }
 
-void FileListView::setNotePad(QWidget *pNotePad)
+void FileListView::setNotePad(QWidget* pNotePad)
 {
     m_notepad = pNotePad;
 }
 
- FileListViewItem* FileListView::findItem(QString filepath)
+FileListViewItem* FileListView::findItem(QString filepath)
 {
     // bool bExist = false;
     FileListViewItem* pItem = nullptr;
@@ -101,7 +101,7 @@ void FileListView::sortItems()
         filepaths.push_back(pItem->getFilePath());
     }
 
-    std::sort(filepaths.begin(), filepaths.end(), [](QString a, QString b) {return a.toLower() < b.toLower(); });
+    std::sort(filepaths.begin(), filepaths.end(), [](QString a, QString b) { return a.toLower() < b.toLower(); });
 
     for (int i = 0; i < m_filelistWidget->count(); i++)
     {
@@ -116,8 +116,8 @@ void FileListView::showFileInExplorer(QString path)
     QString cmd;
 
 #ifdef _WIN32
-	path = path.replace("/", "\\");
-	// cmd = QString("explorer.exe /select,%1").arg(path);
+    path = path.replace("/", "\\");
+    // cmd = QString("explorer.exe /select,%1").arg(path);
     QString program = "explorer.exe";
     QStringList arguments;
     arguments << "/select," << path;
@@ -135,7 +135,7 @@ void FileListView::showFileInExplorer(QString path)
     QString program = "dde-file-manager";
     QStringList arguments;
     arguments << path;
-#endif 
+#endif
 
 #if defined(Q_OS_MAC)
     path = path.replace("\\", "/");
@@ -144,16 +144,16 @@ void FileListView::showFileInExplorer(QString path)
     arguments << "-R" << path;
 #endif
 
-	QProcess process;
-	process.startDetached(program, arguments);
+    QProcess process;
+    process.startDetached(program, arguments);
 }
 
-void FileListView::onItemClicked(QListWidgetItem *item)
+void FileListView::onItemClicked(QListWidgetItem* item)
 {
     setCurItem(item->text());
 }
 
-void FileListView::onShowPopMenu(const QPoint &pos)
+void FileListView::onShowPopMenu(const QPoint& pos)
 {
     auto pItem = dynamic_cast<FileListViewItem*>(m_filelistWidget->itemAt(pos));
     if (!pItem)
@@ -163,11 +163,9 @@ void FileListView::onShowPopMenu(const QPoint &pos)
 
     QMenu* menu = new QMenu(this);
     menu->setAttribute(Qt::WA_DeleteOnClose);
-    QAction *showFileInExplorerAction = menu->addAction(tr("Show in Explorer"), this, [&](){
-        showFileInExplorer(pItem->getFilePath());
-    });
+    QAction* showFileInExplorerAction = menu->addAction(tr("Show in Explorer"), this, [&]() { showFileInExplorer(pItem->getFilePath()); });
 
-    QAction* closeFileAction = menu->addAction(tr("Close File"), this, [&](){
+    QAction* closeFileAction = menu->addAction(tr("Close File"), this, [&]() {
         // delItem(pItem->getFilePath());
 
         // closeTab(findFileIsOpenAtPad(pItem->getFilePath()));

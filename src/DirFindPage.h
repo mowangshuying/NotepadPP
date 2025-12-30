@@ -3,9 +3,10 @@
 #include <QWidget>
 
 class DirFindPage : public QWidget
-{ 
+{
     Q_OBJECT
-public:
+  public:
     DirFindPage(QWidget* parent = nullptr);
-protected:
+
+  protected:
 };

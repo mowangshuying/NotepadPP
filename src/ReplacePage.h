@@ -12,9 +12,10 @@
 class ReplacePage : public QWidget
 {
     Q_OBJECT
-public:
-    ReplacePage(QWidget *parent = nullptr);
-protected:
+  public:
+    ReplacePage(QWidget* parent = nullptr);
+
+  protected:
     QVBoxLayout* m_vMainLayout;
     QLabel* m_findTargetLabel;
     QComboBox* m_findTargetComboBox;

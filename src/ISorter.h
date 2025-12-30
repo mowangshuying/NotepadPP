@@ -17,8 +17,7 @@ enum class SortType
 
 class ISorter
 {
-
-public:
+  public:
     ISorter();
 
     virtual void sort(QStringList& lines) = 0;
@@ -26,7 +25,8 @@ public:
     static ISorter* makeSorter(SortType sortType);
 
     static void sort(QStringList& lines, SortType sortType);
-protected:
+
+  protected:
     // size_t m_nFromLine;
     // size_t m_nToLine;
 };
@@ -34,7 +34,7 @@ protected:
 // 升序排列
 class LexAscendingSorter : public ISorter
 {
-public:
+  public:
     LexAscendingSorter();
 
     void sort(QStringList& lines) override;
@@ -43,7 +43,7 @@ public:
 // 升序排列忽略大小写
 class LexAscendingIgnoreCaseSorter : public ISorter
 {
-public:
+  public:
     LexAscendingIgnoreCaseSorter();
 
     void sort(QStringList& lines) override;
@@ -52,7 +52,7 @@ public:
 // 降序
 class LexDescendingSorter : public ISorter
 {
-public:
+  public:
     LexDescendingSorter();
 
     void sort(QStringList& lines) override;
@@ -61,7 +61,7 @@ public:
 // 降序排列忽略大小写
 class LexDescendingIgnoreCaseSorter : public ISorter
 {
-public:
+  public:
     LexDescendingIgnoreCaseSorter();
 
     void sort(QStringList& lines) override;

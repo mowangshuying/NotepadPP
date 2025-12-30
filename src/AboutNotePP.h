@@ -8,12 +8,13 @@
 class AboutNotePP : public QDialog
 {
     Q_OBJECT
-public:
-    AboutNotePP(QWidget *parent = nullptr);
-protected:
+  public:
+    AboutNotePP(QWidget* parent = nullptr);
+
+  protected:
     QVBoxLayout* m_vMainLayout;
     QLabel* m_titleLabel;
-    
+
     QLabel* m_versionKLabel;
     QLabel* m_versionVLabel;
 

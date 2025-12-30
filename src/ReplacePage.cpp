@@ -73,7 +73,6 @@ ReplacePage::ReplacePage(QWidget *parent)
 
     m_vMainLayout->addSpacing(10);
 
-
     // 查找下一个
     m_findNextButton = new QPushButton(tr("Find Next"));
     m_findNextButton->setFixedWidth(150);
@@ -95,7 +94,7 @@ ReplacePage::ReplacePage(QWidget *parent)
     m_findInAllFileButton = new QPushButton(tr("Find In All Open Files"));
     m_findInAllFileButton->setFixedWidth(150);
     m_vMainLayout->addWidget(m_findInAllFileButton);
-    
+
     // 清空
     m_clearButton = new QPushButton(tr("Clear"));
     m_clearButton->setFixedWidth(150);

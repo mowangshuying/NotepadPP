@@ -6,8 +6,8 @@ class SettingsPage : public QWidget
 {
     Q_OBJECT
 
-public:
+  public:
     SettingsPage(QWidget *parent = nullptr);
 
-private:
+  private:
 };

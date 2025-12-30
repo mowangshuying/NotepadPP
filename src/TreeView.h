@@ -9,7 +9,7 @@
 class TreeView : public QTreeView
 {
     Q_OBJECT
-public:
+  public:
     TreeView(QWidget* parent = nullptr);
 
     void __initUI();
@@ -18,17 +18,16 @@ public:
 
     QModelIndexList getSelectedIndexes();
 
-
     void setItemBackgroundColor(QStandardItem* item, QColor color);
     void appendResultsToShow(FindRecords* findRecords);
-
 
     QString highLightFindText(FindRecord& record);
 
     // public slots:
     void __onPressed(QModelIndex modeIndex);
     void __onExpanded(QModelIndex modeIndex);
-protected:
+
+  protected:
     HtmlStyledItemDelegate* m_delegate;
     QStandardItemModel* m_model;
-} ;
+};

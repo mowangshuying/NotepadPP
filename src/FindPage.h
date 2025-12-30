@@ -10,23 +10,24 @@
 #include <QTabWidget>
 #include "FindRecords.h"
 
-
 class ScintillaEditView;
 // class FindState;
 class FindPage : public QWidget
-{ 
+{
     Q_OBJECT
-public:
-    enum class LastClickedButtonType{
+  public:
+    enum class LastClickedButtonType
+    {
         FindNext,
         FindPrev,
-        Count, 
+        Count,
         FindInCurFile,
         FindInOpenFiles,
         Clear,
     };
-public:
-    FindPage(QWidget *parent = nullptr);
+
+  public:
+    FindPage(QWidget* parent = nullptr);
 
     void __initUI();
     void __connect();
@@ -42,17 +43,17 @@ public:
     FindRecord getFindRecordFromLastFindState();
     QString delEndofLine(QString lineText);
 
-signals:
+  signals:
     void showFindRecords(FindRecords* findRecords);
-public slots:
+  public slots:
     void __onClickedFindNextButton();
     void __onClickedFindPrevButton();
     void __onclickedFindCountButton();
     void __onClickedFindInCurFileButton();
     void __onClickedClearButton();
-protected:
 
-//// ui;
+  protected:
+    //// ui;
     QVBoxLayout* m_vMainLayout;
     QLabel* m_findTargetLabel;
     QComboBox* m_findTargetComboBox;
@@ -86,18 +87,18 @@ protected:
     // 清空
     QPushButton* m_clearButton;
 
-//// var;
+    //// var;
     QTabWidget* m_editTabWidget;
     ScintillaEditView* m_curEidtView;
 
-    QString m_sFindExpr; // 表达式
-    bool m_bReverseSearch; // 反向查找
-    bool m_bMachWholeWord; // 全字匹配
-    bool m_bMachCase; // 匹配大小写
-    bool m_bLoopSearch; // 循环查找
+    QString m_sFindExpr;    // 表达式
+    bool m_bReverseSearch;  // 反向查找
+    bool m_bMachWholeWord;  // 全字匹配
+    bool m_bMachCase;       // 匹配大小写
+    bool m_bLoopSearch;     // 循环查找
     bool m_bNormal;
-    bool m_bExended; // 扩展
-    bool m_bRegularExpression; // 正则表达式
+    bool m_bExended;            // 扩展
+    bool m_bRegularExpression;  // 正则表达式
 
     // bool m_bFindNext;
     bool m_bFirstFind;

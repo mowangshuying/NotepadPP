@@ -25,35 +25,33 @@ CodeId CompareMode::getTextFileCodeId(uchar *fileFpr, int fileLength, QString fi
     // using libucd
     ucd_t t;
     ucd_init(&t);
-    int r = ucd_parse(&t, (char*)fileFpr, fileLength);
+    int r = ucd_parse(&t, (char *)fileFpr, fileLength);
     ucd_end(&t);
     char name[128];
     memset(name, 0, 128);
     if (r == UCD_RESULT_OK)
     {
-        ucd_results(&t,name,127);
+        ucd_results(&t, name, 127);
         cid = EnCode::getCodeIdByName(QString::fromStdString(name));
     }
     ucd_reset(&t);
     ucd_clear(&t);
 
-
     // return EnCode::getQtCodecNameById(name);
     return cid;
 }
 
-CodeId CompareMode::scanFileOutput(CodeId& cid, QString filepath, std::vector<FileLineInfo> &lineInfoVct, int &nMaxLineSize, int &charNums)
+CodeId CompareMode::scanFileOutput(CodeId &cid, QString filepath, std::vector<FileLineInfo> &lineInfoVct, int &nMaxLineSize, int &charNums)
 {
     // return CodeId();
-    QFile* file = new QFile(filepath);
+    QFile *file = new QFile(filepath);
     if (!file->open(QIODevice::ReadOnly))
     {
         return CodeId::UNKNOWN;
     }
 
-    uchar* fileptr = (uchar*)file->map(0, file->size());
+    uchar *fileptr = (uchar *)file->map(0, file->size());
     cid = getTextFileCodeId(fileptr, file->size(), filepath);
-
 
     readLineFromFile(fileptr, file->size(), cid, lineInfoVct, nMaxLineSize, charNums);
 
@@ -66,13 +64,13 @@ CodeId CompareMode::scanFileOutput(CodeId& cid, QString filepath, std::vector<Fi
 
 CodeId CompareMode::scanFileOutputByCodeId(CodeId cid, QString filepath, std::vector<FileLineInfo> &lineInfoVct, int &nMaxLineSize, int &charNums)
 {
-    QFile* file = new QFile(filepath);
+    QFile *file = new QFile(filepath);
     if (!file->open(QIODevice::ReadOnly))
     {
         return cid;
     }
 
-    uchar* fileptr = (uchar*)file->map(0, file->size());
+    uchar *fileptr = (uchar *)file->map(0, file->size());
     readLineFromFile(fileptr, file->size(), cid, lineInfoVct, nMaxLineSize, charNums);
 
     file->unmap(fileptr);
@@ -90,13 +88,13 @@ CodeId CompareMode::readLineFromFile(uchar *fileptr, const int fileLength, const
     {
         nStartPos = 3;
     }
-    else if(cid == CodeId::UTF_16BEBOM || cid == CodeId::UTF_16LEBOM)
+    else if (cid == CodeId::UTF_16BEBOM || cid == CodeId::UTF_16LEBOM)
     {
         nStartPos = 2;
     }
 
     QByteArray bytes;
-    while(getOneLineFromFile(fileptr, nStartPos, fileLength, cid, bytes))
+    while (getOneLineFromFile(fileptr, nStartPos, fileLength, cid, bytes))
     {
         FileLineInfo lineInfo;
         lineInfo.nLineNums = nLineNums;
@@ -118,7 +116,7 @@ CodeId CompareMode::readLineFromFile(uchar *fileptr, const int fileLength, const
             }
             lineInfo.lineEnd = LineEnd::Dos;
         }
-        else if(lineInfo.unicodeStr.endsWith("\n"))
+        else if (lineInfo.unicodeStr.endsWith("\n"))
         {
             if (nLineLen < 1)
             {
@@ -127,7 +125,7 @@ CodeId CompareMode::readLineFromFile(uchar *fileptr, const int fileLength, const
             }
             lineInfo.lineEnd = LineEnd::Unix;
         }
-        else if(lineInfo.unicodeStr.endsWith("\r"))
+        else if (lineInfo.unicodeStr.endsWith("\r"))
         {
             if (nLineLen < 1)
             {
@@ -151,8 +149,8 @@ CodeId CompareMode::readLineFromFile(uchar *fileptr, const int fileLength, const
 
 // 处理三种编码 utf8 utf16be utf16le
 // utf8: 0x0d 0x0a
-// utf16le: 0x0d 0x00 0x0a 0x00 
-// utf16be: 0x00 0x0d 0x00 0x0a 
+// utf16le: 0x0d 0x00 0x0a 0x00
+// utf16be: 0x00 0x0d 0x00 0x0a
 // 00 31 --- 1   utf16be
 // 31 00 --- 1   utf16le
 bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int fileLength, const CodeId cid, QByteArray &bytes)
@@ -174,12 +172,12 @@ bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int f
             if (cid == CodeId::UTF_16LE || cid == CodeId::UTF_16LEBOM)
             {
                 // \r\0 \n\0
-                if ( (i + 3) < fileLength)
+                if ((i + 3) < fileLength)
                 {
                     if (fileptr[i] == 0x0D && fileptr[i + 1] == 0x00 && fileptr[i + 2] == 0x0A && fileptr[i + 3] == 0x00)
                     {
                         nLineLen += 4;
-                        bytes.append((char*)(fileptr + nStartPos), nLineLen);
+                        bytes.append((char *)(fileptr + nStartPos), nLineLen);
                         nStartPos += nLineLen;
                         bFindLine = true;
                         break;
@@ -189,31 +187,30 @@ bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int f
             else if (cid == CodeId::UTF_16BE || cid == CodeId::UTF_16BEBOM)
             {
                 // \0\r \0\n
-                if ( (i > 1) && (i + 2 < fileLength) )
+                if ((i > 1) && (i + 2 < fileLength))
                 {
                     if (fileptr[i - 1] == 0x00 && fileptr[i] == 0x0D && fileptr[i + 1] == 0x00 && fileptr[i + 2] == 0x0A)
-                    {// /r/n
+                    {  // /r/n
                         nLineLen += 3;
-                        bytes.append((char*)(fileptr + nStartPos), nLineLen);
+                        bytes.append((char *)(fileptr + nStartPos), nLineLen);
                         nStartPos += nLineLen;
                         bFindLine = true;
                         break;
                     }
                 }
-
             }
-            else if((i+1) < fileLength && fileptr[i+1] == 0x0A)
-            {// /r/n
+            else if ((i + 1) < fileLength && fileptr[i + 1] == 0x0A)
+            {  // /r/n
                 nLineLen += 2;
-                bytes.append((char*)(fileptr + nStartPos), nLineLen);
+                bytes.append((char *)(fileptr + nStartPos), nLineLen);
                 nStartPos += nLineLen;
                 bFindLine = true;
                 break;
             }
             else
-            {// 直接以 \r为结尾
+            {  // 直接以 \r为结尾
                 nLineLen += 1;
-                bytes.append((char*)(fileptr + nStartPos), nLineLen);
+                bytes.append((char *)(fileptr + nStartPos), nLineLen);
                 nStartPos += nLineLen;
                 bFindLine = true;
                 break;
@@ -221,19 +218,19 @@ bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int f
         }
         else if (ch == 0x0A)
         {
-            if (cid == CodeId::UTF_16LE || cid == CodeId::UTF_16LEBOM)// 十分特殊情况utf16LE编码却是以 0x0a 和 0x00结尾
+            if (cid == CodeId::UTF_16LE || cid == CodeId::UTF_16LEBOM)  // 十分特殊情况utf16LE编码却是以 0x0a 和 0x00结尾
             {
-				nLineLen += 2;
-				bytes.append((char*)(fileptr + nStartPos), nLineLen);
-				nStartPos += nLineLen;
-				bFindLine = true;
+                nLineLen += 2;
+                bytes.append((char *)(fileptr + nStartPos), nLineLen);
+                nStartPos += nLineLen;
+                bFindLine = true;
             }
             else
             {
-				nLineLen += 1;
-				bytes.append((char*)(fileptr + nStartPos), nLineLen);
-				nStartPos += nLineLen;
-				bFindLine = true;
+                nLineLen += 1;
+                bytes.append((char *)(fileptr + nStartPos), nLineLen);
+                nStartPos += nLineLen;
+                bFindLine = true;
             }
             break;
         }
@@ -242,7 +239,7 @@ bool CompareMode::getOneLineFromFile(uchar *fileptr, int &nStartPos, const int f
     if (!bFindLine)
     {
         // 文件最后一行没有换行符
-        bytes.append((char*)(fileptr + nStartPos), fileLength - nStartPos);
+        bytes.append((char *)(fileptr + nStartPos), fileLength - nStartPos);
         nStartPos = fileLength;
     }
 

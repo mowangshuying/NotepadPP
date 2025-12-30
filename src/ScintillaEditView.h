@@ -1,8 +1,8 @@
-﻿#pragma  once
+﻿#pragma once
 
-//#include <Qsci/qsciscintilla.h>
-// #include <Scintilla.h>
-// #include <Scintilla.h>
+// #include <Qsci/qsciscintilla.h>
+//  #include <Scintilla.h>
+//  #include <Scintilla.h>
 #include <Qsci/qsciscintilla.h>
 #include <Scintilla.h>
 #include <Qsci/qscilexer.h>
@@ -10,7 +10,7 @@
 #include <QDebug>
 #include "ISorter.h"
 
-using ScintillaFunc = sptr_t(*)(sptr_t, unsigned int, uptr_t, sptr_t);
+using ScintillaFunc = sptr_t (*)(sptr_t, unsigned int, uptr_t, sptr_t);
 using ScintillaPtr = sptr_t;
 
 // enum class MarginType {
@@ -24,61 +24,61 @@ const int __SymbolMargin = 1;
 const int __FolderMargin = 2;
 
 class ScintillaEditView : public QsciScintilla
-{ 
-	Q_OBJECT
-public:
-	ScintillaEditView(QWidget* parent = nullptr)
-	{
-		__init();
-	}
+{
+    Q_OBJECT
+  public:
+    ScintillaEditView(QWidget* parent = nullptr)
+    {
+        __init();
+    }
 
-	~ScintillaEditView()
-	{
+    ~ScintillaEditView()
+    {
+    }
 
-	}
+    void __init();
 
-	void __init();
+    void setNoteWidget(QWidget* pNoteWidget);
 
-	void setNoteWidget(QWidget* pNoteWidget);
+    sptr_t execute(quint32 Msg, uptr_t wParam = 0, sptr_t lParam = 0);
 
-	sptr_t execute(quint32 Msg, uptr_t wParam = 0, sptr_t lParam = 0);
+    int nbDigitsFromNbLines(size_t nbLines);
 
-	int nbDigitsFromNbLines(size_t nbLines);
+    void updateLineNumberWidth();
 
-	void updateLineNumberWidth();
+    void updateSymbolWidth(int nWidth);
 
-	void updateSymbolWidth(int nWidth);
+    void updateFoldWidth(int nWidth);
 
-	void updateFoldWidth(int nWidth);
+    void setTabWidth(int nWidth);
 
-	void setTabWidth(int nWidth);
+    QsciLexer* makeLexerByName(QString lexerName);
 
-	QsciLexer* makeLexerByName(QString lexerName);
+    void setLexerByFilePath(QString filepath);
 
-	void setLexerByFilePath(QString filepath);
+    QString getEOLString();
 
-	QString getEOLString();
+    void getText(char* dest, size_t start, size_t end);
 
-	void getText(char* dest, size_t start, size_t end);
+    QString getGenericTextAsQString(size_t start, size_t end);
 
-	QString getGenericTextAsQString(size_t start, size_t end);
+    void removeAnyDuplicateLines();
 
-	void removeAnyDuplicateLines();
+    std::pair<size_t, size_t> getSelectionLinesRange(intptr_t selectionNumer = -1);
 
-	std::pair<size_t, size_t> getSelectionLinesRange(intptr_t selectionNumer = -1);
+    size_t removeDuplicateLines(QStringList& lines);
 
-	size_t removeDuplicateLines(QStringList& lines);
+    intptr_t replaceTarget(QByteArray& bytes, intptr_t fromTargetPos, intptr_t toTargetPos);
 
-	intptr_t replaceTarget(QByteArray& bytes, intptr_t fromTargetPos, intptr_t toTargetPos);
+    void sortLines(size_t nFromLine, size_t nToLine, SortType sortType);
 
-	void sortLines(size_t nFromLine, size_t nToLine, SortType sortType);
+    FindState getLastFindState()
+    {
+        return findState;
+    }
 
-	FindState getLastFindState()
-	{
-		return findState;
-	}
-protected:
-	ScintillaFunc m_pScintillaFunc;
-	ScintillaPtr m_pScintillaPtr;
+  protected:
+    ScintillaFunc m_pScintillaFunc;
+    ScintillaPtr m_pScintillaPtr;
     QWidget* m_pNoteWidget;
 };

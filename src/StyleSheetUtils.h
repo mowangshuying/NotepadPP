@@ -5,7 +5,7 @@
 
 class StyleSheetUtils : public QObject
 {
-public:
+  public:
     static QString getQssByFileName(QString fileName);
     static void setQssByFileName(QWidget* pWidget, QString fileName);
 };
