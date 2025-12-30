@@ -53,6 +53,14 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         return;
     }
 
+    // 
+    for (int i = 0; i < m_findRecordsVct.size(); i++)
+    {
+        QString findText = m_findRecordsVct.at(i).getFindText();
+        ScintillaEditView* pEdit = m_findRecordsVct.at(i).getEditView();
+    }
+
+
     QString findTitle;
     findTitle = tr("<font style='font-size:14px;font-weight:bold;color:#343497'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 

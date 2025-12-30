@@ -7,6 +7,8 @@
 #include <QStandardItem>
 #include <QModelIndex>
 
+#include <vector>
+
 class TreeView : public QTreeView
 {
     Q_OBJECT
@@ -34,4 +36,7 @@ signals:
 protected:
     HtmlStyledItemDelegate* m_delegate;
     QStandardItemModel* m_model;
+
+    // 仅仅存储查找结果
+    std::vector<FindRecords> m_findRecordsVct;
 };
