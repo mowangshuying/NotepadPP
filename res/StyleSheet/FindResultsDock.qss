@@ -1,0 +1,13 @@
+QDockWidget {
+    background-color: rgb(255, 255, 255);
+}
+
+
+QDockWidget::title {
+    text-align: left;
+    background-color: rgb(255,255,255);
+    border: 1px solid rgb(211, 211, 211);
+ } 
+
+
+

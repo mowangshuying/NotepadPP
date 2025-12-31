@@ -1,12 +1,15 @@
 #include "FindResultsDock.h"
 #include "FindResultsView.h"
 // #include "FindRecords.h"
+#include "StyleSheetUtils.h"
+
 FindResultsDock::FindResultsDock(QWidget *parent) : QDockWidget(parent)
 {
     m_findResultsView = new FindResultsView;
     setWidget(m_findResultsView);
 
     __connect();
+    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/FindResultsDock.qss");
 }
 
 void FindResultsDock::__connect()

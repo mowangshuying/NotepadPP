@@ -1,3 +1,7 @@
+QTreeView {
+    border: 1px solid transparent;
+}
+
 QTreeView::indicator {
     padding: 0px 0px 0px 0px;
     width: 13px;
@@ -9,3 +13,4 @@ QTreeView::item {
     margin: 0px;
     border: 0px;
 }
+

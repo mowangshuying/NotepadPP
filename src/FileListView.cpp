@@ -3,6 +3,7 @@
 #include <vector>
 #include "NotePadPP.h"
 #include <QProcess>
+#include "StyleSheetUtils.h"
 
 FileListView::FileListView(QWidget* parent) : QWidget(parent)
 {
@@ -13,11 +14,13 @@ FileListView::FileListView(QWidget* parent) : QWidget(parent)
     setLayout(m_vMainLayout);
 
     m_filelistWidget = new QListWidget(this);
+    m_filelistWidget->setObjectName("fileListWidget");
     m_vMainLayout->addWidget(m_filelistWidget);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     __connect();
+    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/FileListView.qss");
 }
 
 void FileListView::__connect()

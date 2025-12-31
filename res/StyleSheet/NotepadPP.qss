@@ -1,0 +1,14 @@
+NotepadPP::separator {
+    background-color: rgb(211,211,211);
+    width: 1px;
+    height: 1px;
+}
+
+QStatusBar {
+    background-color: rgb(0,108,190);
+    color: white;
+}
+
+QStatusBar > QLabel {
+    color: white;
+}

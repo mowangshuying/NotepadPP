@@ -97,6 +97,13 @@ void ScintillaEditView::__init()
     // 开启后保证长行在滚动条下完整显示
     execute(SCI_SETSCROLLWIDTHTRACKING, true);
     setFrameStyle(QFrame::Box);
+
+    // 前景色设置
+    setMarginsForegroundColor(QColor(0, 108, 190));
+    // setMarginBackgroundColor(__LineNumberMargin, QColor(255, 255, 255));
+    // setMarginBackgroundColor(__SymbolMargin, QColor(255, 255, 255));
+    // setMarginBackgroundColor(__FolderMargin, QColor(255, 255, 255));
+    setMarginsBackgroundColor(QColor(255, 255, 255));
     StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/ScintillaEditView.qss");
 }
 

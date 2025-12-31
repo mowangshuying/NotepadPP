@@ -27,7 +27,7 @@ class ScintillaEditView : public QsciScintilla
 {
     Q_OBJECT
   public:
-    ScintillaEditView(QWidget* parent = nullptr)
+    ScintillaEditView(QWidget* parent = nullptr) : QsciScintilla(parent)
     {
         __init();
     }

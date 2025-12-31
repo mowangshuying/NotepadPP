@@ -83,7 +83,7 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     m_findRecordsVct.insert(m_findRecordsVct.begin(), frs);
 
     QString findTitle;
-    findTitle = tr("<font style='font-size:14px;font-weight:bold;color:#343497'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    findTitle = tr("<font style='font-size:14px;font-weight:bold;background-color:#ffffff;color:#3d6acf'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
     QStandardItem *titleItem = new QStandardItem(findTitle);
     setItemBackgroundColor(titleItem, QColor(0xbbbbfff));
@@ -105,7 +105,7 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     }
 
     QString desc;
-    desc = tr("<font style='font-size:14px;color:#99cc99'>%1 (%2 hits)</font>").arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    desc = tr("<font style='font-size:14px;background-color:#ffffff;color:#3d6acf'>%1 (%2 hits)</font>").arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
     QStandardItem *descItem = new QStandardItem(desc);
     setItemBackgroundColor(descItem, QColor(0x484848));
@@ -121,7 +121,7 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         FindRecord findRecord = findRecords->getFindRecordList().at(i);
         QString richText = highLightFindText(findRecord);
         QString text;
-        text = tr("<font style='font-size:14px;color:#ffffff'>Line </font><font style='font-size:14px;color:#ff8040'>%1</font> : %2").arg(findRecord.getLineNums() + 1).arg(richText);
+        text = tr("<font style='font-size:14px;background-color:#ffffff;color:#3d6acf'>Line %1</font>: %2").arg(findRecord.getLineNums() + 1).arg(richText);
 
         QStandardItem *childItem = new QStandardItem(text);
         childItem->setData(findRecord.getTargetStartPos(), (int)(SelfUserRole::ResultItemPos));
@@ -149,14 +149,10 @@ QString TreeView::highLightFindText(FindRecord &record)
     QString target = QString(utf8Bytes.mid(targetStartPos, targetLens)).toHtmlEscaped();
     QString tail = QString(utf8Bytes.mid(tailStart)).toHtmlEscaped();
 
-    // head = QString::asprintf("<font style='font-size:14px;'>%s</font>",  head.toStdString().c_str());
-    // target = QString::asprintf("<font style='font-size:14px;background-color:#ffffbf'>%s</font>", target.toStdString().c_str());
-    // tail = QString::asprintf("<font style='font-size:14px;'>%s</font>", tail.toStdString().c_str());
-
     // 改为arg模式
-    head = tr("<font style='font-size:14px;'>%1</font>").arg(head);
-    target = tr("<font style='font-size:14px;background-color:#ffffbf'>%1</font>").arg(target);
-    tail = tr("<font style='font-size:14px;'>%1</font>").arg(tail);
+    head = tr("<font style='font-size:14px;background-color:#ffffff;color:#000000;'>%1</font>").arg(head);
+    target = tr("<font style='font-size:14px;background-color:#3d6acf;color:#ffffff'>%1</font>").arg(target);
+    tail = tr("<font style='font-size:14px;background-color:#ffffff;color:#000000;'>%1</font>").arg(tail);
 
     return QString("%1%2%3").arg(head, target, tail);
 }
