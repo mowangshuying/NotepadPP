@@ -1,4 +1,5 @@
 #include "AboutNotePP.h"
+#include "StyleSheetUtils.h"
 
 AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
 {
@@ -11,13 +12,9 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     m_titleLabel->setFont(titleFont);
 
     m_versionKLabel = new QLabel("Version:", this);
-    // m_versionKLabel->setAlignment(Qt::AlignLeft);
     m_versionVLabel = new QLabel("1.0.0", this);
-    // m_versionVLabel->setAlignment(Qt::AlignLeft);
     m_contentKLabel = new QLabel("Content:", this);
-    // m_contentKLabel->setAlignment(Qt::AlignLeft);
     m_contentVLabel = new QLabel("This is a simple notepad application.", this);
-    // m_contentVLabel->setAlignment(Qt::AlignLeft);
 
     auto hVerionLayout = new QHBoxLayout(this);
     hVerionLayout->addWidget(m_versionKLabel);
@@ -41,4 +38,6 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     m_vMainLayout->setAlignment(Qt::AlignTop);
     m_vMainLayout->addStretch();
     setLayout(m_vMainLayout);
+
+    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/AboutNotePP.qss");
 }

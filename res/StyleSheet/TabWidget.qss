@@ -10,7 +10,7 @@ QTabBar::tab{
 
 QTabBar::tab:selected{ 
     background-color:rgb(255,255,255);
-    border-top:3px solid #FAAA3C;
+    border-top:3px solid rgb(0, 108, 190);
     margin-top:1px; 
     margin-right:1px; 
     margin-left:1px; 
