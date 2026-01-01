@@ -287,7 +287,7 @@ void NotepadPP::__initMenu()
     // m_menuIconSize->addAction(m_action48);
 
     // m_actionWrap = new QAction("Wrap");
-    m_actionFileListView = new QAction("FileListView");
+    m_actionFileListView = new QAction("File List");
     // m_actionShowToolBar = new QAction("Show ToolBar");
     // m_actionShowWebAddr = new QAction("Show WebAddr");
 
