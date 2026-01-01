@@ -237,12 +237,7 @@
     <message>
         <location filename="../../src/NotepadPP.cpp" line="178"/>
         <source>Remove Duplicate Lines</source>
-        <translation>移除重复行
-补充说明
-核心用途
-这是文本编辑器、代码工具、数据处理软件中的常用功能指令，作用是扫描并删除文档或文件中完全重复的行内容，常用于清理日志、代码、数据列表等场景。
-使用场景示例
-在 Notepad++ 中，可通过「编</translation>
+        <translation>移除重复行</translation>
     </message>
     <message>
         <location filename="../../src/NotepadPP.cpp" line="181"/>
