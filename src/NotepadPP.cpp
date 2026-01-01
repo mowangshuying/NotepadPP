@@ -1441,6 +1441,11 @@ void NotepadPP::__onTriggerRemoveHeadEndBlank()
 
 void NotepadPP::__onTriggerShowSpaces(bool bChecked)
 {
+	// __onTriggerShowAll(false);
+
+	m_actionShowEndOfLine->setChecked(false);
+	m_actionShowAll->setChecked(false);
+
     QsciScintilla::WhitespaceVisibility mode;
     if (bChecked)
     {
@@ -1463,6 +1468,10 @@ void NotepadPP::__onTriggerShowSpaces(bool bChecked)
 
 void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
 {
+	// __onTriggerShowAll(false);
+	m_actionShowSpaces->setChecked(false);
+	m_actionShowAll->setChecked(false);
+
     m_bShowEndofLine = bChecked;
     for (int i = 0; i < m_editTabWidget->count(); i++)
     {
@@ -1474,6 +1483,9 @@ void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
 
 void NotepadPP::__onTriggerShowAll(bool bChecked)
 {
+	m_actionShowEndOfLine->setChecked(false);
+	m_actionShowSpaces->setChecked(false);
+
     QsciScintilla::WhitespaceVisibility mode;
     bool bShowLineEnd;
     if (bChecked)
