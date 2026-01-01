@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
     src/App.cpp
     src/CompareMode.cpp
     src/CompareMode.h
+    src/ConfigUtils.cpp
+    src/ConfigUtils.h
     src/DirFindPage.cpp
     src/DirFindPage.h
     src/EnCode.cpp
@@ -99,30 +101,3 @@ target_link_libraries(NotePadPP PRIVATE
     libuchardet_static
     libucd_static
     )
-
-# message(STATUS "-------------- ${UCHARDET_STATIC_LIBRARY}")
-
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.NotePadPP)
-endif()
-set_target_properties(NotePadPP PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
-
-include(GNUInstallDirs)
-install(TARGETS NotePadPP
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(NotePadPP)
-endif()

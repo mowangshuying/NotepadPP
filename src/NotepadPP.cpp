@@ -16,6 +16,7 @@
 #include "FileListViewDock.h"
 #include "FindResultsDock.h"
 #include  "StyleSheetUtils.h"
+#include "ConfigUtils.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent), m_nZoomValue(0), m_bShowEndofLine(false)
 {
@@ -68,30 +69,30 @@ void NotepadPP::__initMenu()
     setMenuBar(m_menuBar);
 
     //  ---init File Menu;
-    m_menuFile = new QMenu("File", m_menuBar);
+    m_menuFile = new QMenu(tr("File"), m_menuBar);
     m_menuFile->setLayoutDirection(Qt::LeftToRight);
 
-    m_actionNewFile = new QAction("New");
+    m_actionNewFile = new QAction(tr("New"));
     m_actionNewFile->setShortcut(QKeySequence::New);
-    m_actionOpenFile = new QAction("Open ...");
+    m_actionOpenFile = new QAction(tr("Open ..."));
     m_actionOpenFile->setShortcut(QKeySequence::Open);
-    m_actionSave = new QAction("Save");
+    m_actionSave = new QAction(tr("Save"));
     m_actionSave->setShortcut(QKeySequence::Save);
 
-    m_actionSaveAs = new QAction("Save As ...");
+    m_actionSaveAs = new QAction(tr("Save As ..."));
     m_actionSaveAs->setShortcut(QKeySequence::SaveAs);
 
-    m_actionClose = new QAction("Close");
+    m_actionClose = new QAction(tr("Close"));
     // m_actionClose->setShortcut(QKeySequence::Close);
 
-    m_actionCloseAll = new QAction("Close All");
+    m_actionCloseAll = new QAction(tr("Close All"));
     // m_actionCloseAll->setShortcut(QKeySequence::CloseAll);
 
-    m_actionClearHistory = new QAction("Clear History");
+    m_actionClearHistory = new QAction(tr("Clear History"));
 
-    m_menuReceneFile = new QMenu("Recene File");
-
-    m_actionExit = new QAction("Exit");
+    m_menuReceneFile = new QMenu(tr("Recene File"));
+    
+    m_actionExit = new QAction(tr("Exit"));
     m_actionExit->setShortcut(QKeySequence::Quit);
 
     m_menuFile->addAction(m_actionNewFile);
@@ -112,30 +113,30 @@ void NotepadPP::__initMenu()
     m_menuBar->addAction(m_menuFile->menuAction());
 
     // --- init Edit Menu
-    m_menuEdit = new QMenu("Edit", m_menuBar);
-    m_actionUndo = new QAction("Undo");
+    m_menuEdit = new QMenu(tr("Edit"), m_menuBar);
+    m_actionUndo = new QAction(tr("Undo"));
     m_actionUndo->setShortcut(QKeySequence::Undo);
-    m_actionRedo = new QAction("Redo");
+    m_actionRedo = new QAction(tr("Redo"));
     m_actionRedo->setShortcut(QKeySequence::Redo);
 
     // split
 
-    m_actionCut = new QAction("Cut");
+    m_actionCut = new QAction(tr("Cut"));
     m_actionCut->setShortcut(QKeySequence::Cut);
-    m_actionCopy = new QAction("Copy");
+    m_actionCopy = new QAction(tr("Copy"));
     m_actionCopy->setShortcut(QKeySequence::Copy);
-    m_actionPaste = new QAction("Paste");
+    m_actionPaste = new QAction(tr("Paste"));
     m_actionPaste->setShortcut(QKeySequence::Paste);
 
     // split
 
-    m_actionSelectAll = new QAction("Select All");
+    m_actionSelectAll = new QAction(tr("Select All"));
     m_actionSelectAll->setShortcut(QKeySequence::SelectAll);
 
-    m_menuFormatConversion = new QMenu("Format Conversion");
-    m_actionConverWindowsCRLF = new QAction("Windows(CRLF)");
-    m_actionConvertUnixLF = new QAction("Unix(LF)");
-    m_actionConvertMacCR = new QAction("Mac(CR)");
+    m_menuFormatConversion = new QMenu(tr("Format Conversion"));
+    m_actionConverWindowsCRLF = new QAction(tr("Windows(CRLF)"));
+    m_actionConvertUnixLF = new QAction(tr("Unix(LF)"));
+    m_actionConvertMacCR = new QAction(tr("Mac(CR)"));
 
     m_menuFormatConversion->addAction(m_actionConverWindowsCRLF);
     m_menuFormatConversion->addAction(m_actionConvertUnixLF);
@@ -145,10 +146,10 @@ void NotepadPP::__initMenu()
     // m_actionOpenInBin = new QAction("Open In Bin");
 
     /// --- black char operator
-    m_menuBlankCharOperate = new QMenu("Blank Char Operate");
-    m_actionRemoveHeadBlank = new QAction("Remove Head Blank");
-    m_actionRemoveEndBlank = new QAction("Remove End Blank");
-    m_actionRemoveHeadEndBlank = new QAction("Remove Head End Blank");
+    m_menuBlankCharOperate = new QMenu(tr("Blank Char Operate"));
+    m_actionRemoveHeadBlank = new QAction(tr("Remove Head Blank"));
+    m_actionRemoveEndBlank = new QAction(tr("Remove End Blank"));
+    m_actionRemoveHeadEndBlank = new QAction(tr("Remove Head End Blank"));
     m_menuBlankCharOperate->addAction(m_actionRemoveHeadBlank);
     m_menuBlankCharOperate->addAction(m_actionRemoveEndBlank);
     m_menuBlankCharOperate->addAction(m_actionRemoveHeadEndBlank);
@@ -173,18 +174,18 @@ void NotepadPP::__initMenu()
     // m_menuConvertCaseTo->addAction(m_actionRandomCase);
 
     // line operator
-    m_menuLineOperations = new QMenu("Line Operator");
-    m_actionDuplicateCurrentLine = new QAction("Duplicate Current Line");
-    m_actionRemoveDuplicateLines = new QAction("Remove Duplicate Lines");
-    // m_actionSplitLines = new QAction("Split Lines");
-    // m_actionJoinLines = new QAction("Join Lines");
-    m_actionMoveUpCurrentLine = new QAction("Move Up Current Line");
-    m_actionMoveDownCurrentLine = new QAction("Move Down Current Line");
-    m_actionRemoveEmptyLines = new QAction("Remove Empty Lines");
-    m_actionRemoveEmptyLinesCbc = new QAction("Remove Empty Lines(Containing blank charactors)");
-    m_actionInsertBlankLineAboveCurrent = new QAction("Insert Blank Line Above Current");
-    m_actionInsertBlankLineBelowCurrent = new QAction("Insert Blank Line Below Current");
-    m_actionReverseLineOrder = new QAction("Reverse Line Order");
+    m_menuLineOperations = new QMenu(tr("Line Operator"));
+    m_actionDuplicateCurrentLine = new QAction(tr("Duplicate Current Line"));
+    m_actionRemoveDuplicateLines = new QAction(tr("Remove Duplicate Lines"));
+    // m_actionSplitLines = new QAction(tr("Split Lines"));
+    // m_actionJoinLines = new QAction(tr("Join Lines"));
+    m_actionMoveUpCurrentLine = new QAction(tr("Move Up Current Line"));
+    m_actionMoveDownCurrentLine = new QAction(tr("Move Down Current Line"));
+    m_actionRemoveEmptyLines = new QAction(tr("Remove Empty Lines"));
+    m_actionRemoveEmptyLinesCbc = new QAction(tr("Remove Empty Lines(Containing blank charactors)"));
+    m_actionInsertBlankLineAboveCurrent = new QAction(tr("Insert Blank Line Above Current"));
+    m_actionInsertBlankLineBelowCurrent = new QAction(tr("Insert Blank Line Below Current"));
+    m_actionReverseLineOrder = new QAction(tr("Reverse Line Order"));
     m_actionSortLinesLexAscending = new QAction(tr("Sort lines lexicographically ascending"));
     m_actionSortLinesLexAscendingIgnoreCase = new QAction(tr("Sort lines lexicographically ascending, ignoring case"));
     m_actionSortLinesLexDescending = new QAction(tr("Sort lines lexicographically descending"));
@@ -239,13 +240,13 @@ void NotepadPP::__initMenu()
     m_menuBar->addAction(m_menuEdit->menuAction());
 
     // searchMenu
-    m_menuSearch = new QMenu("Search");
-    m_actionFind = new QAction("Find");
+    m_menuSearch = new QMenu(tr("Search"));
+    m_actionFind = new QAction(tr("Find"));
     m_actionFind->setShortcut(QKeySequence::Find);
     // m_actionFindNext = new QAction("Find Next");
     // m_actionFindPrev = new QAction("Find Prev");
     // m_actionFindInDir = new QAction("Find In Directory");
-    m_actionReplace = new QAction("Replace");
+    m_actionReplace = new QAction(tr("Replace"));
     // m_actionGoline = new QAction("Go To Line");
 
     m_menuSearch->addAction(m_actionFind);
@@ -260,36 +261,36 @@ void NotepadPP::__initMenu()
     // m_ac = new QAction("Add BookMark");
 
     // View MenuFileListView
-    m_menuView = new QMenu("View");
+    m_menuView = new QMenu(tr("View"));
 
-    m_menuDisplaySymbols = new QMenu("Display Symbols");
-    m_actionShowSpaces = new QAction("Show Spaces");
+    m_menuDisplaySymbols = new QMenu(tr("Display Symbols"));
+    m_actionShowSpaces = new QAction(tr("Show Spaces"));
     m_actionShowSpaces->setCheckable(true);
 
-    m_actionShowEndOfLine = new QAction("Show End Of Line");
+    m_actionShowEndOfLine = new QAction(tr("Show End Of Line"));
     m_actionShowEndOfLine->setCheckable(true);
 
-    m_actionShowAll = new QAction("Show All");
+    m_actionShowAll = new QAction(tr("Show All"));
     m_actionShowAll->setCheckable(true);
 
     m_menuDisplaySymbols->addAction(m_actionShowSpaces);
     m_menuDisplaySymbols->addAction(m_actionShowEndOfLine);
     m_menuDisplaySymbols->addAction(m_actionShowAll);
 
-    m_actionSearchResult = new QAction("Search Result");
+    m_actionSearchResult = new QAction(tr("Search Result"));
 
-    // m_menuIconSize = new QMenu("Icon Size");
-    // m_action24 = new QAction("24x24");
-    // m_action36 = new QAction("36x36");
-    // m_action48 = new QAction("48x48");
+    // m_menuIconSize = new QMenu(tr("Icon Size"));
+    // m_action24 = new QAction(tr("24x24"));
+    // m_action36 = new QAction(tr("36x36"));
+    // m_action48 = new QAction(tr("48x48"));
     // m_menuIconSize->addAction(m_action24);
     // m_menuIconSize->addAction(m_action36);
     // m_menuIconSize->addAction(m_action48);
 
-    // m_actionWrap = new QAction("Wrap");
-    m_actionFileListView = new QAction("File List");
-    // m_actionShowToolBar = new QAction("Show ToolBar");
-    // m_actionShowWebAddr = new QAction("Show WebAddr");
+    // m_actionWrap = new QAction(tr("Wrap"));
+    m_actionFileListView = new QAction(tr("File List"));
+    // m_actionShowToolBar = new QAction(tr("Show ToolBar"));
+    // m_actionShowWebAddr = new QAction(tr("Show WebAddr"));
 
     m_menuView->addAction(m_menuDisplaySymbols->menuAction());
     m_menuView->addAction(m_actionSearchResult);
@@ -302,9 +303,9 @@ void NotepadPP::__initMenu()
     m_menuBar->addAction(m_menuView->menuAction());
 
     // EnCoding
-    m_menuEncoding = new QMenu("Encoding");
-    m_menuReopenWithEncoding = new QMenu("Reopen With Encoding");
-    m_menuSaveWithEncoding = new QMenu("Save With Encoding");
+    m_menuEncoding = new QMenu(tr("Encoding"));
+    m_menuReopenWithEncoding = new QMenu(tr("Reopen With Encoding"));
+    m_menuSaveWithEncoding = new QMenu(tr("Save With Encoding"));
 
     __initEncodingMenu();
 
@@ -313,18 +314,18 @@ void NotepadPP::__initMenu()
     m_menuBar->addAction(m_menuEncoding->menuAction());
 
     // set menu
-    m_menuSet = new QMenu("Set");
-    m_actionOptions = new QAction("Options");
+    m_menuSet = new QMenu(tr("Set"));
+    m_actionOptions = new QAction(tr("Options"));
 
-    m_menuLanguage = new QMenu("Language");
-    m_actionChinese = new QAction("Chinese");
-    m_actionEnglish = new QAction("English");
+    m_menuLanguage = new QMenu(tr("Language"));
+    m_actionChinese = new QAction(tr("Chinese"));
+    m_actionEnglish = new QAction(tr("English"));
     m_menuLanguage->addAction(m_actionChinese);
     m_menuLanguage->addAction(m_actionEnglish);
 
-    m_actionDefineLanguage = new QAction("Define Language");
-    m_actionLanguageFileSuffix = new QAction("Language File Suffix");
-    m_actionShortcutKeyManager = new QAction("Shortcut Key Manager");
+    m_actionDefineLanguage = new QAction(tr("Define Language"));
+    m_actionLanguageFileSuffix = new QAction(tr("Language File Suffix"));
+    m_actionShortcutKeyManager = new QAction(tr("Shortcut Key Manager"));
 
     m_menuSet->addAction(m_actionOptions);
     m_menuSet->addAction(m_menuLanguage->menuAction());
@@ -334,17 +335,17 @@ void NotepadPP::__initMenu()
     m_menuBar->addAction(m_menuSet->menuAction());
 
     // toolsMenu
-    m_menuTools = new QMenu("Tools");
-    m_actionMd5Sha = new QAction("Md5/Sha");
-    // m_actionBatchFind = new QAction("Batch Find");
+    m_menuTools = new QMenu(tr("Tools"));
+    m_actionMd5Sha = new QAction(tr("Md5/Sha"));
+    m_actionBatchFind = new QAction(tr("Batch Find"));
     m_menuTools->addAction(m_actionMd5Sha);
     // m_menuTools->addAction(m_actionBatchFind);
 
     m_menuBar->addAction(m_menuTools->menuAction());
 
     // pluginMenu
-    m_menuPlugin = new QMenu("Plugin");
-    m_actionPluginManager = new QAction("Plugin Manager");
+    m_menuPlugin = new QMenu(tr("Plugin"));
+    m_actionPluginManager = new QAction(tr("Plugin Manager"));
     m_menuPlugin->addAction(m_actionPluginManager);
     m_menuBar->addAction(m_menuPlugin->menuAction());
 
@@ -352,10 +353,10 @@ void NotepadPP::__initMenu()
     // m_menuFeed
 
     // helpMenu
-    m_menuHelp = new QMenu("Help");
-    // m_actionDonate = new QAction("Donate");
-    // m_actionBugFix = new QAction("Fix Bug");
-    m_actionInfo = new QAction("About NotepadPP");
+    m_menuHelp = new QMenu(tr("Help"));
+    // m_actionDonate = new QAction(tr("Donate"));
+    // m_actionBugFix = new QAction(tr("Fix Bug"));
+    m_actionInfo = new QAction(tr("About NotepadPP"));
 
     // m_menuHelp->addAction(m_actionDonate);
     // m_menuHelp->addAction(m_actionBugFix);
@@ -395,11 +396,11 @@ void NotepadPP::__initDockWin()
 
     m_fileListViewDock = new FileListViewDock(this);
     m_fileListViewDock->setNotePad(this);
-    m_fileListViewDock->setWindowTitle("File List View");
+    m_fileListViewDock->setWindowTitle(tr("File List View"));
     addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
 
     m_findResultsDock = new FindResultsDock(this);
-    m_findResultsDock->setWindowTitle("Find Results View");
+    m_findResultsDock->setWindowTitle(tr("Find Results View")); // Updated to use tr()
     addDockWidget(Qt::BottomDockWidgetArea, m_findResultsDock);
 
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -491,6 +492,9 @@ void NotepadPP::__connect()
 
 	connect(m_findResultsDock, &FindResultsDock::itemClicked, this, &NotepadPP::__onFindResultsViewItemClicked);
 	connect(m_findResultsDock, &FindResultsDock::itemDoubleClicked, this, &NotepadPP::__onFindResultsViewItemDoubleClicked);
+
+	connect(m_actionChinese, &QAction::triggered, this, &NotepadPP::__onTriggerChinese);
+	connect(m_actionEnglish, &QAction::triggered, this, &NotepadPP::__onTriggerEnglish);
 }
 
 bool NotepadPP::isNewFileNameExist(const QString& filename)
@@ -1610,6 +1614,18 @@ void NotepadPP::__onTriggerSaveWithEncoding(QAction* action)
     CodeId cid = action->property("CodeId").value<CodeId>();
     int nIndex = m_editTabWidget->currentIndex();
     saveTabEditByCodeId(nIndex, cid);
+}
+
+void NotepadPP::__onTriggerChinese()
+{
+	qDebug() << "NotepadPP::__onTriggerChinese()";
+	ConfigUtils::getUtils()->setLanguage("zh-CN");
+}
+
+void NotepadPP::__onTriggerEnglish()
+{
+	qDebug() << "NotepadPP::__onTriggerEnglish()";
+	ConfigUtils::getUtils()->setLanguage("en-US");
 }
 
 void NotepadPP::__onTextChanged()

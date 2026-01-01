@@ -150,6 +150,11 @@ class NotepadPP : public QMainWindow
     void __onTriggerReopenWithEncoding(QAction* action);
     void __onTriggerSaveWithEncoding(QAction* action);
 
+    // chinese
+    void __onTriggerChinese();
+    // english
+    void __onTriggerEnglish();
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);

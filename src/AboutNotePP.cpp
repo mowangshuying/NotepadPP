@@ -11,10 +11,10 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     titleFont.setBold(true);
     m_titleLabel->setFont(titleFont);
 
-    m_versionKLabel = new QLabel("Version:", this);
-    m_versionVLabel = new QLabel("1.0.0", this);
-    m_contentKLabel = new QLabel("Content:", this);
-    m_contentVLabel = new QLabel("This is a simple notepad application.", this);
+    m_versionKLabel = new QLabel(tr("Version:"), this);
+    m_versionVLabel = new QLabel(tr("1.0.0"), this);
+    m_contentKLabel = new QLabel(tr("Content:"), this);
+    m_contentVLabel = new QLabel(tr("This is a simple notepad application."), this);
 
     auto hVerionLayout = new QHBoxLayout(this);
     hVerionLayout->addWidget(m_versionKLabel);
