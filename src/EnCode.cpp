@@ -371,5 +371,10 @@ std::vector<QString> EnCode::getAllCodecNames()
         QString codecName = getCodeNameById(cid);
         codecNames.push_back(codecName);
     }
+
+    // 去重
+    std::sort(codecNames.begin(), codecNames.end());
+    codecNames.erase(std::unique(codecNames.begin(), codecNames.end()), codecNames.end());
+    
     return codecNames;
 }
