@@ -6,7 +6,7 @@
     <message>
         <location filename="../../src/AboutNotePP.cpp" line="7"/>
         <source>Simple Info For Notepad.</source>
-        <translation type="unfinished">记事本的简单信息.</translation>
+        <translation>记事本的简单信息.</translation>
     </message>
     <message>
         <location filename="../../src/AboutNotePP.cpp" line="14"/>
