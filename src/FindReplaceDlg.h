@@ -20,6 +20,19 @@ class FindReplaceDlg : public QDialog
     bool getTimeToClose();
     void setTimeToClose(bool bTimeToClose);
 
+
+    void showFindDlg()
+    {
+        this->m_tabWidget->setCurrentIndex(0);
+        show();
+    }
+
+    void showReplaceDlg()
+    {
+        m_tabWidget->setCurrentIndex(1);
+        show();
+    }
+
     // close event
     void closeEvent(QCloseEvent* event) override;
 

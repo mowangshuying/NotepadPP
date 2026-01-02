@@ -1503,12 +1503,14 @@ void NotepadPP::__onTriggerSortLinesLexDescendingIgnoreCase()
 void NotepadPP::__onTriggerFind()
 {
     qDebug() << "NotepadPP::__onTriggerFind()";
-    m_findReplaceDlg->show();
+    // m_findReplaceDlg->show();
+	m_findReplaceDlg->showFindDlg();
 }
 
 void NotepadPP::__onTriggerReplace()
 {
     qDebug() << "NotepadPP::__onTriggerReplace()";
+	m_findReplaceDlg->showReplaceDlg();
 }
 
 void NotepadPP::__onTriggerReopenWithEncoding(QAction* action)
