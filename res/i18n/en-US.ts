@@ -2,6 +2,34 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AboutNotePP</name>
+    <message>
+        <location filename="../../src/AboutNotePP.cpp" line="7"/>
+        <source>Simple Info For Notepad.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/AboutNotePP.cpp" line="14"/>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/AboutNotePP.cpp" line="15"/>
+        <source>1.0.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/AboutNotePP.cpp" line="16"/>
+        <source>Content:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/AboutNotePP.cpp" line="17"/>
+        <source>This is a simple notepad application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FileListView</name>
     <message>
         <location filename="../../src/FileListView.cpp" line="169"/>
@@ -100,375 +128,375 @@
 <context>
     <name>NotepadPP</name>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="71"/>
+        <location filename="../../src/NotepadPP.cpp" line="67"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="74"/>
+        <location filename="../../src/NotepadPP.cpp" line="70"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="76"/>
+        <location filename="../../src/NotepadPP.cpp" line="72"/>
         <source>Open ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="78"/>
+        <location filename="../../src/NotepadPP.cpp" line="74"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="81"/>
+        <location filename="../../src/NotepadPP.cpp" line="77"/>
         <source>Save As ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="84"/>
+        <location filename="../../src/NotepadPP.cpp" line="80"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="87"/>
+        <location filename="../../src/NotepadPP.cpp" line="83"/>
         <source>Close All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="90"/>
+        <location filename="../../src/NotepadPP.cpp" line="86"/>
         <source>Clear History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="92"/>
+        <location filename="../../src/NotepadPP.cpp" line="88"/>
         <source>Recene File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="94"/>
+        <location filename="../../src/NotepadPP.cpp" line="90"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="115"/>
+        <location filename="../../src/NotepadPP.cpp" line="111"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="116"/>
+        <location filename="../../src/NotepadPP.cpp" line="112"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="118"/>
+        <location filename="../../src/NotepadPP.cpp" line="114"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="123"/>
+        <location filename="../../src/NotepadPP.cpp" line="119"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="125"/>
+        <location filename="../../src/NotepadPP.cpp" line="121"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="127"/>
+        <location filename="../../src/NotepadPP.cpp" line="123"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="132"/>
+        <location filename="../../src/NotepadPP.cpp" line="128"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="135"/>
+        <location filename="../../src/NotepadPP.cpp" line="131"/>
         <source>Format Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="136"/>
+        <location filename="../../src/NotepadPP.cpp" line="132"/>
         <source>Windows(CRLF)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="137"/>
+        <location filename="../../src/NotepadPP.cpp" line="133"/>
         <source>Unix(LF)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="138"/>
+        <location filename="../../src/NotepadPP.cpp" line="134"/>
         <source>Mac(CR)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="148"/>
+        <location filename="../../src/NotepadPP.cpp" line="144"/>
         <source>Blank Char Operate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="149"/>
+        <location filename="../../src/NotepadPP.cpp" line="145"/>
         <source>Remove Head Blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="150"/>
+        <location filename="../../src/NotepadPP.cpp" line="146"/>
         <source>Remove End Blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="151"/>
+        <location filename="../../src/NotepadPP.cpp" line="147"/>
         <source>Remove Head End Blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="176"/>
+        <location filename="../../src/NotepadPP.cpp" line="153"/>
         <source>Line Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="177"/>
+        <location filename="../../src/NotepadPP.cpp" line="154"/>
         <source>Duplicate Current Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="178"/>
+        <location filename="../../src/NotepadPP.cpp" line="155"/>
         <source>Remove Duplicate Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="181"/>
+        <location filename="../../src/NotepadPP.cpp" line="157"/>
         <source>Move Up Current Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="182"/>
+        <location filename="../../src/NotepadPP.cpp" line="158"/>
         <source>Move Down Current Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="183"/>
+        <location filename="../../src/NotepadPP.cpp" line="159"/>
         <source>Remove Empty Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="184"/>
+        <location filename="../../src/NotepadPP.cpp" line="160"/>
         <source>Remove Empty Lines(Containing blank charactors)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="185"/>
+        <location filename="../../src/NotepadPP.cpp" line="161"/>
         <source>Insert Blank Line Above Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="186"/>
+        <location filename="../../src/NotepadPP.cpp" line="162"/>
         <source>Insert Blank Line Below Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="187"/>
+        <location filename="../../src/NotepadPP.cpp" line="163"/>
         <source>Reverse Line Order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="188"/>
+        <location filename="../../src/NotepadPP.cpp" line="164"/>
         <source>Sort lines lexicographically ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="189"/>
+        <location filename="../../src/NotepadPP.cpp" line="165"/>
         <source>Sort lines lexicographically ascending, ignoring case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="190"/>
+        <location filename="../../src/NotepadPP.cpp" line="166"/>
         <source>Sort lines lexicographically descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="191"/>
+        <location filename="../../src/NotepadPP.cpp" line="167"/>
         <source>Sort lines lexicographically descending, ignoring case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="242"/>
+        <location filename="../../src/NotepadPP.cpp" line="204"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="243"/>
+        <location filename="../../src/NotepadPP.cpp" line="205"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="248"/>
+        <location filename="../../src/NotepadPP.cpp" line="207"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="263"/>
+        <location filename="../../src/NotepadPP.cpp" line="214"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="265"/>
+        <location filename="../../src/NotepadPP.cpp" line="216"/>
         <source>Display Symbols</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="266"/>
+        <location filename="../../src/NotepadPP.cpp" line="217"/>
         <source>Show Spaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="269"/>
+        <location filename="../../src/NotepadPP.cpp" line="220"/>
         <source>Show End Of Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="272"/>
+        <location filename="../../src/NotepadPP.cpp" line="223"/>
         <source>Show All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="279"/>
+        <location filename="../../src/NotepadPP.cpp" line="230"/>
         <source>Search Result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="290"/>
+        <location filename="../../src/NotepadPP.cpp" line="233"/>
         <source>File List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="305"/>
+        <location filename="../../src/NotepadPP.cpp" line="242"/>
         <source>Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="306"/>
+        <location filename="../../src/NotepadPP.cpp" line="243"/>
         <source>Reopen With Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="307"/>
+        <location filename="../../src/NotepadPP.cpp" line="244"/>
         <source>Save With Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="316"/>
+        <location filename="../../src/NotepadPP.cpp" line="253"/>
         <source>Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="317"/>
+        <location filename="../../src/NotepadPP.cpp" line="254"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="319"/>
+        <location filename="../../src/NotepadPP.cpp" line="256"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="320"/>
+        <location filename="../../src/NotepadPP.cpp" line="257"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="321"/>
+        <location filename="../../src/NotepadPP.cpp" line="258"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="325"/>
+        <location filename="../../src/NotepadPP.cpp" line="262"/>
         <source>Define Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="326"/>
+        <location filename="../../src/NotepadPP.cpp" line="263"/>
         <source>Language File Suffix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="327"/>
+        <location filename="../../src/NotepadPP.cpp" line="264"/>
         <source>Shortcut Key Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="337"/>
+        <location filename="../../src/NotepadPP.cpp" line="274"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="338"/>
+        <location filename="../../src/NotepadPP.cpp" line="275"/>
         <source>Md5/Sha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="339"/>
+        <location filename="../../src/NotepadPP.cpp" line="276"/>
         <source>Batch Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="346"/>
+        <location filename="../../src/NotepadPP.cpp" line="282"/>
         <source>Plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="347"/>
+        <location filename="../../src/NotepadPP.cpp" line="283"/>
         <source>Plugin Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="355"/>
+        <location filename="../../src/NotepadPP.cpp" line="288"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="358"/>
+        <location filename="../../src/NotepadPP.cpp" line="289"/>
         <source>About NotepadPP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="398"/>
+        <location filename="../../src/NotepadPP.cpp" line="317"/>
         <source>File List View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="402"/>
+        <location filename="../../src/NotepadPP.cpp" line="321"/>
         <source>Find Results View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="695"/>
-        <location filename="../../src/NotepadPP.cpp" line="1278"/>
+        <location filename="../../src/NotepadPP.cpp" line="617"/>
+        <location filename="../../src/NotepadPP.cpp" line="1200"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="763"/>
-        <location filename="../../src/NotepadPP.cpp" line="815"/>
+        <location filename="../../src/NotepadPP.cpp" line="685"/>
+        <location filename="../../src/NotepadPP.cpp" line="737"/>
         <source>No write permission for file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="772"/>
-        <location filename="../../src/NotepadPP.cpp" line="824"/>
+        <location filename="../../src/NotepadPP.cpp" line="694"/>
+        <location filename="../../src/NotepadPP.cpp" line="746"/>
         <source>Open file %1 failed for write.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="1299"/>
+        <location filename="../../src/NotepadPP.cpp" line="1221"/>
         <source>Save File as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/NotepadPP.cpp" line="1649"/>
+        <location filename="../../src/NotepadPP.cpp" line="1585"/>
         <source>Current Zoom Value is %1%</source>
         <translation type="unfinished"></translation>
     </message>

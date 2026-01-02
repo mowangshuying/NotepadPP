@@ -4,7 +4,7 @@
 AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
 {
     m_vMainLayout = new QVBoxLayout(this);
-    m_titleLabel = new QLabel("Simple Info For Notepad.", this);
+    m_titleLabel = new QLabel(tr("Simple Info For Notepad."), this);
     // 设置titleLabel的字体大小和加粗
     QFont titleFont = m_titleLabel->font();
     titleFont.setPointSize(12);
