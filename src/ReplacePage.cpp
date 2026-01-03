@@ -74,31 +74,24 @@ ReplacePage::ReplacePage(QWidget *parent)
     m_vMainLayout->addSpacing(10);
 
     // 查找下一个
-    m_findNextButton = new QPushButton(tr("Find Next"));
-    m_findNextButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_findNextButton);
+    m_replaceNextButton = new QPushButton(tr("Replace Next"));
+    m_replaceNextButton->setFixedWidth(150);
+    m_vMainLayout->addWidget(m_replaceNextButton);
     // 查找上一个
-    m_findPrevButton = new QPushButton(tr("Find Prev"));
-    m_findPrevButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_findPrevButton);
-    // 计数
-    m_countButton = new QPushButton(tr("Count"));
-    m_countButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_countButton);
+    m_replacePrevButton = new QPushButton(tr("Replace Prev"));
+    m_replacePrevButton->setFixedWidth(150);
+    m_vMainLayout->addWidget(m_replacePrevButton);
+
+
     // 在文件中查找
-    m_findInCurFileButton = new QPushButton(tr("Find In Current File"));
-    m_findInCurFileButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_findInCurFileButton);
+    m_replaceInCurFileButton = new QPushButton(tr("Replace In Current File"));
+    m_replaceInCurFileButton->setFixedWidth(150);
+    m_vMainLayout->addWidget(m_replaceInCurFileButton);
 
     // 查找所有打开文件
-    m_findInAllFileButton = new QPushButton(tr("Find In All Open Files"));
-    m_findInAllFileButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_findInAllFileButton);
-
-    // 清空
-    m_clearButton = new QPushButton(tr("Clear"));
-    m_clearButton->setFixedWidth(150);
-    m_vMainLayout->addWidget(m_clearButton);
+    m_replaceInAllFileButton = new QPushButton(tr("Replace In All Open Files"));
+    m_replaceInAllFileButton->setFixedWidth(150);
+    m_vMainLayout->addWidget(m_replaceInAllFileButton);
 
     m_vMainLayout->addStretch();
 }

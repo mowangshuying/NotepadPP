@@ -40,15 +40,15 @@ class ReplacePage : public QWidget
     QRadioButton* m_regexRadioButton;
 
     // 查找下一个
-    QPushButton* m_findNextButton;
+    QPushButton* m_replaceNextButton;
     // 查找上一个
-    QPushButton* m_findPrevButton;
+    QPushButton* m_replacePrevButton;
     // 计数
-    QPushButton* m_countButton;
+    // QPushButton* m_countButton;
     // 在当前文件中查找
-    QPushButton* m_findInCurFileButton;
+    QPushButton* m_replaceInCurFileButton;
     // 在所有打开文件中查找
-    QPushButton* m_findInAllFileButton;
+    QPushButton* m_replaceInAllFileButton;
     // 清空
-    QPushButton* m_clearButton;
+    // QPushButton* m_clearButton;
 };

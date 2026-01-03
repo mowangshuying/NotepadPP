@@ -550,32 +550,22 @@
     </message>
     <message>
         <location filename="../../src/ReplacePage.cpp" line="77"/>
-        <source>Find Next</source>
+        <source>Replace Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/ReplacePage.cpp" line="81"/>
-        <source>Find Prev</source>
+        <source>Replace Prev</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="85"/>
-        <source>Count</source>
+        <location filename="../../src/ReplacePage.cpp" line="87"/>
+        <source>Replace In Current File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="89"/>
-        <source>Find In Current File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/ReplacePage.cpp" line="94"/>
-        <source>Find In All Open Files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/ReplacePage.cpp" line="99"/>
-        <source>Clear</source>
+        <location filename="../../src/ReplacePage.cpp" line="92"/>
+        <source>Replace In All Open Files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -220,12 +220,12 @@
     <message>
         <location filename="../../src/NotepadPP.cpp" line="132"/>
         <source>Windows(CRLF)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/NotepadPP.cpp" line="133"/>
         <source>Unix(LF)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/NotepadPP.cpp" line="134"/>
@@ -550,33 +550,47 @@
     </message>
     <message>
         <location filename="../../src/ReplacePage.cpp" line="77"/>
-        <source>Find Next</source>
-        <translation>查找下一个</translation>
+        <source>Replace Next</source>
+        <translation>替换下一个</translation>
     </message>
     <message>
         <location filename="../../src/ReplacePage.cpp" line="81"/>
+        <source>Replace Prev</source>
+        <translation>替换前一个</translation>
+    </message>
+    <message>
+        <location filename="../../src/ReplacePage.cpp" line="87"/>
+        <source>Replace In Current File</source>
+        <translation>在当前文件中替换</translation>
+    </message>
+    <message>
+        <location filename="../../src/ReplacePage.cpp" line="92"/>
+        <source>Replace In All Open Files</source>
+        <translation>在所有打开文件中替换</translation>
+    </message>
+    <message>
+        <source>Find Next</source>
+        <translation type="vanished">查找下一个</translation>
+    </message>
+    <message>
         <source>Find Prev</source>
-        <translation>查找前一个</translation>
+        <translation type="vanished">查找前一个</translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="85"/>
         <source>Count</source>
-        <translation>计数</translation>
+        <translation type="vanished">计数</translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="89"/>
         <source>Find In Current File</source>
-        <translation>在当前文件中查找</translation>
+        <translation type="vanished">在当前文件中查找</translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="94"/>
         <source>Find In All Open Files</source>
-        <translation>在所有打开文件中查找</translation>
+        <translation type="vanished">在所有打开文件中查找</translation>
     </message>
     <message>
-        <location filename="../../src/ReplacePage.cpp" line="99"/>
         <source>Clear</source>
-        <translation>清空</translation>
+        <translation type="vanished">清空</translation>
     </message>
 </context>
 <context>
