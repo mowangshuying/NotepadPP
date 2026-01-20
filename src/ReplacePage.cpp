@@ -3,6 +3,12 @@
 
 ReplacePage::ReplacePage(QWidget *parent)
 {
+    __initUI();
+    __connect();
+}
+
+void ReplacePage::__initUI()
+{
     m_vMainLayout = new QVBoxLayout(this);
     setLayout(m_vMainLayout);
     setContentsMargins(0, 0, 0, 0);
@@ -94,4 +100,33 @@ ReplacePage::ReplacePage(QWidget *parent)
     m_vMainLayout->addWidget(m_replaceInAllFileButton);
 
     m_vMainLayout->addStretch();
+}
+
+void ReplacePage::__connect()
+{
+    connect(m_replaceNextButton, &QPushButton::clicked, this, &ReplacePage::__onClickedReplaceNextButton);
+    connect(m_replacePrevButton, &QPushButton::clicked, this, &ReplacePage::__onClickedReplacePrevButton);
+    connect(m_replaceInCurFileButton, &QPushButton::clicked, this, &ReplacePage::__onClickedReplaceInCurFileButton);
+    connect(m_replaceInAllFileButton, &QPushButton::clicked, this, &ReplacePage::__onClickedReplaceInAllFileButton);
+}
+
+void ReplacePage::setNoteWidget(QWidget *pNoteWidget)
+{
+    m_pNotepadWidget = pNoteWidget;
+}
+
+void ReplacePage::__onClickedReplaceNextButton()
+{
+}
+
+void ReplacePage::__onClickedReplacePrevButton()
+{
+}
+
+void ReplacePage::__onClickedReplaceInCurFileButton()
+{
+}
+
+void ReplacePage::__onClickedReplaceInAllFileButton()
+{
 }

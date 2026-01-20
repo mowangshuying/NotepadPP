@@ -15,6 +15,17 @@ class ReplacePage : public QWidget
   public:
     ReplacePage(QWidget* parent = nullptr);
 
+    void __initUI();
+
+    void __connect();
+
+    void setNoteWidget(QWidget* pNoteWidget);
+  // signals:
+  // public slots:
+    void __onClickedReplaceNextButton();
+    void __onClickedReplacePrevButton();
+    void __onClickedReplaceInCurFileButton();
+    void __onClickedReplaceInAllFileButton();
   protected:
     QVBoxLayout* m_vMainLayout;
     QLabel* m_findTargetLabel;
@@ -39,16 +50,16 @@ class ReplacePage : public QWidget
     // 正则表达式
     QRadioButton* m_regexRadioButton;
 
-    // 查找下一个
+    // 替换下一个
     QPushButton* m_replaceNextButton;
-    // 查找上一个
+    // 替换上一个
     QPushButton* m_replacePrevButton;
-    // 计数
-    // QPushButton* m_countButton;
-    // 在当前文件中查找
+
+    // 在当前文件中替换
     QPushButton* m_replaceInCurFileButton;
-    // 在所有打开文件中查找
+    
+    // 在所有打开文件中替换
     QPushButton* m_replaceInAllFileButton;
-    // 清空
-    // QPushButton* m_clearButton;
+
+    QWidget* m_pNotepadWidget;
 };

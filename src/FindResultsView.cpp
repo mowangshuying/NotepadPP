@@ -27,3 +27,7 @@ void FindResultsView::appendResultsToShow(FindRecords *findRecords)
 {
     m_treeView->appendResultsToShow(findRecords);
 }
+
+void FindResultsView::clearAllContents()
+{
+}

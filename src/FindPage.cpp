@@ -459,8 +459,7 @@ void FindPage::__onClickedFindInCurFileButton()
     //     FindRecord findRecord = findRecods[i];
     //     qDebug() << "line:" << findRecord.getLineNums() << "text:" << findRecord.getLineContents();
     // }
-
-    qDebug() << "emit showFindRecords";
+    // qDebug() << "emit showFindRecords";
     emit showFindRecords(&findRecords);
 }
 

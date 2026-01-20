@@ -17,6 +17,8 @@ class FindResultsView : public QWidget
 
     void appendResultsToShow(FindRecords* findRecords);
 
+    void clearAllContents();
+
   signals:
     // 传导至主界面处理信号.
     void itemClicked(const QModelIndex& index);
