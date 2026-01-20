@@ -4,7 +4,18 @@
 #include "ScintillaEditView.h"
 
 
-ReplacePage::ReplacePage(QWidget *parent)
+ReplacePage::ReplacePage(QWidget *parent) : QWidget(parent),
+    m_editTabWidget(nullptr),
+    m_sFindExpr(""),
+    m_sReplaceExpr(""),
+    m_bReverseSearch(false),
+    m_bMatchWholeWord(false),
+    m_bMatchCase(false),
+    m_bLoopSearch(false),
+    m_bRegularExpression(false),
+    m_bFirstFind(true),
+    m_curEditView(nullptr),
+    m_lastClickedButtonType(LastClickedButtonType::ReplaceNext)
 {
     __initUI();
     __connect();
@@ -194,11 +205,11 @@ void ReplacePage::__onClickedReplaceNextButton()
         return;
     }
 
-    if (m_replaceTargetComboBox->currentText().isEmpty())
-    {
-        qDebug() << "replace target is empty";
-        return;
-    }
+    // if (m_replaceTargetComboBox->currentText().isEmpty())
+    // {
+    //     qDebug() << "replace target is empty";
+    //     return;
+    // }
     
     ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
     updateParamsFromUI();
@@ -242,6 +253,48 @@ void ReplacePage::__onClickedReplaceNextButton()
 void ReplacePage::__onClickedReplacePrevButton()
 {
     qDebug() << "ReplacePage::__onClickedReplacePrevButton()";
+    if (m_findTargetComboBox->currentText().isEmpty())
+    {
+        qDebug() << "find target is empty";
+        return;
+    }
+
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    updateParamsFromUI();
+    bool bForward = !m_bReverseSearch;
+    if (m_lastClickedButtonType == LastClickedButtonType::ReplaceNext)
+    {
+        bForward = !bForward;
+        m_bFirstFind = true;
+    }
+
+    if (m_bFirstFind)
+    {
+        bool bFind = pEdit->findFirst(m_sFindExpr, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, m_bLoopSearch, bForward, -1, -1, true, false, false);
+        if (!bFind)
+        {
+            qDebug() << "find failed";
+            m_bFirstFind = true;
+            // return;
+        }
+        else
+        {
+            m_bFirstFind = false;
+        }
+    }
+    else
+    {
+        pEdit->replace(m_sReplaceExpr);
+        bool bFind = pEdit->findNext();
+        if (!bFind)
+        {
+            qDebug() << "Not found";
+        }
+    }
+
+    m_lastClickedButtonType = LastClickedButtonType::ReplacePrev;
+
+
 }
 
 void ReplacePage::__onClickedReplaceInCurFileButton()
