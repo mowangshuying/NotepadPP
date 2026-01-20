@@ -22,12 +22,14 @@ FindReplaceDlg::FindReplaceDlg(QWidget *parent) : QDialog(parent), m_bTimeToClos
 void FindReplaceDlg::setTabWidget(QTabWidget *tabWidget)
 {
     m_pFindPage->setTabWidget(tabWidget);
+    m_pReplacePage->setTabWidget(tabWidget);
 }
 
 void FindReplaceDlg::setNoteWidget(QWidget *pNoteWidget)
 {
     m_pNoteWidget = pNoteWidget;
     m_pFindPage->setNoteWidget(pNoteWidget);
+    m_pReplacePage->setNoteWidget(pNoteWidget);
 }
 
 bool FindReplaceDlg::getTimeToClose()

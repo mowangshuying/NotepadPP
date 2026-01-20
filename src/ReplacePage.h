@@ -9,9 +9,18 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
+class ScintillaEditView;
 class ReplacePage : public QWidget
 {
     Q_OBJECT
+  public:
+    enum class LastClickedButtonType
+    {
+        ReplaceNext,
+        ReplacePrev,
+        ReplaceInCurFile,
+        ReplaceInAllFile
+    };
   public:
     ReplacePage(QWidget* parent = nullptr);
 
@@ -19,7 +28,12 @@ class ReplacePage : public QWidget
 
     void __connect();
 
+    ScintillaEditView* autoAdjustCurrentEditWin();
+
+    void setTabWidget(QTabWidget* tabWidget);
     void setNoteWidget(QWidget* pNoteWidget);
+
+    void updateParamsFromUI();
   // signals:
   // public slots:
     void __onClickedReplaceNextButton();
@@ -61,5 +75,23 @@ class ReplacePage : public QWidget
     // 在所有打开文件中替换
     QPushButton* m_replaceInAllFileButton;
 
+
+    /// var;
+    QTabWidget* m_editTabWidget;
+    ScintillaEditView* m_curEditView;
+
+    //
+    QString m_sFindExpr; // 表达式
+    QString m_sReplaceExpr;
+    bool m_bReverseSearch; // 反向查找
+    bool m_bMatchWholeWord; // 全字匹配
+    bool m_bMatchCase; // 匹配大小写
+    bool m_bLoopSearch; // 循环查找
+    bool m_bNormal; 
+    bool m_bExended;  //扩展
+    bool m_bRegularExpression; // 正则表达式
+
+    bool m_bFirstFind;
+    LastClickedButtonType m_lastClickedButtonType;
     QWidget* m_pNotepadWidget;
 };

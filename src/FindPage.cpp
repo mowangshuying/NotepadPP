@@ -12,8 +12,8 @@ FindPage::FindPage(QWidget* parent)
       m_editTabWidget(nullptr),
       m_sFindExpr(""),
       m_bReverseSearch(false),
-      m_bMachWholeWord(false),
-      m_bMachCase(false),
+      m_bMatchWholeWord(false),
+      m_bMatchCase(false),
       m_bLoopSearch(false),
       m_bNormal(false),
       m_bExended(false),
@@ -141,10 +141,10 @@ ScintillaEditView* FindPage::autoAdjustCurrentEditWin()
     if (pEdit == nullptr)
         return nullptr;
 
-    if (pEdit != m_curEidtView)
+    if (pEdit != m_curEditView)
     {
         m_bFirstFind = true;
-        m_curEidtView = pEdit;
+        m_curEditView = pEdit;
     }
     return pEdit;
 }
@@ -187,16 +187,16 @@ void FindPage::updateParamsFromUI()
     }
 
     // 匹配整个字符
-    if (m_machWholeWordCheckBox->isChecked() != m_bMachWholeWord)
+    if (m_machWholeWordCheckBox->isChecked() != m_bMatchWholeWord)
     {
-        m_bMachWholeWord = m_machWholeWordCheckBox->isChecked();
+        m_bMatchWholeWord = m_machWholeWordCheckBox->isChecked();
         m_bFirstFind = true;
     }
 
     // 匹配大小写
-    if (m_matchCaseCheckBox->isChecked() != m_bMachCase)
+    if (m_matchCaseCheckBox->isChecked() != m_bMatchCase)
     {
-        m_bMachCase = m_matchCaseCheckBox->isChecked();
+        m_bMatchCase = m_matchCaseCheckBox->isChecked();
         m_bFirstFind = true;
     }
 
@@ -294,7 +294,7 @@ void FindPage::__onClickedFindNextButton()
         //  bool show, // 是否显示
         //  bool posix, //
         //  bool cxx11 //
-        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, !m_bReverseSearch, -1, -1, true, false, false);
+        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, m_bLoopSearch, !m_bReverseSearch, -1, -1, true, false, false);
         if (!bFind)
         {
             qDebug() << "find failed";
@@ -339,7 +339,7 @@ void FindPage::__onClickedFindPrevButton()
 
     if (m_bFirstFind)
     {
-        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, bForward, -1, -1, true, false, false);
+        bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, m_bLoopSearch, bForward, -1, -1, true, false, false);
         if (!bFind)
         {
             qDebug() << "find failed";
@@ -380,7 +380,7 @@ void FindPage::__onclickedFindCountButton()
 
     int nFindCount = 0;
 
-    if (!pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, m_bLoopSearch, true, 0, 0, false, false, false))
+    if (!pEdit->findFirst(findText, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, m_bLoopSearch, true, 0, 0, false, false, false))
     {
         m_bFirstFind = true;
         return;
@@ -430,7 +430,7 @@ void FindPage::__onClickedFindInCurFileButton()
 
     // int nFindCount = 0;
     /// 从头开始查找
-    bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMachCase, m_bMachWholeWord, false, true, 0, 0);
+    bool bFind = pEdit->findFirst(findText, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, false, true, 0, 0);
     if (!bFind)
     {
         m_bFirstFind = true;

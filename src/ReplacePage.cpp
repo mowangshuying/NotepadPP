@@ -1,5 +1,8 @@
 #include "ReplacePage.h"
 #include <QGroupBox>
+#include <QDebug>
+#include "ScintillaEditView.h"
+
 
 ReplacePage::ReplacePage(QWidget *parent)
 {
@@ -110,23 +113,143 @@ void ReplacePage::__connect()
     connect(m_replaceInAllFileButton, &QPushButton::clicked, this, &ReplacePage::__onClickedReplaceInAllFileButton);
 }
 
+ScintillaEditView *ReplacePage::autoAdjustCurrentEditWin()
+{
+    auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+    if (pEdit == nullptr)
+    {
+        return pEdit;
+    }
+
+    if (pEdit != m_curEditView)
+    {
+        m_bFirstFind = true;
+        m_curEditView = pEdit;
+    }
+    return pEdit;
+}
+
+void ReplacePage::setTabWidget(QTabWidget *tabWidget)
+{
+    m_editTabWidget = tabWidget;
+}
+
 void ReplacePage::setNoteWidget(QWidget *pNoteWidget)
 {
     m_pNotepadWidget = pNoteWidget;
 }
 
+void ReplacePage::updateParamsFromUI()
+{
+    if (m_findTargetComboBox->currentText() != m_sFindExpr)
+    {
+        m_sFindExpr = m_findTargetComboBox->currentText();
+        m_bFirstFind = true;
+    }
+
+    if (m_replaceTargetComboBox->currentText() != m_sReplaceExpr)
+    {
+        m_sReplaceExpr = m_replaceTargetComboBox->currentText();
+        m_bFirstFind = true;
+    }
+
+    if (m_regexRadioButton->isChecked() != m_bRegularExpression)
+    {
+        m_bRegularExpression = m_regexRadioButton->isChecked();
+        m_bFirstFind = true;
+    }
+
+
+    if (m_reverseSearchCheckBox->isChecked() != m_bReverseSearch)
+    {
+        m_bReverseSearch = m_regexRadioButton->isChecked();
+        m_bFirstFind = true;
+    }
+
+    if (m_machWholeWordCheckBox->isChecked() != m_bMatchWholeWord)
+    {
+        m_bMatchWholeWord = m_machWholeWordCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+
+    if (m_matchCaseCheckBox->isChecked() != m_bMatchCase)
+    {
+        m_bMatchCase = m_matchCaseCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+
+    if (m_loopSearchCheckBox->isChecked() != m_bLoopSearch)
+    {
+        m_bLoopSearch = m_loopSearchCheckBox->isChecked();
+        m_bFirstFind = true;
+    }
+}
+
 void ReplacePage::__onClickedReplaceNextButton()
 {
+    qDebug() << "ReplacePage::__onClickedReplaceNextButton()";
+    if (m_findTargetComboBox->currentText().isEmpty())
+    {
+        qDebug() << "find target is empty";
+        return;
+    }
+
+    if (m_replaceTargetComboBox->currentText().isEmpty())
+    {
+        qDebug() << "replace target is empty";
+        return;
+    }
+    
+    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    updateParamsFromUI();
+
+    if (m_lastClickedButtonType == LastClickedButtonType::ReplacePrev)
+    {
+        m_bFirstFind = true;
+    }
+
+    if (m_bFirstFind)
+    {
+        bool bFind = pEdit->findFirst(m_sFindExpr, m_bRegularExpression, m_bMatchCase, m_bMatchWholeWord, m_bLoopSearch, !m_bReverseSearch, -1, -1, true, false, false);
+        if (!bFind)
+        {
+            qDebug() << "find failed";
+            m_bFirstFind = true;
+            // return;
+        }
+        else
+        {
+            // pEdit->replace(m_sReplaceExpr);
+            m_bFirstFind = false;
+        }
+    }
+    else
+    {
+        pEdit->replace(m_sReplaceExpr);
+        bool bFind = pEdit->findNext();
+        if (!bFind)
+        {
+            qDebug() << "Not found";
+        }
+        // else
+        // {
+            // pEdit->replace(m_sReplaceExpr);
+        // }
+    }
+    m_lastClickedButtonType = LastClickedButtonType::ReplaceNext;
 }
 
 void ReplacePage::__onClickedReplacePrevButton()
 {
+    qDebug() << "ReplacePage::__onClickedReplacePrevButton()";
 }
 
 void ReplacePage::__onClickedReplaceInCurFileButton()
 {
+    qDebug() << "ReplacePage::__onClickedReplaceInCurFileButton()";
 }
 
 void ReplacePage::__onClickedReplaceInAllFileButton()
 {
+    qDebug() << "ReplacePage::__onClickedReplaceInAllFileButton()";
 }

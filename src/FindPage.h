@@ -89,12 +89,12 @@ class FindPage : public QWidget
 
     //// var;
     QTabWidget* m_editTabWidget;
-    ScintillaEditView* m_curEidtView;
+    ScintillaEditView* m_curEditView;
 
     QString m_sFindExpr;    // 表达式
     bool m_bReverseSearch;  // 反向查找
-    bool m_bMachWholeWord;  // 全字匹配
-    bool m_bMachCase;       // 匹配大小写
+    bool m_bMatchWholeWord;  // 全字匹配
+    bool m_bMatchCase;       // 匹配大小写
     bool m_bLoopSearch;     // 循环查找
     bool m_bNormal;
     bool m_bExended;            // 扩展
