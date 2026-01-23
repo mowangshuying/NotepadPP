@@ -19,7 +19,8 @@ FindPage::FindPage(QWidget* parent)
       m_bExended(false),
       m_bRegularExpression(false),
       m_bFirstFind(true),
-      m_pNotepadWidget(nullptr)
+      m_pNotepadWidget(nullptr),
+      m_lastClickedButtonType(LastClickedButtonType::FindNext)
 {
     // if (parent != nullptr)
     // {
