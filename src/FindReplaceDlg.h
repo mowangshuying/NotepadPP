@@ -23,14 +23,16 @@ class FindReplaceDlg : public QDialog
 
     void showFindDlg()
     {
-        this->m_tabWidget->setCurrentIndex(0);
         show();
+        m_tabWidget->setCurrentWidget(m_pFindPage);
+        // show();
     }
 
     void showReplaceDlg()
     {
-        m_tabWidget->setCurrentIndex(1);
         show();
+        m_tabWidget->setCurrentWidget(m_pReplacePage);
+        // show();
     }
 
     // close event
