@@ -4,6 +4,6 @@ LineEndComboBox {
     color: white;
 }
 
-LineEndComboBox::drop-down {
+/* LineEndComboBox::drop-down {
     border: none
-}
+} */
