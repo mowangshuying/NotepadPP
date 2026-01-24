@@ -62,6 +62,9 @@ set(PROJECT_SOURCES
     src/ScintillaEditView.h
     src/SettingsPage.cpp
     src/SettingsPage.h
+    src/ShortcutKeyDlg.cpp
+    src/ShortcutKeyDlg.h
+    src/ShortcutKeySt.h
     src/StyleSheetUtils.cpp
     src/StyleSheetUtils.h
     src/TreeView.cpp

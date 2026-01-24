@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QDialog>
 #include <QTabWidget>
@@ -21,19 +21,9 @@ class FindReplaceDlg : public QDialog
     void setTimeToClose(bool bTimeToClose);
 
 
-    void showFindDlg()
-    {
-        show();
-        m_tabWidget->setCurrentWidget(m_pFindPage);
-        // show();
-    }
+    void showFindDlg();
 
-    void showReplaceDlg()
-    {
-        show();
-        m_tabWidget->setCurrentWidget(m_pReplacePage);
-        // show();
-    }
+    void showReplaceDlg();
 
     // close event
     void closeEvent(QCloseEvent* event) override;

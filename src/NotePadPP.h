@@ -156,6 +156,8 @@ class NotepadPP : public QMainWindow
     // english
     void __onTriggerEnglish();
 
+    void __onTriggerShortcutKeyManager();
+
     void __onTextChanged();
     void __onZoomValueChange();
     void __onTabCloseRequested(int index);

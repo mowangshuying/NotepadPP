@@ -15,6 +15,7 @@
 #include "FindResultsDock.h"
 #include  "StyleSheetUtils.h"
 #include "ConfigUtils.h"
+#include "ShortcutKeyDlg.h"
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent), m_nZoomValue(0), m_bShowEndofLine(false)
 {
@@ -413,6 +414,8 @@ void NotepadPP::__connect()
 
 	connect(m_actionChinese, &QAction::triggered, this, &NotepadPP::__onTriggerChinese);
 	connect(m_actionEnglish, &QAction::triggered, this, &NotepadPP::__onTriggerEnglish);
+
+    connect(m_actionShortcutKeyManager, &QAction::triggered, this, &NotepadPP::__onTriggerShortcutKeyManager);
 }
 
 bool NotepadPP::isNewFileNameExist(const QString& filename)
@@ -1546,6 +1549,13 @@ void NotepadPP::__onTriggerEnglish()
 {
 	qDebug() << "NotepadPP::__onTriggerEnglish()";
 	ConfigUtils::getUtils()->setLanguage("en-US");
+}
+
+void NotepadPP::__onTriggerShortcutKeyManager()
+{
+    qDebug() << "NotepadPP::__onTriggerShortcutKeyManager()";
+    ShortcutKeyDlg shortcutDlg(this);
+    shortcutDlg.exec();
 }
 
 void NotepadPP::__onTextChanged()

@@ -378,3 +378,32 @@ std::vector<QString> EnCode::getAllCodecNames()
     
     return codecNames;
 }
+
+QString EnCode::getLineEndNameByLineEndId(LineEnd lineEnd)
+{
+    QString ret;
+
+    switch (lineEnd)
+    {
+        case LineEnd::Unknown:
+#ifdef WIN32
+            ret = "Windows(CR LF)";
+#else
+            ret = "Unix(LF)";
+#endif
+            ret = "NULL";
+            break;
+        case LineEnd::Unix:
+            ret = "Unix(LF)";
+            break;
+        case LineEnd::Dos:
+            ret = "Windows(CR LF)";
+            break;
+        case LineEnd::Mac:
+            ret = "Mac(CR)";
+            break;
+        default:
+            break;
+    }
+    return ret;
+}

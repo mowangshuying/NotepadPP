@@ -1,4 +1,4 @@
-#include "FindReplaceDlg.h"
+﻿#include "FindReplaceDlg.h"
 
 FindReplaceDlg::FindReplaceDlg(QWidget *parent) : QDialog(parent), m_bTimeToClose(false)
 {
@@ -40,6 +40,20 @@ bool FindReplaceDlg::getTimeToClose()
 void FindReplaceDlg::setTimeToClose(bool bTimeToClose)
 {
     m_bTimeToClose = bTimeToClose;
+}
+
+void FindReplaceDlg::showFindDlg()
+{
+    show();
+    m_tabWidget->setCurrentWidget(m_pFindPage);
+    // show();
+}
+
+void FindReplaceDlg::showReplaceDlg()
+{
+    show();
+    m_tabWidget->setCurrentWidget(m_pReplacePage);
+    // show();
 }
 
 void FindReplaceDlg::closeEvent(QCloseEvent *event)
