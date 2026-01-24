@@ -334,7 +334,7 @@ void NotepadPP::__initStatusBar()
     // setStatusBar(m_statusBar);
 
     m_codeNameLabel = new QLabel("");
-    m_lineEndComboBox = new QComboBox;
+    m_lineEndComboBox = new LineEndComboBox;
 
     QStringList lineEnds;
     lineEnds << "Windows(CRLF)" << "Unix(LF)" << "Mac(CR)";

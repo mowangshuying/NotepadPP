@@ -13,6 +13,7 @@
 #include "ISorter.h"
 #include "FindReplaceDlg.h"
 #include "FindRecords.h"
+#include "LineEndComboBox.h"
 
 class FileListViewDock;
 class FindResultsDock;
@@ -336,7 +337,7 @@ class NotepadPP : public QMainWindow
     // StatusBar;
     QStatusBar* m_statusBar;
     QLabel* m_codeNameLabel;
-    QComboBox* m_lineEndComboBox;
+    LineEndComboBox* m_lineEndComboBox;
     QLabel* m_lineNumLabel;
     QLabel* m_langDescLabel;
     QLabel* m_zoomLabel;

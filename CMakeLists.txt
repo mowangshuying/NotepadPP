@@ -50,6 +50,8 @@ set(PROJECT_SOURCES
     src/HtmlStyledItemDelegate.h
     src/ISorter.cpp
     src/ISorter.h
+    src/LineEndComboBox.cpp
+    src/LineEndComboBox.h
     src/MarkPage.cpp
     src/MarkPage.h
     src/NotepadPP.cpp 

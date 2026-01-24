@@ -1,0 +1,9 @@
+LineEndComboBox {
+    background-color: rgb(0,108,190);
+    border: 1px solid rgb(0,108,190);
+    color: white;
+}
+
+LineEndComboBox::drop-down {
+    border: none
+}
