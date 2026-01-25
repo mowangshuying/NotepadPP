@@ -3,19 +3,19 @@
 #include <QDebug>
 #include "ScintillaEditView.h"
 
-
-ReplacePage::ReplacePage(QWidget *parent) : QWidget(parent),
-    m_editTabWidget(nullptr),
-    m_sFindExpr(""),
-    m_sReplaceExpr(""),
-    m_bReverseSearch(false),
-    m_bMatchWholeWord(false),
-    m_bMatchCase(false),
-    m_bLoopSearch(false),
-    m_bRegularExpression(false),
-    m_bFirstFind(true),
-    m_curEditView(nullptr),
-    m_lastClickedButtonType(LastClickedButtonType::ReplaceNext)
+ReplacePage::ReplacePage(QWidget *parent)
+    : QWidget(parent),
+      m_editTabWidget(nullptr),
+      m_sFindExpr(""),
+      m_sReplaceExpr(""),
+      m_bReverseSearch(false),
+      m_bMatchWholeWord(false),
+      m_bMatchCase(false),
+      m_bLoopSearch(false),
+      m_bRegularExpression(false),
+      m_bFirstFind(true),
+      m_curEditView(nullptr),
+      m_lastClickedButtonType(LastClickedButtonType::ReplaceNext)
 {
     __initUI();
     __connect();
@@ -102,7 +102,6 @@ void ReplacePage::__initUI()
     m_replacePrevButton->setFixedWidth(150);
     m_vMainLayout->addWidget(m_replacePrevButton);
 
-
     // 在文件中查找
     m_replaceInCurFileButton = new QPushButton(tr("Replace In Current File"));
     m_replaceInCurFileButton->setFixedWidth(150);
@@ -126,7 +125,7 @@ void ReplacePage::__connect()
 
 ScintillaEditView *ReplacePage::autoAdjustCurrentEditWin()
 {
-    auto pEdit = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+    auto pEdit = dynamic_cast<ScintillaEditView *>(m_editTabWidget->currentWidget());
     if (pEdit == nullptr)
     {
         return pEdit;
@@ -170,7 +169,6 @@ void ReplacePage::updateParamsFromUI()
         m_bFirstFind = true;
     }
 
-
     if (m_reverseSearchCheckBox->isChecked() != m_bReverseSearch)
     {
         m_bReverseSearch = m_regexRadioButton->isChecked();
@@ -210,8 +208,8 @@ void ReplacePage::__onClickedReplaceNextButton()
     //     qDebug() << "replace target is empty";
     //     return;
     // }
-    
-    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+
+    ScintillaEditView *pEdit = autoAdjustCurrentEditWin();
     updateParamsFromUI();
 
     if (m_lastClickedButtonType == LastClickedButtonType::ReplacePrev)
@@ -244,7 +242,7 @@ void ReplacePage::__onClickedReplaceNextButton()
         }
         // else
         // {
-            // pEdit->replace(m_sReplaceExpr);
+        // pEdit->replace(m_sReplaceExpr);
         // }
     }
     m_lastClickedButtonType = LastClickedButtonType::ReplaceNext;
@@ -259,7 +257,7 @@ void ReplacePage::__onClickedReplacePrevButton()
         return;
     }
 
-    ScintillaEditView* pEdit = autoAdjustCurrentEditWin();
+    ScintillaEditView *pEdit = autoAdjustCurrentEditWin();
     updateParamsFromUI();
     bool bForward = !m_bReverseSearch;
     if (m_lastClickedButtonType == LastClickedButtonType::ReplaceNext)
@@ -293,8 +291,6 @@ void ReplacePage::__onClickedReplacePrevButton()
     }
 
     m_lastClickedButtonType = LastClickedButtonType::ReplacePrev;
-
-
 }
 
 void ReplacePage::__onClickedReplaceInCurFileButton()

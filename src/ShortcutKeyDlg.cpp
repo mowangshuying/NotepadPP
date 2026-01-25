@@ -32,7 +32,6 @@ void ShortcutKeyDlg::__initTable()
 
 void ShortcutKeyDlg::__initTableData()
 {
-
     // header
     QTableWidgetItem* functionWidgetItem = new QTableWidgetItem;
     functionWidgetItem->setText("Function");
@@ -94,30 +93,44 @@ void ShortcutKeyDlg::__initTableData()
     m_shortcutKeyStVct.push_back(extendRectangularSelectionDownOneLine);
     auto srollviewDownOneLine = ShortcutKeySt(QString(tr("Scroll View Down One Line")), QString("scrollviewdownoneline"), QString("Ctrl+Down"), false);
     m_shortcutKeyStVct.push_back(srollviewDownOneLine);
+    // check;
     auto moveUpOneLine = ShortcutKeySt(QString(tr("Move Up One Line")), QString("moveuponeline"), QString("Up"), false);
     m_shortcutKeyStVct.push_back(moveUpOneLine);
     auto extendSelectionUpOneLine = ShortcutKeySt(QString(tr("Extend Selection Up One Line")), QString("extendselectionuponeline"), QString("Shift+Up"), false);
     m_shortcutKeyStVct.push_back(extendSelectionUpOneLine);
     auto extendRectangularSelectionUpOneLine = ShortcutKeySt(QString(tr("Extend Rectangular Selection Up One Line")), QString("extendrectangularselectionuponeline"), QString("Alt+Shift+Up"), false);
     m_shortcutKeyStVct.push_back(extendRectangularSelectionUpOneLine);
+
     auto scrollviewUpOneLine = ShortcutKeySt(QString(tr("Scroll View Up One Line")), QString("scrollviewuponeline"), QString("Ctrl+Up"), false);
     m_shortcutKeyStVct.push_back(scrollviewUpOneLine);
+
+    /// check;
     auto moveDownOneParagraph = ShortcutKeySt(QString(tr("Move Down One Paragraph")), QString("movedownoneparagraph"), QString("Ctrl+]"), false);
     m_shortcutKeyStVct.push_back(moveDownOneParagraph);
     auto extendSelectionDownOneParagraph = ShortcutKeySt(QString(tr("Extend Selection Down One Paragraph")), QString("extendselectiondownoneparagraph"), QString("Ctrl+Shift+]"), false);
     m_shortcutKeyStVct.push_back(extendSelectionDownOneParagraph);
+    auto moveUpOneParagraph = ShortcutKeySt(QString(tr("Move Up One Paragraph")), QString("moveuponeparagraph"), QString("Ctrl+["), false);
+    m_shortcutKeyStVct.push_back(moveUpOneParagraph);
+    auto extendSelectionUpOneParagraph = ShortcutKeySt(QString(tr("Extend Selection Up One Paragraph")), QString("extendselectionuponeparagraph"), QString("Ctrl+Shift+["), false);
+    m_shortcutKeyStVct.push_back(extendSelectionUpOneParagraph);
+
+    // check;
     auto moveLeftOneCharacter = ShortcutKeySt(QString(tr("Move Left One Character")), QString("moveleftonecharacter"), QString("Left"), false);
     m_shortcutKeyStVct.push_back(moveLeftOneCharacter);
     auto extendSelectionLeftOneCharacter = ShortcutKeySt(QString(tr("Extend Selection Left One Character")), QString("extendselectionleftonecharacter"), QString("Shift+Left"), false);
     m_shortcutKeyStVct.push_back(extendSelectionLeftOneCharacter);
     auto extendRectangularSelectionLeftOneCharacter = ShortcutKeySt(QString(tr("Extend Rectangular Selection Left One Character")), QString("extendrectangularselectionleftonecharacter"), QString("Alt+Shift+Left"), false);
     m_shortcutKeyStVct.push_back(extendRectangularSelectionLeftOneCharacter);
+
+    // check;
     auto moveRightOneCharacter = ShortcutKeySt(QString(tr("Move Right One Character")), QString("moverightonecharacter"), QString("Right"), false);
     m_shortcutKeyStVct.push_back(moveRightOneCharacter);
     auto extendSelectionRightOneCharacter = ShortcutKeySt(QString(tr("Extend Selection Right One Character")), QString("extendselectionrightonecharacter"), QString("Shift+Right"), false);
     m_shortcutKeyStVct.push_back(extendSelectionRightOneCharacter);
-    auto extendRectangularSelectionRightOneCharacter = ShortcutKeySt(QString(tr("Extend Rectangular Selection Right One Character")), QString("extendrectangularselectionrightonecharacter"), QString("Ctrl+Shift+Right"), false);
+    auto extendRectangularSelectionRightOneCharacter = ShortcutKeySt(QString(tr("Extend Rectangular Selection Right One Character")), QString("extendrectangularselectionrightonecharacter"), QString("Alt+Shift+Right"), false);
     m_shortcutKeyStVct.push_back(extendRectangularSelectionRightOneCharacter);
+
+    // check;
     auto moveLeftOneWord = ShortcutKeySt(QString(tr("Move Left One Word")), QString("moveleftoneword"), QString("Ctrl+Left"), false);
     m_shortcutKeyStVct.push_back(moveLeftOneWord);
     auto extendSelectionLeftOneWord = ShortcutKeySt(QString(tr("Extend Selection Left One Word")), QString("extendselectionleftoneword"), QString("Ctrl+Shift+Left"), false);
@@ -126,36 +139,56 @@ void ShortcutKeyDlg::__initTableData()
     m_shortcutKeyStVct.push_back(moveRightOneWord);
     auto extendSelectionRightOneWord = ShortcutKeySt(QString(tr("Extend Selection Right One Word")), QString("extendselectionrightoneword"), QString("Ctrl+Shift+Right"), false);
     m_shortcutKeyStVct.push_back(extendSelectionRightOneWord);
-    auto moveLeftOneWordPart = ShortcutKeySt(QString(tr("Move Left One Word Part")), QString("moveleftonewordpart"), QString("Ctrl+Shift+Left"), false);
+
+    // check;
+    auto moveLeftOneWordPart = ShortcutKeySt(QString(tr("Move Left One Word Part")), QString("moveleftonewordpart"), QString("Ctrl+/"), false);
     m_shortcutKeyStVct.push_back(moveLeftOneWordPart);
-    auto extendSelectionLeftOneWordPart = ShortcutKeySt(QString(tr("Extend Selection Left One Word Part")), QString("extendselectionleftonewordpart"), QString("Ctrl+Shift+Left"), false);
+    auto extendSelectionLeftOneWordPart = ShortcutKeySt(QString(tr("Extend Selection Left One Word Part")), QString("extendselectionleftonewordpart"), QString("Ctrl+Shift+/"), false);
     m_shortcutKeyStVct.push_back(extendSelectionLeftOneWordPart);
-    auto moveRightOneWordPart = ShortcutKeySt(QString(tr("Move Right One Word Part")), QString("moverightonewordpart"), QString("Ctrl+Shift+Right"), false);
+    auto moveRightOneWordPart = ShortcutKeySt(QString(tr("Move Right One Word Part")), QString("moverightonewordpart"), QString("Ctrl+\\"), false);
     m_shortcutKeyStVct.push_back(moveRightOneWordPart);
-    auto extendSelectionRightOneWordPart = ShortcutKeySt(QString(tr("Extend Selection Right One Word Part")), QString("extendselectionrightonewordpart"), QString("Ctrl+Shift+Right"), false);
+    auto extendSelectionRightOneWordPart = ShortcutKeySt(QString(tr("Extend Selection Right One Word Part")), QString("extendselectionrightonewordpart"), QString("Ctrl+Shift+\\"), false);
     m_shortcutKeyStVct.push_back(extendSelectionRightOneWordPart);
-    auto moveToStartOfDisplayLine = ShortcutKeySt(QString(tr("Move To Start Of Display Line")), QString("movetostartofdisplayline"), QString("Home"), false);
+
+    // check;
+    auto moveToStartOfDisplayLine = ShortcutKeySt(QString(tr("Move To Start Of Display Line")), QString("movetostartofdisplayline"), QString("Alt+Home"), false);
     m_shortcutKeyStVct.push_back(moveToStartOfDisplayLine);
     auto moveToFirstVisibleCharacterInDocumentLine = ShortcutKeySt(QString(tr("Move To First Visible Character In Document Line")), QString("movetofirstvisiblecharacterindocumentline"), QString("Home"), false);
     m_shortcutKeyStVct.push_back(moveToFirstVisibleCharacterInDocumentLine);
-    auto extendSelectionOfFirstVisibleCharacterInDocumentLine = ShortcutKeySt(QString(tr("Extend Selection Of First Visible Character In Document Line")), QString("extendselectionoffirstvisiblecharacterindocumentline"), QString("Ctrl+Home"), false);
-    m_shortcutKeyStVct.push_back(moveToFirstVisibleCharacterInDocumentLine);
-    auto extendRectangularSelectionOfFirstVisibleCharacterInDocumentLine = ShortcutKeySt(QString(tr("Extend Rectangular Selection Of First Visible Character In Document Line")), QString("extendrectangularselectionoffirstvisiblecharacterindocumentline"), QString("Ctrl+Shift+Home"), false);
+    auto extendSelectionOfFirstVisibleCharacterInDocumentLine =
+        ShortcutKeySt(QString(tr("Extend Selection Of First Visible Character In Document Line")), QString("extendselectionoffirstvisiblecharacterindocumentline"), QString("Shift+Home"), false);
+    m_shortcutKeyStVct.push_back(extendSelectionOfFirstVisibleCharacterInDocumentLine);
+    auto extendRectangularSelectionOfFirstVisibleCharacterInDocumentLine =
+        ShortcutKeySt(QString(tr("Extend Rectangular Selection Of First Visible Character In Document Line")), QString("extendrectangularselectionoffirstvisiblecharacterindocumentline"), QString("Alt+Shift+Home"), false);
     m_shortcutKeyStVct.push_back(extendRectangularSelectionOfFirstVisibleCharacterInDocumentLine);
+
     auto moveToEndOfDisplayLine = ShortcutKeySt(QString(tr("Move To End Of Display Line")), QString("movetostartofdisplayline"), QString("End"), false);
     m_shortcutKeyStVct.push_back(moveToEndOfDisplayLine);
+
     auto moveToStartOfDocument = ShortcutKeySt(QString(tr("Move To Start Of Document")), QString("movetostartofdocument"), QString("Ctrl+Home"), false);
     m_shortcutKeyStVct.push_back(moveToStartOfDocument);
+    auto extendSelectionToStartOfDocument = ShortcutKeySt(QString(tr("Extend Selection To Start Of Document")), QString("extendselectiontostartofdocument"), QString("Ctrl+Shift+Home"), false);
+    m_shortcutKeyStVct.push_back(extendSelectionToStartOfDocument);
+
     auto moveToEndOfDocument = ShortcutKeySt(QString(tr("Move To End Of Document")), QString("movetostartofdocument"), QString("Ctrl+End"), false);
     m_shortcutKeyStVct.push_back(moveToEndOfDocument);
     auto extendSelectionToEndOfDocument = ShortcutKeySt(QString(tr("Extend Selection To End Of Document")), QString("extendselectiontoendofdocument"), QString("Ctrl+Shift+End"), false);
     m_shortcutKeyStVct.push_back(extendSelectionToEndOfDocument);
-    auto extendSelectionToStartOfDocument = ShortcutKeySt(QString(tr("Extend Selection To Start Of Document")), QString("extendselectiontostartofdocument"), QString("Ctrl+Shift+Home"), false);
-    m_shortcutKeyStVct.push_back(extendSelectionToStartOfDocument);
-    auto moveDownOnePage = ShortcutKeySt(QString(tr("Move Down One Page")), QString("movedownonepage"), QString("PageDown"), false);
+
+    // check;
+    auto moveUpOnePage = ShortcutKeySt(QString(tr("Move Up One Page")), QString("moveuponepage"), QString("PgUp"), false);
+    m_shortcutKeyStVct.push_back(moveUpOnePage);
+    auto extendSelectionUpOnePage = ShortcutKeySt(QString(tr("Extend Selection Up One Page")), QString("extendselectionuponepage"), QString("Ctrl+PgUp"), false);
+    m_shortcutKeyStVct.push_back(extendSelectionUpOnePage);
+    auto extendRectangularSelectionUpOnePage = ShortcutKeySt(QString(tr("Extend Rectangular Selection Up One Page")), QString("extendrectangularselectionuponepage"), QString("Ctrl+Shift+PgUp"), false);
+    m_shortcutKeyStVct.push_back(extendRectangularSelectionUpOnePage);
+    auto moveDownOnePage = ShortcutKeySt(QString(tr("Move Down One Page")), QString("movedownonepage"), QString("PgDown"), false);
     m_shortcutKeyStVct.push_back(moveDownOnePage);
-    auto extendSelectionDownOnePage = ShortcutKeySt(QString(tr("Extend Selection Down One Page")), QString("extendselectiondownonepage"), QString("Ctrl+PageDown"), false);
+    auto extendSelectionDownOnePage = ShortcutKeySt(QString(tr("Extend Selection Down One Page")), QString("extendselectiondownonepage"), QString("Ctrl+PgDown"), false);
     m_shortcutKeyStVct.push_back(extendSelectionDownOnePage);
+    auto extendRectangularSelectionDownOnePage = ShortcutKeySt(QString(tr("Extend Rectangular Selection Down One Page")), QString("extendrectangularselectiondownonepage"), QString("Ctrl+Shift+PgDown"), false);
+    m_shortcutKeyStVct.push_back(extendRectangularSelectionDownOnePage);
+
     auto deleteCurrentCharacter = ShortcutKeySt(QString(tr("Delete Current Character")), QString("deletecurrentcharacter"), QString("Delete"), false);
     m_shortcutKeyStVct.push_back(deleteCurrentCharacter);
     auto deletePreviousCharacter = ShortcutKeySt(QString(tr("Delete Previous Character")), QString("deletepreviouscharacter"), QString("Backspace"), false);
@@ -164,7 +197,7 @@ void ShortcutKeyDlg::__initTableData()
     m_shortcutKeyStVct.push_back(deleteWordToLeft);
     auto deleteWordToRight = ShortcutKeySt(QString(tr("Delete Word To Right")), QString("deletewordtoright"), QString("Ctrl+Delete"), false);
     m_shortcutKeyStVct.push_back(deleteWordToRight);
-    auto  deleteLineToLeft = ShortcutKeySt(QString(tr("Delete Line To Left")), QString("deletelinetotleft"), QString("Ctrl+Shift+Backspace"), false);
+    auto deleteLineToLeft = ShortcutKeySt(QString(tr("Delete Line To Left")), QString("deletelinetotleft"), QString("Ctrl+Shift+Backspace"), false);
     m_shortcutKeyStVct.push_back(deleteLineToLeft);
     auto deleteLineToRight = ShortcutKeySt(QString(tr("Delete Line To Right")), QString("deletelinetotright"), QString("Ctrl+Shift+Delete"), false);
     m_shortcutKeyStVct.push_back(deleteLineToRight);
@@ -174,6 +207,8 @@ void ShortcutKeyDlg::__initTableData()
     m_shortcutKeyStVct.push_back(cutCurrentLine);
     auto copyCurrentLine = ShortcutKeySt(QString(tr("Copy Current Line")), QString("copycurrentline"), QString("Ctrl+Shift+T"), false);
     m_shortcutKeyStVct.push_back(copyCurrentLine);
+
+    /// check;
     auto selectAll = ShortcutKeySt(QString(tr("Select All")), QString("selectall"), QString("Ctrl+A"), false);
     m_shortcutKeyStVct.push_back(selectAll);
     auto duplicateSelection = ShortcutKeySt(QString(tr("Duplicate Selection")), QString("duplicateselection"), QString("Ctrl+D"), false);

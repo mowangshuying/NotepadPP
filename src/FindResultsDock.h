@@ -13,10 +13,11 @@ class FindResultsDock : public QDockWidget
     void __connect();
 
     void appendResultsToShow(FindRecords* findRecords);
-signals:
+  signals:
     // 传导至主界面处理信号.
     void itemClicked(const QModelIndex& index);
     void itemDoubleClicked(const QModelIndex& index);
+
   protected:
     FindResultsView* m_findResultsView;
 };

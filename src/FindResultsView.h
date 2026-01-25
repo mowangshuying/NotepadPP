@@ -23,6 +23,7 @@ class FindResultsView : public QWidget
     // 传导至主界面处理信号.
     void itemClicked(const QModelIndex& index);
     void itemDoubleClicked(const QModelIndex& index);
+
   protected:
     TreeView* m_treeView;
     QVBoxLayout* m_vMainLayout;

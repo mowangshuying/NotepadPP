@@ -13,7 +13,7 @@
 #include "FindReplaceDlg.h"
 #include "FileListViewDock.h"
 #include "FindResultsDock.h"
-#include  "StyleSheetUtils.h"
+#include "StyleSheetUtils.h"
 #include "ConfigUtils.h"
 #include "ShortcutKeyDlg.h"
 
@@ -87,7 +87,7 @@ void NotepadPP::__initMenu()
     m_actionClearHistory = new QAction(tr("Clear History"));
 
     m_menuReceneFile = new QMenu(tr("Recene File"));
-    
+
     m_actionExit = new QAction(tr("Exit"));
     m_actionExit->setShortcut(QKeySequence::Quit);
 
@@ -230,7 +230,6 @@ void NotepadPP::__initMenu()
 
     m_actionSearchResult = new QAction(tr("Search Result"));
 
-
     m_actionFileListView = new QAction(tr("File List"));
 
     m_menuView->addAction(m_menuDisplaySymbols->menuAction());
@@ -319,7 +318,7 @@ void NotepadPP::__initDockWin()
     addDockWidget(Qt::LeftDockWidgetArea, m_fileListViewDock);
 
     m_findResultsDock = new FindResultsDock(this);
-    m_findResultsDock->setWindowTitle(tr("Find Results View")); // Updated to use tr()
+    m_findResultsDock->setWindowTitle(tr("Find Results View"));  // Updated to use tr()
     addDockWidget(Qt::BottomDockWidgetArea, m_findResultsDock);
 
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -409,11 +408,11 @@ void NotepadPP::__connect()
 
     connect(m_actionInfo, &QAction::triggered, this, &NotepadPP::__onTriggerAboutNotepadPP);
 
-	connect(m_findResultsDock, &FindResultsDock::itemClicked, this, &NotepadPP::__onFindResultsViewItemClicked);
-	connect(m_findResultsDock, &FindResultsDock::itemDoubleClicked, this, &NotepadPP::__onFindResultsViewItemDoubleClicked);
+    connect(m_findResultsDock, &FindResultsDock::itemClicked, this, &NotepadPP::__onFindResultsViewItemClicked);
+    connect(m_findResultsDock, &FindResultsDock::itemDoubleClicked, this, &NotepadPP::__onFindResultsViewItemDoubleClicked);
 
-	connect(m_actionChinese, &QAction::triggered, this, &NotepadPP::__onTriggerChinese);
-	connect(m_actionEnglish, &QAction::triggered, this, &NotepadPP::__onTriggerEnglish);
+    connect(m_actionChinese, &QAction::triggered, this, &NotepadPP::__onTriggerChinese);
+    connect(m_actionEnglish, &QAction::triggered, this, &NotepadPP::__onTriggerEnglish);
 
     connect(m_actionShortcutKeyManager, &QAction::triggered, this, &NotepadPP::__onTriggerShortcutKeyManager);
 }
@@ -1366,10 +1365,10 @@ void NotepadPP::__onTriggerRemoveHeadEndBlank()
 
 void NotepadPP::__onTriggerShowSpaces(bool bChecked)
 {
-	// __onTriggerShowAll(false);
+    // __onTriggerShowAll(false);
 
-	m_actionShowEndOfLine->setChecked(false);
-	m_actionShowAll->setChecked(false);
+    m_actionShowEndOfLine->setChecked(false);
+    m_actionShowAll->setChecked(false);
 
     QsciScintilla::WhitespaceVisibility mode;
     if (bChecked)
@@ -1393,9 +1392,9 @@ void NotepadPP::__onTriggerShowSpaces(bool bChecked)
 
 void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
 {
-	// __onTriggerShowAll(false);
-	m_actionShowSpaces->setChecked(false);
-	m_actionShowAll->setChecked(false);
+    // __onTriggerShowAll(false);
+    m_actionShowSpaces->setChecked(false);
+    m_actionShowAll->setChecked(false);
 
     m_bShowEndofLine = bChecked;
     for (int i = 0; i < m_editTabWidget->count(); i++)
@@ -1408,8 +1407,8 @@ void NotepadPP::__onTriggerShowLineEnd(bool bChecked)
 
 void NotepadPP::__onTriggerShowAll(bool bChecked)
 {
-	m_actionShowEndOfLine->setChecked(false);
-	m_actionShowSpaces->setChecked(false);
+    m_actionShowEndOfLine->setChecked(false);
+    m_actionShowSpaces->setChecked(false);
 
     QsciScintilla::WhitespaceVisibility mode;
     bool bShowLineEnd;
@@ -1507,13 +1506,13 @@ void NotepadPP::__onTriggerFind()
 {
     qDebug() << "NotepadPP::__onTriggerFind()";
     // m_findReplaceDlg->show();
-	m_findReplaceDlg->showFindDlg();
+    m_findReplaceDlg->showFindDlg();
 }
 
 void NotepadPP::__onTriggerReplace()
 {
     qDebug() << "NotepadPP::__onTriggerReplace()";
-	m_findReplaceDlg->showReplaceDlg();
+    m_findReplaceDlg->showReplaceDlg();
 }
 
 void NotepadPP::__onTriggerReopenWithEncoding(QAction* action)
@@ -1541,14 +1540,14 @@ void NotepadPP::__onTriggerSaveWithEncoding(QAction* action)
 
 void NotepadPP::__onTriggerChinese()
 {
-	qDebug() << "NotepadPP::__onTriggerChinese()";
-	ConfigUtils::getUtils()->setLanguage("zh-CN");
+    qDebug() << "NotepadPP::__onTriggerChinese()";
+    ConfigUtils::getUtils()->setLanguage("zh-CN");
 }
 
 void NotepadPP::__onTriggerEnglish()
 {
-	qDebug() << "NotepadPP::__onTriggerEnglish()";
-	ConfigUtils::getUtils()->setLanguage("en-US");
+    qDebug() << "NotepadPP::__onTriggerEnglish()";
+    ConfigUtils::getUtils()->setLanguage("en-US");
 }
 
 void NotepadPP::__onTriggerShortcutKeyManager()
@@ -1630,34 +1629,34 @@ void NotepadPP::__onShowFindRecords(FindRecords* findRecords)
 
 void NotepadPP::__onFindResultsViewItemClicked(const QModelIndex& index)
 {
-	qDebug() << "NotepadPP::__onFindResultsViewItemClicked()";
-	auto pIndex = &index;
-	if (!pIndex->data((int)SelfUserRole::ResultItemDesc).isNull())
-	{
-		return;
-	}
+    qDebug() << "NotepadPP::__onFindResultsViewItemClicked()";
+    auto pIndex = &index;
+    if (!pIndex->data((int)SelfUserRole::ResultItemDesc).isNull())
+    {
+        return;
+    }
 
-	if (!pIndex->data((int)SelfUserRole::ResultItemEditor).isNull())
-	{
-		return;
-	}
+    if (!pIndex->data((int)SelfUserRole::ResultItemEditor).isNull())
+    {
+        return;
+    }
 
-	if (!pIndex->data((int)SelfUserRole::ResultItemPos).isNull())
-	{
-		auto root = pIndex->parent();
-		auto pEdit = dynamic_cast<ScintillaEditView*>((QObject*) (root.data((int)SelfUserRole::ResultItemEditor).value<qlonglong>()));
-		if (pEdit != nullptr)
-		{
-			auto pos = pIndex->data((int)SelfUserRole::ResultItemPos).value<int>();
-			auto len = pIndex->data((int)SelfUserRole::ResultItemLen).value<int>();
-			pEdit->execute(SCI_SETSEL, pos, pos + len);
-		}
+    if (!pIndex->data((int)SelfUserRole::ResultItemPos).isNull())
+    {
+        auto root = pIndex->parent();
+        auto pEdit = dynamic_cast<ScintillaEditView*>((QObject*)(root.data((int)SelfUserRole::ResultItemEditor).value<qlonglong>()));
+        if (pEdit != nullptr)
+        {
+            auto pos = pIndex->data((int)SelfUserRole::ResultItemPos).value<int>();
+            auto len = pIndex->data((int)SelfUserRole::ResultItemLen).value<int>();
+            pEdit->execute(SCI_SETSEL, pos, pos + len);
+        }
 
-		return;
-	}
+        return;
+    }
 }
 
 void NotepadPP::__onFindResultsViewItemDoubleClicked(const QModelIndex& index)
 {
-	__onFindResultsViewItemClicked(index);
+    __onFindResultsViewItemClicked(index);
 }

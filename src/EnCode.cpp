@@ -375,7 +375,7 @@ std::vector<QString> EnCode::getAllCodecNames()
     // 去重
     std::sort(codecNames.begin(), codecNames.end());
     codecNames.erase(std::unique(codecNames.begin(), codecNames.end()), codecNames.end());
-    
+
     return codecNames;
 }
 

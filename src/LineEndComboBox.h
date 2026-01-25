@@ -6,6 +6,6 @@
 class LineEndComboBox : public QComboBox
 {
     Q_OBJECT
-public:
+  public:
     LineEndComboBox(QWidget* parent = nullptr);
 };

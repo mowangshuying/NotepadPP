@@ -32,7 +32,6 @@ void TreeView::__initUI()
 
 void TreeView::__connect()
 {
-    
 }
 
 QModelIndexList TreeView::getSelectedIndexes()
@@ -53,14 +52,13 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         return;
     }
 
-    
     //// 处理重复的记录, 移除重复的记录
     bool bHasRecord = false;
     int nMarkIndex = 0;
     for (int i = 0; i < m_findRecordsVct.size(); i++)
     {
         QString findText = m_findRecordsVct.at(i).getFindText();
-        ScintillaEditView* pEdit = m_findRecordsVct.at(i).getEditView();
+        ScintillaEditView *pEdit = m_findRecordsVct.at(i).getEditView();
         if (findRecords->getFindText() == findText && findRecords->getEditView() == pEdit)
         {
             bHasRecord = true;
@@ -157,12 +155,12 @@ QString TreeView::highLightFindText(FindRecord &record)
     return QString("%1%2%3").arg(head, target, tail);
 }
 
-void TreeView::__onPressed(const QModelIndex& modeIndex)
+void TreeView::__onPressed(const QModelIndex &modeIndex)
 {
     resizeColumnToContents(modeIndex.column());
 }
 
-void TreeView::__onExpanded(const QModelIndex& modeIndex)
+void TreeView::__onExpanded(const QModelIndex &modeIndex)
 {
     resizeColumnToContents(modeIndex.column());
 }

@@ -30,10 +30,10 @@ class TreeView : public QTreeView
     void __onPressed(const QModelIndex& modeIndex);
     void __onExpanded(const QModelIndex& modeIndex);
 
-signals:
-//   void itemClicked(QModelIndex modelIndex);
-//   void itemDoubleClicked(QModelIndex modelIndex);  
-protected:
+  signals:
+    //   void itemClicked(QModelIndex modelIndex);
+    //   void itemDoubleClicked(QModelIndex modelIndex);
+  protected:
     HtmlStyledItemDelegate* m_delegate;
     QStandardItemModel* m_model;
 

@@ -20,7 +20,6 @@ class FindReplaceDlg : public QDialog
     bool getTimeToClose();
     void setTimeToClose(bool bTimeToClose);
 
-
     void showFindDlg();
 
     void showReplaceDlg();

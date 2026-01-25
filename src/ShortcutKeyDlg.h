@@ -8,7 +8,7 @@
 class ShortcutKeyDlg : public QDialog
 {
     Q_OBJECT
-public:
+  public:
     ShortcutKeyDlg(QWidget* parent = nullptr);
 
     void __initUi();

@@ -30,5 +30,4 @@ void FindResultsView::appendResultsToShow(FindRecords *findRecords)
 
 void FindResultsView::clearAllContents()
 {
-    
 }

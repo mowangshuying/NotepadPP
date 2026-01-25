@@ -6,7 +6,7 @@
 class ConfigUtils : public QObject
 {
     Q_OBJECT
-public:
+  public:
     ConfigUtils();
     ~ConfigUtils();
 
@@ -15,6 +15,6 @@ public:
     void setLanguage(QString language);
     QString getLanguage();
 
-protected:
+  protected:
     QSettings* m_settings;
 };
