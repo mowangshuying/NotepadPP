@@ -1,6 +1,8 @@
 ﻿cmake_minimum_required(VERSION 3.16)
 
-project(NotePadPP VERSION 0.1 LANGUAGES CXX)
+project(NotepadPP VERSION 0.1 LANGUAGES CXX)
+
+set(TGT "NotepadPP")
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -9,12 +11,24 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJECT_BINARY_DIR}/bin")
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJECT_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_BINARY_DIR}/bin")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core5Compat)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core5Compat)
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    if (MSVC_IDE)
+	message(STATUS "Qt6Widgets_LIBRARIES: ${Qt6Widgets_LIBRARIES}")
+	get_target_property(V_LOCATION ${Qt6Widgets_LIBRARIES} IMPORTED_LOCATION)
+	message(STATUS "V_LOCATION: ${V_LOCATION}")
+	cmake_path(GET V_LOCATION PARENT_PATH V_RUN_PATH)
+	message(STATUS "V_RUN_PATH: ${V_RUN_PATH}")
+	set(CMAKE_VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${V_RUN_PATH}")
+	message(STATUS "CMAKE_VS_DEBUGGER_ENVIRONMENT: ${CMAKE_VS_DEBUGGER_ENVIRONMENT}")
+endif()
+endif()
 
 set(PROJECT_SOURCES
     src/AboutNotePP.cpp
@@ -97,32 +111,32 @@ add_subdirectory("3rdparty")
 # add_subdirectory("example")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(NotePadPP
+    qt_add_executable(${TGT}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-    qt_add_resources(NotePadPP "resfile"
+    qt_add_resources(${TGT} "resfile"
         PREFIX "/"
         BASE "./"
         FILES 
         ${RES_FILES})
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET NotePadPP APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET ${TGT} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(NotePadPP SHARED
+        add_library(${TGT} SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(NotePadPP
+        add_executable(${TGT}
             ${PROJECT_SOURCES}
         )
 
-        qt5_add_resources(NotePadPP "resfile"
+        qt5_add_resources(${TGT} "resfile"
             PREFIX "/"
             BASE "./"
             FILES 
@@ -130,7 +144,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(NotePadPP PRIVATE 
+target_link_libraries(${TGT} PRIVATE 
     Qt${QT_VERSION_MAJOR}::Widgets 
     Qt${QT_VERSION_MAJOR}::Core 
     Qt${QT_VERSION_MAJOR}::Gui
@@ -139,3 +153,29 @@ target_link_libraries(NotePadPP PRIVATE
     libuchardet_static
     libucd_static
     )
+
+set_target_properties(${TGT} PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
+
+set(CPACK_PACKAGE_FILE_NAME ${TGT})
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+include(InstallRequiredSystemLibraries)
+set(CPACK_GENERATOR "ZIP")
+include(CPack)
+include(GNUInstallDirs)
+install(TARGETS ${TGT}
+  BUNDLE DESTINATION .
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(${QT_VERSION} VERSION_GREATER 6.3.0)
+qt_generate_deploy_app_script(
+     TARGET ${TGT}
+     OUTPUT_SCRIPT deploy_script
+     NO_UNSUPPORTED_PLATFORM_ERROR
+ )
+ install(SCRIPT ${deploy_script})
+ endif()
