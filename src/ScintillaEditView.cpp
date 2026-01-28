@@ -104,7 +104,7 @@ void ScintillaEditView::__init()
     // setMarginBackgroundColor(__SymbolMargin, QColor(255, 255, 255));
     // setMarginBackgroundColor(__FolderMargin, QColor(255, 255, 255));
     setMarginsBackgroundColor(QColor(255, 255, 255));
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/ScintillaEditView.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/ScintillaEditView.qss");
 }
 
 void ScintillaEditView::setNoteWidget(QWidget *pNoteWidget)

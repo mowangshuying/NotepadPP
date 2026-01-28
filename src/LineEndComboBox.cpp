@@ -2,5 +2,5 @@
 
 LineEndComboBox::LineEndComboBox(QWidget* parent /*= nullptr*/) : QComboBox(parent)
 {
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/LineEndComboBox.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/LineEndComboBox.qss");
 }

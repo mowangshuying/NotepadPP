@@ -21,7 +21,7 @@ NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent), m_nZo
 {
     __initUi();
     __connect();
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/NotepadPP.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/NotepadPP.qss");
 }
 
 void NotepadPP::__initUi()
@@ -40,7 +40,7 @@ void NotepadPP::__initUi()
 
     m_editTabWidget = new QTabWidget(this);
     m_editTabWidget->setObjectName("editTabWidget");
-    StyleSheetUtils::setQssByFileName(m_editTabWidget, "./res/StyleSheet/TabWidget.qss");
+    StyleSheetUtils::setQssByFileName(m_editTabWidget, ":/res/StyleSheet/TabWidget.qss");
 
     m_editTabWidget->setIconSize(QSize(22, 22));
     m_editTabWidget->setTabsClosable(true);
@@ -465,7 +465,7 @@ void NotepadPP::newTxtFile(QString filename, int nIndex, QString contentPath /*=
     enableEditTextChangeSign(pEdit);
 
     // add tab;
-    int nCurTabIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), getFileNameByPath(filename));
+    int nCurTabIndex = m_editTabWidget->addTab(pEdit, QIcon(":/res/imgs/noneedsave.png"), getFileNameByPath(filename));
     pEdit->setProperty("NewFileIndex", nIndex);
     pEdit->setProperty("FilePath", filename);
     pEdit->setProperty("TextChanged", false);
@@ -529,7 +529,7 @@ void NotepadPP::openTextFile(QString filepath)
 #endif
     connect(pEdit, &ScintillaEditView::SCN_ZOOM, this, &NotepadPP::__onZoomValueChange);
 
-    int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon("./res/imgs/noneedsave.png"), getFileNameByPath(filepath));
+    int nCurIndex = m_editTabWidget->addTab(pEdit, QIcon(":/res/imgs/noneedsave.png"), getFileNameByPath(filepath));
     m_editTabWidget->setCurrentIndex(nCurIndex);
 
     // enable text change sign
@@ -642,7 +642,7 @@ void NotepadPP::saveTabEdit(int nIndex)
     }
 
     pEdit->setProperty("TextChanged", false);
-    m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imgs/noneedsave.png"));
+    m_editTabWidget->setTabIcon(nIndex, QIcon(":/res/imgs/noneedsave.png"));
     enableEditTextChangeSign(pEdit);
 }
 
@@ -670,7 +670,7 @@ void NotepadPP::saveTabEditByCodeId(int nIndex, CodeId cid)
     pEdit->setProperty("TextChanged", false);
     pEdit->setProperty("CodeId", (int)cid);
     setCodeBarLabelByCodeId(cid);
-    m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imgs/noneedsave.png"));
+    m_editTabWidget->setTabIcon(nIndex, QIcon(":/res/imgs/noneedsave.png"));
     enableEditTextChangeSign(pEdit);
 }
 
@@ -1231,7 +1231,7 @@ void NotepadPP::__onTriggerSaveAs()
 
     pEdit->setProperty("TextChanged", false);
     enableEditTextChangeSign(pEdit);
-    m_editTabWidget->setTabIcon(nIndex, QIcon("./res/imags/noneedsave.png"));
+    m_editTabWidget->setTabIcon(nIndex, QIcon(":/res/imags/noneedsave.png"));
 }
 
 void NotepadPP::__onTriggerClose()
@@ -1572,7 +1572,7 @@ void NotepadPP::__onTextChanged()
         int nTabIndex = m_editTabWidget->indexOf(pEditView);
         if (nTabIndex != -1)
         {
-            m_editTabWidget->setTabIcon(nTabIndex, QIcon("./res/imgs/needsave.png"));
+            m_editTabWidget->setTabIcon(nTabIndex, QIcon(":/res/imgs/needsave.png"));
         }
         disEnableEditTextChangeSign(pEditView);
     }

@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     QTranslator translator;
     if (ConfigUtils::getUtils()->getLanguage() == "zh-CN")
     {
-        bool bLoad = translator.load("./res/i18n/zh-CN.qm");
+        bool bLoad = translator.load(":/res/i18n/zh-CN.qm");
         if (bLoad)
         {
             app.installTranslator(&translator);
@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     }
     else if (ConfigUtils::getUtils()->getLanguage() == "en-US")
     {
-        bool bLoad = translator.load("./res/i18n/en-US.qm");
+        bool bLoad = translator.load(":/res/i18n/en-US.qm");
         if (bLoad)
         {
             app.installTranslator(&translator);

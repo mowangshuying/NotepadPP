@@ -71,6 +71,28 @@ set(PROJECT_SOURCES
     src/TreeView.h
 )
 
+## Set res files;
+set (RES_FILES
+    ### i18n
+    "./res/i18n/zh-CN.qm"
+    "./res/i18n/en-US.qm"
+    ### imgs
+    "./res/imgs/needsave.png"
+    "./res/imgs/noneedsave.png"
+    ### StyleSheets
+    "./res/StyleSheet/AboutNotePP.qss"
+    "./res/StyleSheet/FileListView.qss" 
+    "./res/StyleSheet/FileListViewDock.qss"
+    "./res/StyleSheet/FindResultsDock.qss"
+    "./res/StyleSheet/LineEndComboBox.qss"
+    "./res/StyleSheet/NotepadPP.qss"
+    "./res/StyleSheet/ScintillaEditView.qss"
+    "./res/StyleSheet/TabWidget.qss"
+    "./res/StyleSheet/TreeView.qss"
+    )
+
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${RES_FILES})
+
 add_subdirectory("3rdparty")
 # add_subdirectory("example")
 
@@ -79,6 +101,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
+    qt_add_resources(NotePadPP "resfile"
+        PREFIX "/"
+        BASE "./"
+        FILES 
+        ${RES_FILES})
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET NotePadPP APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -94,6 +121,12 @@ else()
         add_executable(NotePadPP
             ${PROJECT_SOURCES}
         )
+
+        qt5_add_resources(NotePadPP "resfile"
+            PREFIX "/"
+            BASE "./"
+            FILES 
+            ${RES_FILES})
     endif()
 endif()
 

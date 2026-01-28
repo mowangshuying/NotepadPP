@@ -9,7 +9,7 @@ FindResultsDock::FindResultsDock(QWidget *parent) : QDockWidget(parent)
     setWidget(m_findResultsView);
 
     __connect();
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/FindResultsDock.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/FindResultsDock.qss");
 }
 
 void FindResultsDock::__connect()

@@ -4,7 +4,7 @@
 FileListViewDock::FileListViewDock(QWidget *parent) : QDockWidget(parent)
 {
     __initUI();
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/FileListViewDock.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/FileListViewDock.qss");
 }
 
 FileListViewDock::~FileListViewDock()

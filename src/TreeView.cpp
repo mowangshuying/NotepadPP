@@ -13,7 +13,7 @@ TreeView::TreeView(QWidget *parent)
     setModel(m_model);
 
     // setHeaderHidden(true);
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/TreeView.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/TreeView.qss");
 }
 
 void TreeView::__initUI()

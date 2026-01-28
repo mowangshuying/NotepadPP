@@ -20,7 +20,7 @@ FileListView::FileListView(QWidget* parent) : QWidget(parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     __connect();
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/FileListView.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/FileListView.qss");
 }
 
 void FileListView::__connect()

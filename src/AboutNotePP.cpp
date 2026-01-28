@@ -12,7 +12,7 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     m_titleLabel->setFont(titleFont);
 
     m_versionKLabel = new QLabel(tr("Version:"), this);
-    m_versionVLabel = new QLabel(tr("1.0.0"), this);
+    m_versionVLabel = new QLabel(tr("1.0.1"), this);
     m_contentKLabel = new QLabel(tr("Content:"), this);
     m_contentVLabel = new QLabel(tr("This is a simple notepad application."), this);
 
@@ -39,5 +39,5 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     m_vMainLayout->addStretch();
     setLayout(m_vMainLayout);
 
-    StyleSheetUtils::setQssByFileName(this, "./res/StyleSheet/AboutNotePP.qss");
+    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/AboutNotePP.qss");
 }
