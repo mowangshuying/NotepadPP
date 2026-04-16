@@ -82,3 +82,5 @@ CMakeLists.txt.user*
 .uic/
 /build*/
 /config/recentfile
+/.vs
+/out
