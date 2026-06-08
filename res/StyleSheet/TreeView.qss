@@ -1,16 +1,58 @@
+/* ============================================
+   树形视图样式 - Notepad++ 风格
+   ============================================ */
+
 QTreeView {
-    border: 1px solid transparent;
+    background-color: #FFFFFF;
+    border: none;
+    outline: none;
+    /* 确保选中时整个项都有背景色 */
+    show-decoration-selected: 1;
+}
+
+/* 去掉焦点时的虚线框 */
+QTreeView:focus {
+    outline: none;
+    border: none;
+}
+
+/* 基础项样式 - 确保无边框，减小内边距 */
+QTreeView::item {
+    padding: 2px 4px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+/* 悬停效果 - 整个项的背景色改变 */
+QTreeView::item:hover {
+    background-color: #E5F3FF !important;
+    color: #000000;
+}
+
+/* 选中效果 - 整个项的蓝色背景，白色文字 */
+QTreeView::item:selected {
+    background-color: #3399FF !important;  /* 从 #007ACC 改为稍浅的蓝色 */
+    color: #FFFFFF !important;
+    border: none;
+    outline: none;
+}
+
+/* 非活动状态下的选中效果 - 整个项的浅蓝色背景 */
+QTreeView::item:selected:!active {
+    background-color: #CCE8FF !important;
+    color: #000000 !important;
+    border: none;
+    outline: none;
+}
+
+/* 分支样式 */
+QTreeView::branch {
+    background: transparent;
 }
 
 QTreeView::indicator {
-    padding: 0px 0px 0px 0px;
+    padding: 0px 2px 0px 0px;
     width: 13px;
     height: 13px;
 }
-
-QTreeView::item {
-    padding: 1px;
-    margin: 0px;
-    border: 0px;
-}
-

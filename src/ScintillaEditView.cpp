@@ -1,4 +1,4 @@
-﻿#include "ScintillaEditView.h"
+#include "ScintillaEditView.h"
 #include <Qsci/qscilexerpython.h>
 #include <Qsci/qscilexerasm.h>
 #include <Qsci/qscilexerbash.h>
@@ -96,14 +96,23 @@ void ScintillaEditView::__init()
 
     // 开启后保证长行在滚动条下完整显示
     execute(SCI_SETSCROLLWIDTHTRACKING, true);
-    setFrameStyle(QFrame::Box);
+    
+    // 去掉边框和阴影，使用无边框样式
+    setFrameStyle(QFrame::NoFrame);
 
-    // 前景色设置
+    // 前景色设置 - 使用蓝色作为行号颜色
     setMarginsForegroundColor(QColor(0, 108, 190));
-    // setMarginBackgroundColor(__LineNumberMargin, QColor(255, 255, 255));
-    // setMarginBackgroundColor(__SymbolMargin, QColor(255, 255, 255));
-    // setMarginBackgroundColor(__FolderMargin, QColor(255, 255, 255));
-    setMarginsBackgroundColor(QColor(255, 255, 255));
+    
+    // 设置行号区域背景为略深的灰色，与编辑区形成微妙对比
+    setMarginBackgroundColor(__LineNumberMargin, QColor(250, 250, 250));
+    setMarginBackgroundColor(__SymbolMargin, QColor(255, 255, 255));
+    setMarginBackgroundColor(__FolderMargin, QColor(255, 255, 255));
+    
+    // 去掉边距之间的分隔线（阴影）
+    execute(SCI_SETMARGINMASKN, __LineNumberMargin, 0);
+    execute(SCI_SETMARGINMASKN, __SymbolMargin, 0);
+    execute(SCI_SETMARGINMASKN, __FolderMargin, 0);
+    
     StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/ScintillaEditView.qss");
 }
 

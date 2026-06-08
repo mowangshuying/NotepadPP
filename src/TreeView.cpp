@@ -1,4 +1,4 @@
-﻿#include "TreeView.h"
+#include "TreeView.h"
 #include <QHeaderView>
 #include "__global.h"
 #include "StyleSheetUtils.h"
@@ -81,10 +81,12 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     m_findRecordsVct.insert(m_findRecordsVct.begin(), frs);
 
     QString findTitle;
-    findTitle = tr("<font style='font-size:14px;font-weight:bold;background-color:#ffffff;color:#3d6acf'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    // 移除硬编码背景色和固定文字颜色，让 QSS 控制样式，字体从 14px 改为 12px
+    findTitle = tr("<font style='font-size:12px;font-weight:bold;'>Search \"%1\" (%2 hits)</font>").arg(findRecords->getFindText().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
     QStandardItem *titleItem = new QStandardItem(findTitle);
-    setItemBackgroundColor(titleItem, QColor(0xbbbbfff));
+    // 移除硬编码背景色，让 QSS 控制选中/悬停效果
+    // setItemBackgroundColor(titleItem, QColor(0xbbbbfff));
 
     m_model->insertRow(0, titleItem);
     titleItem->setData(true, (int)(SelfUserRole::ResultItemRoot));
@@ -103,10 +105,12 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
     }
 
     QString desc;
-    desc = tr("<font style='font-size:14px;background-color:#ffffff;color:#3d6acf'>%1 (%2 hits)</font>").arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
+    // 移除硬编码背景色和固定文字颜色，让 QSS 控制样式，字体从 14px 改为 12px
+    desc = tr("<font style='font-size:12px;'>%1 (%2 hits)</font>").arg(findRecords->getFindFilePath().toHtmlEscaped()).arg(findRecords->getFindRecordList().size());
 
     QStandardItem *descItem = new QStandardItem(desc);
-    setItemBackgroundColor(descItem, QColor(0x484848));
+    // 移除硬编码背景色，让 QSS 控制选中/悬停效果
+    // setItemBackgroundColor(descItem, QColor(0x484848));
     titleItem->appendRow(descItem);
 
     descItem->setData((qlonglong)(findRecords->getEditView()), (int)(SelfUserRole::ResultItemEditor));
@@ -119,7 +123,8 @@ void TreeView::appendResultsToShow(FindRecords *findRecords)
         FindRecord findRecord = findRecords->getFindRecordList().at(i);
         QString richText = highLightFindText(findRecord);
         QString text;
-        text = tr("<font style='font-size:14px;background-color:#ffffff;color:#3d6acf'>Line %1</font>: %2").arg(findRecord.getLineNums() + 1).arg(richText);
+        // 移除硬编码背景色和固定文字颜色，让 QSS 控制样式，字体从 14px 改为 12px
+        text = tr("<font style='font-size:12px;'>Line %1</font>: %2").arg(findRecord.getLineNums() + 1).arg(richText);
 
         QStandardItem *childItem = new QStandardItem(text);
         childItem->setData(findRecord.getTargetStartPos(), (int)(SelfUserRole::ResultItemPos));
@@ -147,10 +152,11 @@ QString TreeView::highLightFindText(FindRecord &record)
     QString target = QString(utf8Bytes.mid(targetStartPos, targetLens)).toHtmlEscaped();
     QString tail = QString(utf8Bytes.mid(tailStart)).toHtmlEscaped();
 
-    // 改为arg模式
-    head = tr("<font style='font-size:14px;background-color:#ffffff;color:#000000;'>%1</font>").arg(head);
-    target = tr("<font style='font-size:14px;background-color:#3d6acf;color:#ffffff'>%1</font>").arg(target);
-    tail = tr("<font style='font-size:14px;background-color:#ffffff;color:#000000;'>%1</font>").arg(tail);
+    // 移除硬编码背景色和固定文字颜色，让 QSS 控制选中时的文字颜色，字体从 14px 改为 12px
+    // 只保留查找匹配文本的高亮样式（蓝色背景+白色文字）
+    head = tr("<font style='font-size:12px;'>%1</font>").arg(head);
+    target = tr("<font style='font-size:12px;background-color:#3d6acf;color:#ffffff'>%1</font>").arg(target);
+    tail = tr("<font style='font-size:12px;'>%1</font>").arg(tail);
 
     return QString("%1%2%3").arg(head, target, tail);
 }
