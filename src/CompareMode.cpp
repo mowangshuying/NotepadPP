@@ -1,10 +1,52 @@
-﻿#include "CompareMode.h"
+#include "CompareMode.h"
 #include <QFile>
 #include <uchardet.h>
 #include <QDebug>
 #include "EnCode.h"
 #include <libucd.h>
 #include <QString>
+
+// 辅助函数：检测无BOM的UTF-16编码
+static CodeId detectUtf16WithoutBOM(uchar *fileFpr, int fileLength)
+{
+    if (fileLength < 2)
+        return CodeId::UNKNOWN;
+
+    // 统计偶数位置和奇数位置为零字节的数量
+    int evenZeroCount = 0;  // 偶数位置为0的数量（可能是UTF-16BE）
+    int oddZeroCount = 0;   // 奇数位置为0的数量（可能是UTF-16LE）
+    int checkLength = qMin(fileLength, 1024);  // 只检查前1KB
+    
+    // 确保检查长度为偶数
+    if (checkLength % 2 != 0)
+        checkLength--;
+
+    for (int i = 0; i < checkLength; i += 2)
+    {
+        // 检查每个双字节单元
+        if (fileFpr[i] == 0x00 && fileFpr[i + 1] != 0x00)
+        {
+            evenZeroCount++;  // 高字节为0，可能是UTF-16BE
+        }
+        else if (fileFpr[i] != 0x00 && fileFpr[i + 1] == 0x00)
+        {
+            oddZeroCount++;   // 低字节为0，可能是UTF-16LE
+        }
+    }
+
+    // 如果大部分字符的高字节为0，可能是UTF-16BE
+    if (evenZeroCount > checkLength / 4 && evenZeroCount > oddZeroCount * 2)
+    {
+        return CodeId::UTF_16BE;
+    }
+    // 如果大部分字符的低字节为0，可能是UTF-16LE
+    else if (oddZeroCount > checkLength / 4 && oddZeroCount > evenZeroCount * 2)
+    {
+        return CodeId::UTF_16LE;
+    }
+
+    return CodeId::UNKNOWN;
+}
 
 CodeId CompareMode::getTextFileCodeId(uchar *fileFpr, int fileLength, QString filepath)
 {
@@ -19,6 +61,13 @@ CodeId CompareMode::getTextFileCodeId(uchar *fileFpr, int fileLength, QString fi
     else if (fileLength >= 3 && fileFpr[0] == 0xEF && fileFpr[1] == 0xBB && fileFpr[2] == 0xBF)
     {
         return CodeId::UTF_8BOM;
+    }
+
+    // 尝试检测无BOM的UTF-16编码
+    CodeId utf16Detected = detectUtf16WithoutBOM(fileFpr, fileLength);
+    if (utf16Detected != CodeId::UNKNOWN)
+    {
+        return utf16Detected;
     }
 
     CodeId cid = CodeId::UNKNOWN;

@@ -118,12 +118,28 @@ class FindRecords
 
     void addFindRecord(const FindRecord& findRecord)
     {
+        if (hasByLineNum(findRecord.getLineNums()))
+        {
+            return;
+        }
         m_findRecordList.push_back(findRecord);
     }
 
     QVector<FindRecord>& getFindRecordList()
     {
         return m_findRecordList;
+    }
+
+    bool hasByLineNum(int nLineNum)
+    {
+        for (auto& findRecord : m_findRecordList)
+        {
+            if (findRecord.getLineNums() == nLineNum)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
   protected:

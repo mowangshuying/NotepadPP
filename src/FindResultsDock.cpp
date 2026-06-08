@@ -20,5 +20,6 @@ void FindResultsDock::__connect()
 
 void FindResultsDock::appendResultsToShow(FindRecords *findRecords)
 {
+    // 去重操作
     m_findResultsView->appendResultsToShow(findRecords);
 }
