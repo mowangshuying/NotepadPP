@@ -52,6 +52,7 @@
 #include <QFileInfo>
 #include <unordered_set>
 #include <QStringList>
+#include <QRegularExpression>
 
 void ScintillaEditView::__init()
 {
@@ -397,6 +398,11 @@ void ScintillaEditView::getText(char *dest, size_t start, size_t end)
 QString ScintillaEditView::getGenericTextAsQString(size_t start, size_t end)
 {
     size_t bufSize = end - start;
+    if (bufSize == 0)
+    {
+        return QString();
+    }
+
     QByteArray bytes;
     bytes.resize(bufSize);
     getText(bytes.data(), start, end);
@@ -493,7 +499,6 @@ std::pair<size_t, size_t> ScintillaEditView::getSelectionLinesRange(intptr_t sel
 size_t ScintillaEditView::removeDuplicateLines(QStringList &lines)
 {
     QStringList newLines;
-
     for (int i = 0; i < lines.size(); i++)
     {
         if (!newLines.contains(lines[i]))
@@ -545,4 +550,88 @@ void ScintillaEditView::sortLines(size_t nFromLine, size_t nToLine, SortType sor
 
     QByteArray bytes = joined.toUtf8();
     replaceTarget(bytes, nStartPos, nEndPos);
+}
+
+void ScintillaEditView::removeHeadBlank()
+{
+    size_t nLineCount = execute(SCI_GETLINECOUNT);
+    size_t nCurrentLine = nLineCount - 1;
+    while (true)
+    {
+        size_t nLineStart = execute(SCI_POSITIONFROMLINE, nCurrentLine);
+        size_t nLineEnd = execute(SCI_GETLINEENDPOSITION, nCurrentLine);
+        size_t nNextLineStart = -1;
+        if (nCurrentLine != nLineCount - 1)
+        {
+            nNextLineStart = execute(SCI_POSITIONFROMLINE, nCurrentLine + 1);
+        }
+
+        QString line = getGenericTextAsQString(nLineStart, nLineEnd);
+
+        QRegularExpression re("^\\s+");
+        line.replace(re, "");
+
+        if (line.isEmpty() && nNextLineStart != -1)
+        {// 删除空白行
+            execute(SCI_DELETERANGE, nLineStart, nNextLineStart - nLineStart);
+        }
+
+        if (!line.isEmpty())
+        {
+            // 处理非空行
+            execute(SCI_DELETERANGE, nLineStart, nLineEnd - nLineStart - line.length());
+        }
+
+        if (nCurrentLine == 0)
+        {
+            break;
+        }
+
+        nCurrentLine--;
+    }
+}
+
+void ScintillaEditView::removeEndBlank()
+{
+    size_t nLineCount = execute(SCI_GETLINECOUNT);
+    size_t nCurrentLine = nLineCount - 1;
+    while (true)
+    {
+        size_t nLineStart = execute(SCI_POSITIONFROMLINE, nCurrentLine);
+        size_t nLineEnd = execute(SCI_GETLINEENDPOSITION, nCurrentLine);
+        size_t nNextLineStart = -1;
+        if (nCurrentLine != nLineCount - 1)
+        {
+            nNextLineStart = execute(SCI_POSITIONFROMLINE, nCurrentLine + 1);
+        }
+
+        QString line = getGenericTextAsQString(nLineStart, nLineEnd);
+
+        QRegularExpression re("^\\s+");
+        line.replace(re, "");
+
+        if (line.isEmpty() && nNextLineStart != -1)
+        {// 删除空白行
+            execute(SCI_DELETERANGE, nLineStart, nNextLineStart - nLineStart);
+        }
+
+        if (!line.isEmpty())
+        {
+            // 处理非空行
+            execute(SCI_DELETERANGE, nLineStart + line.length(), nLineEnd - nLineStart - line.length());
+        }
+
+        if (nCurrentLine == 0)
+        {
+            break;
+        }
+
+        nCurrentLine--;
+    }
+}
+
+void ScintillaEditView::removeHeadEndBlank()
+{
+    removeHeadBlank();
+    removeEndBlank();
 }

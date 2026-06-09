@@ -114,6 +114,7 @@ class NotepadPP : public QMainWindow
     void __onTriggerConvertUnixLineEnd();
     void __onTriggerConvertMacLineEnd();
 
+    /// 空白符号操作
     void __onTriggerRemoveHeadBlank();
     void __onTriggerRemoveEndBlank();
     void __onTriggerRemoveHeadEndBlank();

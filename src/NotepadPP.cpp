@@ -382,6 +382,10 @@ void NotepadPP::__connect()
     connect(m_actionConvertUnixLF, &QAction::triggered, this, &NotepadPP::__onTriggerConvertUnixLineEnd);
     connect(m_actionConvertMacCR, &QAction::triggered, this, &NotepadPP::__onTriggerConvertMacLineEnd);
 
+    connect(m_actionRemoveHeadBlank, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveHeadBlank);
+    connect(m_actionRemoveEndBlank, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveEndBlank);
+    connect(m_actionRemoveHeadEndBlank, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveHeadEndBlank);
+
     connect(m_actionDuplicateCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerDuplicateCurrentLine);
     connect(m_actionRemoveDuplicateLines, &QAction::triggered, this, &NotepadPP::__onTriggerRemoveDuplicateLines);
     connect(m_actionMoveUpCurrentLine, &QAction::triggered, this, &NotepadPP::__onTriggerMoveLineUp);
@@ -1353,14 +1357,29 @@ void NotepadPP::__onTriggerConvertMacLineEnd()
 
 void NotepadPP::__onTriggerRemoveHeadBlank()
 {
+    qDebug() << "NotepadPP::__onTriggerRemoveHeadBlank()";
+    auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+    if (pEditView == nullptr)
+        return;
+    pEditView->removeHeadBlank();
 }
 
 void NotepadPP::__onTriggerRemoveEndBlank()
 {
+    qDebug() << "NotepadPP::__onTriggerRemoveEndBlank()";
+    auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+    if (pEditView == nullptr)
+        return;
+    pEditView->removeEndBlank();
 }
 
 void NotepadPP::__onTriggerRemoveHeadEndBlank()
 {
+    qDebug() << "NotepadPP::__onTriggerRemoveHeadEndBlank()";
+    auto pEditView = dynamic_cast<ScintillaEditView*>(m_editTabWidget->currentWidget());
+    if (pEditView == nullptr)
+        return;
+    pEditView->removeHeadEndBlank();
 }
 
 void NotepadPP::__onTriggerShowSpaces(bool bChecked)

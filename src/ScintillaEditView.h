@@ -77,6 +77,10 @@ class ScintillaEditView : public QsciScintilla
         return findState;
     }
 
+    void removeHeadBlank();
+    void removeEndBlank();
+    void removeHeadEndBlank();
+
   protected:
     ScintillaFunc m_pScintillaFunc;
     ScintillaPtr m_pScintillaPtr;
