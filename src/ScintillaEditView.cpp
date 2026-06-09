@@ -607,7 +607,7 @@ void ScintillaEditView::removeEndBlank()
 
         QString line = getGenericTextAsQString(nLineStart, nLineEnd);
 
-        QRegularExpression re("^\\s+");
+       QRegularExpression re("\\s+$");
         line.replace(re, "");
 
         if (line.isEmpty() && nNextLineStart != -1)

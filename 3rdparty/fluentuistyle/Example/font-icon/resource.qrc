@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/Segoe Fluent Icons.ttf</file>
+        <file>resource/SegoeFluentIconsEnum.txt</file>
+    </qresource>
+</RCC>

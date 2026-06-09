@@ -1,0 +1,44 @@
+【更新内容2026-5-9】
+1.新增WinUI3导航控件
+2.SwtichButton完善动画效果
+3.TabBar新增Segmented_WinUI3样式
+4.TabBar(Segmented)可自定义圆角和背景、选中等属性
+5.Example新增图片背景模式
+6.QScrollBar增加鼠标进入动画
+7.TableView重构样式
+8.按钮增加淡入淡出
+9.优化其他显示效果
+
+【更新内容2026-4-10】
+1.新增ProgressBar样式(Ring和Thick)
+2.QComboBox弹窗位置与WinUI3一致
+3.修复Qt5.15.2无AccentColor问题
+4.新增Teams配色
+5.部分控件边框优化
+6.全局部分控件右键菜单新增图标
+7.优化项目结构，CMake和QMake引入工程更方便
+
+【更新内容2026-4-2】
+1.QComboBox修改下拉黑框，新增阴影和箭头动画
+2.QTreeView新增FluentUI导航控件样式
+3.QTabBar新增多种 Pivot FluentUI导航样式
+4.QListView新增选中指示器动画
+5.QLineEdit底边线新增动画
+6.其他特性和修复问题
+
+【更新内容2026-3-20】
+1. 菜单新增阴影
+2. SpinBox新增多种按钮布局
+3. 新增SwitchButton按钮(QCheckBox设置属性)
+4. TabBar 浏览器标签样式
+5  QToolButton菜单箭头新增动画
+
+【更新内容2026-03-10】
+1. 优化代码
+2. 优化显示
+3. 修复其他问题
+
+【更新内容2026-03-06】
+1. 新增主题切换（亮色和暗色）
+2. 适配Qt5.15.2
+3. 修复其他问题 
