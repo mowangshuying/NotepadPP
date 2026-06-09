@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QMainWindow>
 #include <QHBoxLayout>
@@ -170,6 +170,9 @@ class NotepadPP : public QMainWindow
     void __onFindResultsViewItemClicked(const QModelIndex& index);
     void __onFindResultsViewItemDoubleClicked(const QModelIndex& index);
 
+    /// event;
+    void dragEnterEvent(QDragEnterEvent* e) override;
+    void dropEvent(QDropEvent* e) override;
   protected:
     //
     QAction* m_actionNewFile;

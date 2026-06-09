@@ -1,4 +1,4 @@
-﻿#include "NotepadPP.h"
+#include "NotepadPP.h"
 #include <QStatusBar>
 #include <QDebug>
 #include "FileManager.h"
@@ -16,6 +16,9 @@
 #include "StyleSheetUtils.h"
 #include "ConfigUtils.h"
 #include "ShortcutKeyDlg.h"
+#include <QDropEvent>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent), m_nZoomValue(0), m_bShowEndofLine(false)
 {
@@ -55,6 +58,9 @@ void NotepadPP::__initUi()
 
     // init status bar
     __initStatusBar();
+
+    // 启用拖放功能
+    setAcceptDrops(true);
 
     resize(1000, 800);
 }
@@ -1678,4 +1684,33 @@ void NotepadPP::__onFindResultsViewItemClicked(const QModelIndex& index)
 void NotepadPP::__onFindResultsViewItemDoubleClicked(const QModelIndex& index)
 {
     __onFindResultsViewItemClicked(index);
+}
+
+void NotepadPP::dragEnterEvent(QDragEnterEvent* e)
+{
+    // 接受文件拖放
+    if (e->mimeData()->hasUrls())
+    {
+        e->acceptProposedAction();
+    }
+    else
+    {
+        e->ignore();
+    }
+}
+
+void NotepadPP::dropEvent(QDropEvent* e)
+{
+    qDebug() << "NotepadPP::dropEvent()";
+    QList<QUrl> urls = e->mimeData()->urls();
+    for (auto url : urls)
+    {
+        QString filepath = url.toLocalFile();
+        if (filepath.isEmpty())
+        {
+            continue;
+        }
+
+        openFile(filepath);
+    }
 }

@@ -73,13 +73,12 @@ void ScintillaEditView::__init()
     setMarginLineNumbers(__LineNumberMargin, true);
     updateLineNumberWidth();
 
-    // Fold;
-    setFolding(BoxedTreeFoldStyle, __SymbolMargin);
-    // updateSymbolWidth(15);
-    updateFoldWidth(15);
+    // Fold - 使用独立的折叠边距;
+    setFolding(BoxedTreeFoldStyle, __FolderMargin);
+    updateFoldWidth(10);
 
-    // Symbol margin;
-    updateSymbolWidth(15);
+    // Symbol margin - 减小宽度或设置为0;
+    updateSymbolWidth(0);
 
     // Tab width;
     setTabWidth(4);
