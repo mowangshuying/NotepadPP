@@ -152,6 +152,7 @@ target_link_libraries(${TGT} PRIVATE
     qscintilla
     libuchardet_static
     libucd_static
+    FluentUI3Style
     )
 
 set_target_properties(${TGT} PROPERTIES

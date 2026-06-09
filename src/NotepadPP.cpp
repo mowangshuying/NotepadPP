@@ -21,7 +21,7 @@ NotepadPP::NotepadPP(QWidget* parent /*= nullptr*/) : QMainWindow(parent), m_nZo
 {
     __initUi();
     __connect();
-    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/NotepadPP.qss");
+    // StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/NotepadPP.qss");
 }
 
 void NotepadPP::__initUi()
@@ -40,7 +40,7 @@ void NotepadPP::__initUi()
 
     m_editTabWidget = new QTabWidget(this);
     m_editTabWidget->setObjectName("editTabWidget");
-    StyleSheetUtils::setQssByFileName(m_editTabWidget, ":/res/StyleSheet/TabWidget.qss");
+    // StyleSheetUtils::setQssByFileName(m_editTabWidget, ":/res/StyleSheet/TabWidget.qss");
 
     m_editTabWidget->setIconSize(QSize(22, 22));
     m_editTabWidget->setTabsClosable(true);

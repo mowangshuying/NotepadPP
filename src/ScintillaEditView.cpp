@@ -114,7 +114,7 @@ void ScintillaEditView::__init()
     execute(SCI_SETMARGINMASKN, __SymbolMargin, 0);
     execute(SCI_SETMARGINMASKN, __FolderMargin, 0);
     
-    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/ScintillaEditView.qss");
+    // StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/ScintillaEditView.qss");
 }
 
 void ScintillaEditView::setNoteWidget(QWidget *pNoteWidget)

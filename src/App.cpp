@@ -4,11 +4,11 @@
 
 #include "NotepadPP.h"
 #include "ConfigUtils.h"
+// #include "fluentui3style.h"
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
-
     QTranslator translator;
     if (ConfigUtils::getUtils()->getLanguage() == "zh-CN")
     {

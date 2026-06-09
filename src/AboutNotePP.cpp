@@ -39,5 +39,5 @@ AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
     m_vMainLayout->addStretch();
     setLayout(m_vMainLayout);
 
-    StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/AboutNotePP.qss");
+    // StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/AboutNotePP.qss");
 }
