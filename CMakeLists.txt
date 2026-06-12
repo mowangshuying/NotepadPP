@@ -31,6 +31,7 @@ endif()
 endif()
 
 set(PROJECT_SOURCES
+    src/___style.h
     src/AboutNotePP.cpp
     src/AboutNotePP.h
     src/App.cpp
