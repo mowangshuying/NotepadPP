@@ -35,8 +35,10 @@ class ReplacePage : public QWidget
     void setNoteWidget(QWidget* pNoteWidget);
 
     void updateParamsFromUI();
-    // signals:
-    // public slots:
+
+    // void setPageFocus();
+    signals:
+    public slots:
     void __onClickedReplaceNextButton();
     void __onClickedReplacePrevButton();
     void __onClickedReplaceInCurFileButton();

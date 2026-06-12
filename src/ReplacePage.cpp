@@ -194,6 +194,11 @@ void ReplacePage::updateParamsFromUI()
     }
 }
 
+// void ReplacePage::setPageFocus()
+// {
+//     m_findTargetComboBox->setFocus();
+// }
+
 void ReplacePage::__onClickedReplaceNextButton()
 {
     qDebug() << "ReplacePage::__onClickedReplaceNextButton()";

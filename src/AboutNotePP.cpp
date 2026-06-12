@@ -4,40 +4,42 @@
 AboutNotePP::AboutNotePP(QWidget *parent) : QDialog(parent)
 {
     m_vMainLayout = new QVBoxLayout(this);
-    m_titleLabel = new QLabel(tr("Simple Info For Notepad."), this);
-    // 设置titleLabel的字体大小和加粗
-    QFont titleFont = m_titleLabel->font();
-    titleFont.setPointSize(12);
-    titleFont.setBold(true);
-    m_titleLabel->setFont(titleFont);
 
-    m_versionKLabel = new QLabel(tr("Version:"), this);
-    m_versionVLabel = new QLabel(tr("1.0.2"), this);
-    m_contentKLabel = new QLabel(tr("Content:"), this);
-    m_contentVLabel = new QLabel(tr("This is a simple notepad application."), this);
+    QFont versionFont = QFont();
+    versionFont.setPointSize(12);
+    versionFont.setBold(true);
 
-    auto hVerionLayout = new QHBoxLayout(this);
-    hVerionLayout->addWidget(m_versionKLabel);
-    hVerionLayout->addWidget(m_versionVLabel);
-    hVerionLayout->addStretch();
+    QFont contentFont = QFont();
+    contentFont.setPointSize(10);
 
-    auto hContentLayout = new QHBoxLayout(this);
-    hContentLayout->addWidget(m_contentKLabel);
-    hContentLayout->addWidget(m_contentVLabel);
-    hContentLayout->addStretch();
+    m_versionLabel = new QLabel(tr("NotePadPP 1.0.2"), this);
+    QFont font = m_versionLabel->font();
+    font.setPointSize(12);
+    font.setBold(true);
+    m_versionLabel->setFont(versionFont);
 
-    m_vMainLayout->addSpacing(10);
-    m_vMainLayout->addWidget(m_titleLabel);
-    m_vMainLayout->addSpacing(25);
-    m_vMainLayout->addLayout(hVerionLayout);
-    m_vMainLayout->addSpacing(10);
-    m_vMainLayout->addLayout(hContentLayout);
+    m_copyrightLabel = new QLabel(tr("Copyright (C) 2025-2026 NotepadPP"), this);
+    m_copyrightLabel->setFont(contentFont);
+    m_contentLabel = new QLabel(tr("This program is free software: you can redistribute it and/or modify"
+        "it underthetermsoftheGNuGeneralPublicLicenseaspublished"
+        "by the Free Software Foundation, either version 3 of the License,or"
+        "(at your option) any later version."
+        "This programis distributed in thehope that it willbe useful,but"
+        "WITHOUT ANY WARRANTY; without even the implied warranty of"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See"
+        "the GNU General Public License for more details."
+        "You should have received a copy of the GNU General Public License"
+        "along with this program. If not, see <https://www.gnu.org/licenses/"), this);
+    m_contentLabel->setFont(contentFont);
+    m_contentLabel->setWordWrap(true);
+
+    m_vMainLayout->addWidget(m_versionLabel);
+    m_vMainLayout->addWidget(m_copyrightLabel);
+    m_vMainLayout->addWidget(m_contentLabel);
 
     setWindowTitle("NotepadPP");
-    setFixedSize(300, 125);
+    setFixedSize(500, 215);
     m_vMainLayout->setAlignment(Qt::AlignTop);
     m_vMainLayout->addStretch();
     setLayout(m_vMainLayout);
-
-    // StyleSheetUtils::setQssByFileName(this, ":/res/StyleSheet/AboutNotePP.qss");
 }

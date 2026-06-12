@@ -43,6 +43,8 @@ class FindPage : public QWidget
     FindRecord getFindRecordFromLastFindState();
     QString delEndofLine(QString lineText);
 
+    // void setPageFocus();
+
   signals:
     void showFindRecords(FindRecords* findRecords);
   public slots:

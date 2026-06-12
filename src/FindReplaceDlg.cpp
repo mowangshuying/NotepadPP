@@ -45,13 +45,16 @@ void FindReplaceDlg::setTimeToClose(bool bTimeToClose)
 void FindReplaceDlg::showFindDlg()
 {
     show();
+    m_pFindPage->setFocus();
     m_tabWidget->setCurrentWidget(m_pFindPage);
+    // m_pFindPage->setFocus();
     // show();
 }
 
 void FindReplaceDlg::showReplaceDlg()
 {
     show();
+    m_pReplacePage->setFocus();
     m_tabWidget->setCurrentWidget(m_pReplacePage);
     // show();
 }

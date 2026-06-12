@@ -258,6 +258,11 @@ QString FindPage::delEndofLine(QString lineText)
     return lineText;
 }
 
+// void FindPage::setPageFocus()
+// {
+//     m_findTargetComboBox->setFocus();
+// }
+
 void FindPage::__onClickedFindNextButton()
 {
     qDebug() << "FindPage::__onClickedFindNextButton()";
@@ -287,11 +292,10 @@ void FindPage::__onClickedFindNextButton()
         //  bool re,  // 是否使用正则表达式
         //  bool cs,  // 区分大小写
         //  bool wo,  // 全词匹配
-        // bool wrap, // 循环查找
+        //  bool wrap, // 循环查找
         //  bool forward,  // 向前
         //  int line,
         //  int index,
-
         //  bool show, // 是否显示
         //  bool posix, //
         //  bool cxx11 //

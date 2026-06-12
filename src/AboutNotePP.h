@@ -15,9 +15,7 @@ class AboutNotePP : public QDialog
     QVBoxLayout* m_vMainLayout;
     QLabel* m_titleLabel;
 
-    QLabel* m_versionKLabel;
-    QLabel* m_versionVLabel;
-
-    QLabel* m_contentKLabel;
-    QLabel* m_contentVLabel;
+    QLabel* m_versionLabel;
+    QLabel* m_copyrightLabel;
+    QLabel* m_contentLabel;
 };
